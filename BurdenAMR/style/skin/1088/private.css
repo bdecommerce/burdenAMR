@@ -1,0 +1,202 @@
+﻿/* Section End: fonts */
+@font-face {
+    font-family: 'DIN Cond Medium';
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/FF_DIN_Condensed_Medium-webfont.eot');
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/FF_DIN_Condensed_Medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/FF_DIN_Condensed_Medium-webfont.woff') format('woff'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/FF_DIN_Condensed_Medium-webfont.ttf') format('truetype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/FF_DIN_Condensed_Medium-webfont.svg#DINCondMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bliss Light';
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blisl-webfont.eot');
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blisl-webfont.eot?#iefix') format('embedded-opentype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blisl-webfont.woff') format('woff'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blisl-webfont.ttf') format('truetype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blisl-webfont.svg#blisslightlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DIN Black Alt';
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/DIN_Black_Alt/FF_DIN_Black_Italic_Alternate-webfont.eot');
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/DIN_Black_Alt/FF_DIN_Black_Italic_Alternate-webfont.eot?#iefix') format('embedded-opentype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/DIN_Black_Alt/FF_DIN_Black_Italic_Alternate-webfont.woff') format('woff'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/DIN_Black_Alt/FF_DIN_Black_Italic_Alternate-webfont.ttf') format('truetype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/DIN_Black_Alt/FF_DIN_Black_Italic_Alternate-webfont.svg#DINBlackAlt') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bliss Medium';
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blism-webfont.eot');
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blism-webfont.eot?#iefix') format('embedded-opentype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blism-webfont.woff') format('woff'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blism-webfont.ttf') format('truetype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/blism-webfont.svg#blisslightlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DINPro Reg';
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_pro_regular_italic_1-webfont.eot');
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_pro_regular_italic_1-webfont?#iefix') format('embedded-opentype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_pro_regular_italic_1-webfont.woff') format('woff'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_pro_regular_italic_1-webfont.ttf') format('truetype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_pro_regular_italic_1-webfont.svg#DINProReg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DIN Regular';
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_regular_1-webfont.eot');
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_regular_1-webfont?#iefix') format('embedded-opentype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_regular_1-webfont.woff') format('woff'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_regular_1-webfont.ttf') format('truetype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/ff_din_regular_1-webfont.svg#DINRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DIN Light';
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/DINPro-Light.eot');
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/DINPro-Light?#iefix') format('embedded-opentype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/DINPro-Light.woff') format('woff'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/DINPro-Light.ttf') format('truetype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/DINPro-Light.svg#DINLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DIN Medium';
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/dinmedium-webfont.eot');
+    src: url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/dinmedium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/dinmedium-webfont.woff2') format('woff2'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/dinmedium-webfont.woff') format('woff'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/dinmedium-webfont.ttf') format('truetype'),
+         url('<SITE_URL><IMAGE_SKIN_PATH>font/converted/dinmedium-webfont.svg#din_mediumregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/* Section End: fonts */
+
+.tooltipster-sidetip.tooltipster-light .tooltipster-content
+{
+    color: COLOR_SECONDARY;
+    font-family: Helvetica,Arial,sans-serif;
+}
+
+.tooltipster-sidetip.tooltipster-top.tooltipster-light .tooltipster-arrow-background
+{
+    border-top-color: #E0E0E0;
+}
+
+/* SECTION END: styled scrollbars */
+
+.ui-header, .ui-footer
+{
+    background-image: none;
+    background-color: COLOR_PRIMARY;
+    text-shadow: none;
+    color: #FFFFFF;
+    font-weight: normal;
+}
+
+
+/* SECTION START: jQuery UI DatePicker */
+
+.ui-datepicker.ui-widget-content
+{
+    background-image: none;
+    background-color: #FFFFFF;
+    border-radius: 0.1em;
+    padding: 0em;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+    border-radius: 0.25em;
+    font-size: 0.9em;
+}
+
+.ui-datepicker th,
+.jquery-ui .ui-state-default, .jquery-ui .ui-widget-content .ui-state-default, .jquery-ui .ui-widget-header .ui-state-default
+{
+    font-weight: normal;
+    text-shadow: none;
+    color: #333333;
+    border-color: #F0F0F0;
+}
+
+.ui-datepicker th
+{
+    border-bottom-style: none;
+}
+
+.jquery-ui .ui-datepicker .ui-state-default, .jquery-ui .ui-datepicker .ui-widget-content .ui-state-default, .jquery-ui .ui-datepicker .ui-widget-header .ui-state-default
+{
+    background: none;
+}
+
+.jquery-ui .ui-datepicker .ui-state-hover
+{
+    border-color: #CCCCCC;
+    background-color: COLOR_PRIMARY;
+    color: #FFFFFF;
+}
+
+.jquery-ui .ui-datepicker .ui-state-active
+{
+    border-color: #999999;
+    background-color: COLOR_PRIMARY;
+    color: #FFFFFF;
+}
+
+.jquery-ui .ui-datepicker .ui-widget-header
+{
+    background: COLOR_SECONDARY;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    border-color: #888888;
+}
+
+.jquery-ui .ui-widget-header .ui-state-hover
+{
+    background: none;
+    border-color: transparent;
+    opacity: 0.65;
+}
+
+.ui-datepicker-month, .ui-datepicker-year
+{
+    font-size: 0.9em !important;
+}
+
+.ui-datepicker .ui-datepicker-today > .ui-state-highlight:not(.ui-state-hover)
+{
+    background-color: COLOR_SECONDARY;
+    color: #FFFFFF;
+}
+
+.FullViewPage .ui-header, .FullViewPage .ui-footer, .SubHeadingModuleTitle, .screen-title
+{
+    height: 0px !important;
+    display: none !important;
+}
+.bd-content.ui-content
+{
+    padding: 0px !important;
+}
+
+/* SECTION END: jQuery UI DatePicker */
+
+/*TOK_EXT_STYLESHEET*/

@@ -1,0 +1,112 @@
+﻿<script type="text/javascript" language="javascript">
+
+    function BindPage() {
+
+        var _fnSetRegistrationMessage = function (msg, isHTML) {
+
+            isHTML = util_forceBool(isHTML, false);
+            $mobileUtil.GetElementByID("lblMessage").html(isHTML ? util_forceString(msg) : util_htmlEncode(msg));
+        };  //end: _fnSetRegistrationMessage
+
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageLoaded, null, function () {
+
+            var _isLoggedIn = global_userLoggedIn();
+            var MSG_REGISTRATION_PROCESS_ERROR = "There was an unexpected error in processing the registration request. Please try again.";
+
+            var _request = {
+                "UserID": util_forceInt(util_queryStringFragment("RUID"), enCE.None),
+                "VerificationCode": util_forceString(util_queryStringFragment("VC")),
+                "IsGrantAccess": util_forceInt(util_forceValidEnum(util_queryStringFragment("IGA"), enCETriState, enCETriState.None), enCETriState.None),
+                "IsUserActivation": util_forceInt(util_forceValidEnum(util_queryStringFragment("IUA"), enCETriState, enCETriState.None), enCETriState.None),
+                "AdminEmail": util_forceString(util_queryStringFragment("AE"))
+            };
+
+            js_bindClick($mobileUtil.GetElementByID("clBack"), function () {
+                GoToHome();
+                return false;
+            });
+
+            $mobileUtil.ButtonSetText("clBack", _isLoggedIn ? "Go to home page" : "Go to login page");
+
+            if (_request.UserID == enCE.None || _request.VerificationCode == "" || _request.IsGrantAccess == enCETriState.None) {
+                _fnSetRegistrationMessage("The link specified is either invalid or the registration request was previously processed.");
+            }
+            else {
+
+                _request["_unbox"] = false;
+
+                var _fnReplaceTokens = function (str) {
+                    var _tokens = {};
+
+                    _tokens["%%OPEN_BOLD%%"] = "<span class='FontBold'>";
+                    _tokens["%%CLOSE_BOLD%%"] = "</span>";
+
+                    return util_replaceTokens(str, _tokens);
+                };
+
+                var _fnError = function (msg, isHTML) {
+
+                    msg = util_forceString(msg);
+                    isHTML = util_forceBool(isHTML, false);
+
+                    if (msg == "") {
+                        msg = MSG_REGISTRATION_PROCESS_ERROR;
+                        isHTML = false;
+                    }
+                    else if (!isHTML) {
+                        msg = _fnReplaceTokens(msg);
+                    }
+
+                    _fnSetRegistrationMessage(msg, isHTML);
+                };
+
+                APP.Service.Action({
+                    "_indicators": false,
+                    "c": "Project",
+                    "m": "ProcessRegistrationRequest",
+                    "args": _request
+                }, function (registrationResult) {
+                    registrationResult = util_extend({ "Email": null, "Success": false, "Message": null }, registrationResult);
+
+                    var _email = util_forceString(registrationResult.Email);
+                    var _success = util_forceBool(registrationResult.Success);
+                    var _message = util_forceString(registrationResult.Message);
+
+                    if (_success) {
+                        var _msg = util_htmlEncode("The user(") + "<span class='FontBold'>" + util_htmlEncode(_email) + "</span>" +
+                                   util_htmlEncode(") has been ") + 
+                                   "<span class='FontBold'>" + util_htmlEncode(_request.IsGrantAccess == enCETriState.Yes ? "granted" : "denied") + "</span>" +
+                                   util_htmlEncode(" access and a follow up e-mail has been sent to the user.");
+
+                        if (_message != "") {
+                            _msg = util_htmlEncode(_message, true);
+                            _msg = _fnReplaceTokens(_msg);
+                        }
+
+                        _fnSetRegistrationMessage(_msg, true);
+                    } else {
+                        _msg = _fnReplaceTokens(_message);
+                        _fnError(_message);
+                    }
+                }, function () {
+                    _fnError(MSG_CONFIG.UnexpectedError);
+                });
+            }
+        });
+    }
+
+</script>
+
+<div data-attr-render="script">
+    BindPage();
+</div>
+
+<br />
+<div id="divSuccessContainer" style="padding-left: 1em;">
+    <div id="lblMessage">Processing registration request...please wait</div>
+
+    <br />
+
+    <a id="clBack" data-theme="light-a" data-role="button" data-corners="false" data-mini="true" data-inline="true" 
+       data-icon="arrow-r" data-iconpos="right" style="margin-left: 0em;">Go to login page</a>
+</div>

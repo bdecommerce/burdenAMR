@@ -1,0 +1,254 @@
+﻿<script type="text/javascript" language="javascript">
+
+    var PRIVATE_USER_LIST_CELL_LOOKUP = { "FirstName": 1, "LastName": 2, "Email": 3, "LoginCount": 4, "LastLogin": 5, "Role": 6, "Status": 7 };
+
+    var m_list = null;
+    var m_editItemHTML = null;
+
+    var m_roleList = null;
+
+    var m_userRoleList = null;
+
+    var m_lookupUserDetails = {};
+
+    var m_currentUserIsSystemAdmin = false;
+
+    function bindPage() {
+        m_currentUserIsSystemAdmin = global_userIsSystemAdmin();
+
+        bindEventHandlers();
+    }
+
+    function bindEventHandlers() {
+
+    }
+
+    function EditItemHTML() {
+
+        if (m_editItemHTML == null) {
+            var m_editFormatURL = util_constructModuleURL(enCEModule.GlobalUser, enCEModuleViewType.AdminEdit);
+
+            m_editFormatURL = util_appendFragmentQS(m_editFormatURL, "EditID", "%%USER_ID%%");
+            m_editFormatURL = util_constructPopupURL(m_editFormatURL);
+
+            m_editItemHTML = $mobileUtil.HtmlDialogLink("%%NAME%%", m_editFormatURL, "Edit User");
+        }
+
+        return m_editItemHTML;
+    }
+
+    function getItemField(tokenKey, item) {
+        var _ret = "";
+        var _isEncode = true;
+        var _userID = item[enColUserProperty.UserID];
+
+        switch (tokenKey) {
+
+            case "%%TEMPLATE_DELETE_ITEM_VALUE%%":
+                _isEncode = false;
+                _ret = _userID;
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + PRIVATE_USER_LIST_CELL_LOOKUP.FirstName + "%%":
+                _ret = item[enColUserProperty.FirstName];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + PRIVATE_USER_LIST_CELL_LOOKUP.LastName + "%%":
+                _ret = item[enColUserProperty.LastName];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + PRIVATE_USER_LIST_CELL_LOOKUP.Email + "%%":
+
+                var _isSystemAdminUser = true;
+
+                var _userDetail = m_lookupUserDetails[_userID];
+
+                if (util_isNullOrUndefined(_userDetail)) {
+                    _userDetail = {};
+                }
+
+                _isSystemAdminUser = util_forceBool(_userDetail["IsSystemAdmin"], false);
+
+                if (!_isSystemAdminUser || (_isSystemAdminUser && m_currentUserIsSystemAdmin)) {
+                    var _tokens = { "%%NAME%%": util_htmlEncode(item[enColUserProperty.Username]), "%%USER_ID%%": item[enColUserProperty.UserID] };
+
+                    _ret = util_replaceTokens(EditItemHTML(), _tokens);
+                    _isEncode = false;
+                }
+                else {
+                    _ret = item[enColUserProperty.Username];
+                }
+
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + PRIVATE_USER_LIST_CELL_LOOKUP.LoginCount + "%%":
+                _ret = util_forceInt(item[enColUserProperty.LoginNum], 0);
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + PRIVATE_USER_LIST_CELL_LOOKUP.LastLogin + "%%":
+                _ret = util_FormatDateTime(item[enColUserProperty.LastLogin], "", true)
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + PRIVATE_USER_LIST_CELL_LOOKUP.Role + "%%":
+
+                var _userDetail = m_lookupUserDetails[_userID];
+
+                if (!util_isNullOrUndefined(_userDetail)) {
+
+                    if (tokenKey == "%%TEMPLATE_CELL_CONTENT_" + PRIVATE_USER_LIST_CELL_LOOKUP.Role + "%%") {
+                        _ret = _userDetail["RoleStr"];
+                    }
+                }
+
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + PRIVATE_USER_LIST_CELL_LOOKUP.Status + "%%":
+
+                var _isLocked = util_forceBool(item[enColUserProperty.IsLocked], false);
+
+                _ret = (!_isLocked ? "Active" : "Deactivated");
+
+                break;            
+        }
+
+        _ret = (_isEncode ? util_htmlEncode(_ret) : _ret);
+
+        return _ret;
+    }
+
+    function getUserList(element, sortSetting, callback) {
+        var _callback = ext_requestSuccess(function (data) {
+            m_list = data.List;
+
+            if (util_isNullOrUndefined(m_list)) {
+                m_list = [];
+            }
+
+            m_lookupUserDetails = {};
+
+            for (var i = 0; i < m_list.length; i++) {
+                var _user = m_list[i];
+                var _userID = _user[enColUserProperty.UserID];
+
+                var _item = { "RoleStr": "", "DepartmentStr": "", "IsSystemAdmin": false };
+
+                var _arrUserRoles = util_arrFilter(m_userRoleList, enColUserRoleProperty.UserID, _userID);
+
+                _item["RoleStr"] = util_arrJoinStr(_arrUserRoles, enColUserRoleProperty.RoleIDName);
+                _item["IsSystemAdmin"] = (util_arrFilter(_arrUserRoles, enColUserRoleProperty.RoleID, enCERoleBase.SystemAdmin, true).length == 1);
+
+                m_lookupUserDetails[_userID] = _item;
+            }
+
+            if (callback) {
+                callback(data);
+            }
+        });
+
+        var _fnGetUserRoleList = function (listCallback) {
+            var _listCallback = function () {
+
+                if (listCallback) {
+                    listCallback();
+                }
+            };
+
+            GlobalService.UserRoleGetByForeignKey(enCE.None, enCE.None, enCETriState.No, enColUserRole.RoleIDName, true, enCEPaging.NoPaging, enCEPaging.NoPaging,
+                                                  ext_requestSuccess(function (userRoleData) {
+
+                                                      m_userRoleList = userRoleData.List;
+                                                      _listCallback();
+
+                                                  }));
+        };   //end: _fnGetUserRoleList
+
+        _fnGetUserRoleList(function () {
+
+            GlobalService.UserGetByForeignKey(enCETriState.No, null, null, 
+                                              sortSetting.SortColumn, sortSetting.SortASC, PAGE_SIZE, util_forceValidPageNum(sortSetting.PageNo, 1), _callback);
+
+        });
+    }
+
+    function getUserListCellOption(options) {
+        var _index = options["Index"];
+
+        options["ForceHorizontalAlign"] = (_index == PRIVATE_USER_LIST_CELL_LOOKUP.LoginCount || _index == PRIVATE_USER_LIST_CELL_LOOKUP.LastLogin ||
+                                           _index == PRIVATE_USER_LIST_CELL_LOOKUP.Status);
+
+        return options;
+    }
+
+    function onUserListBindComplete() {
+        var _container = $mobileUtil.GetElementByID("divUserAdminList");
+        var _list = _container.find("[" + util_htmlAttribute("data-attr-user-is-read-only", enCETriState.Yes) + "]");
+
+        _list = _list.find("[data-attr-cb-group]").parentsUntil("td");
+        _list.remove();
+    }
+
+    function getItemRowExtAttr(item) {
+        var _isSystemAdminUser = true;
+
+        var _userID = item[enColUserProperty.UserID];
+        var _userDetail = m_lookupUserDetails[_userID];
+
+        if (util_isNullOrUndefined(_userDetail)) {
+            _userDetail = {};
+        }
+
+        _isSystemAdminUser = util_forceBool(_userDetail["IsSystemAdmin"], false);
+
+        return util_htmlAttribute("data-attr-user-id", item[enColUser.UserID]) + " " +
+               util_htmlAttribute("data-attr-user-is-read-only", _isSystemAdminUser && !m_currentUserIsSystemAdmin ? enCETriState.Yes : enCETriState.No);
+    }
+
+    function deleteUsers(cbList, callback) {
+        var _arr = [];
+
+        $.each(cbList, function (index) {
+            _arr.push(util_forceInt($(this).val()));
+        });
+
+        GlobalService.UserDelete(_arr, ext_requestSuccess(function (data) {
+
+            if (callback) {
+                callback();
+            }
+        }));
+    }
+
+</script>
+
+<div data-attr-render="script">
+    bindPage();
+</div>
+
+<div id="divUserAdminList" %%DATA_ATTRIBUTE_RENDER%%="data_admin_list" class="GlobalTableAdminList">
+    <div data-attr-data-template="setting" data-attr-add-new-module-id="enCEModule.GlobalUser" data-attr-add-new-module-view-type="enCEModuleViewType.AdminEdit"
+         data-attr-add-new-popup-title="Add User">
+        <div data-attr-data-template-id="tblUserAdminList" data-attr-data-template-renderer="repeater">
+            <div data-attr-repeater-ext="fn" data-attr-field-fn="getItemField" data-attr-data-fn="getUserList"
+                 data-attr-delete-fn="deleteUsers" data-attr-field-cell-option-fn="getUserListCellOption" 
+                 data-attr-fn-bind-complete="onUserListBindComplete" 
+                 data-attr-fn-content-row-attributes="getItemRowExtAttr" />
+            <div data-attr-repeater-ext="config" />
+            <div data-cattr-type="setting" sort-enum="enColUser" default-sort="enColUser.Username"
+                is-footer-default-paging="1" />
+            <div data-cattr-type="header">
+                <div data-cattr-type="item" no-link="1" css-class="GlobalTableDeleteHeaderColumn">
+                    %%TEMPLATE_CONTENT_DELETE%%
+                </div>
+                <div data-cattr-type="item" sort-column="enColUser.FirstName">First Name</div>
+                <div data-cattr-type="item" sort-column="enColUser.LastName">Last Name</div>
+                <div data-cattr-type="item" sort-column="enColUser.Username" priority="critical">E-mail</div>
+                <div data-cattr-type="item" sort-column="enColUser.LoginNum" css-class="TableCellCenter">Login Count</div>
+                <div data-cattr-type="item" sort-column="enColUser.LastLogin">Last Login</div>
+                <div data-cattr-type="item" no-link="1">Role</div>
+                <div data-cattr-type="item" sort-column="enColUser.IsLocked">Status</div>
+            </div>
+        </div>
+    </div>
+
+    <div data-attr-data-template="content"></div>
+</div>

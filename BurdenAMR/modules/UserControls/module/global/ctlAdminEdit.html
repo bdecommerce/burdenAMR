@@ -1,0 +1,183 @@
+﻿<script type="text/javascript" language="javascript">
+    function PageLoad() {
+        BindPage();
+    }
+
+    function BindPage() {
+        $mobileUtil.SetSubFooterView({ PopupFooterViewMode: enCPopupFooterViewMode.SaveCancel });
+
+        bindEventHandlers();
+        bindModuleTypeList();
+    }
+
+    function bindEventHandlers() {
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.SubFooterClick, null, function (obj, btnID) {
+            switch (btnID) {
+                case BUTTON_CONFIG.Save.ID:
+                    saveItem();
+                    break;
+            }
+
+            return false;
+        });
+    }
+
+    function bindModuleTypeList() {
+        var _callback = ext_requestSuccessCritical(function (data) {
+
+            //bind the module type dropdownlist
+            util_dataBindDDL($mobileUtil.GetElementByID("ddlModuleType"), data, enColModuleTypeProperty.Name, enColModuleTypeProperty.ModuleTypeID);
+
+            //load the current edit item
+            GlobalService.ModuleGetByPrimaryKey(EditID(), false, ext_requestSuccessCritical(function (editData) {
+                EditItem = util_forceObject(editData, {});
+
+                if (EditItem && util_forceInt(EditItem[enColModuleProperty.ModuleID]) != EditID()) {
+                    AddError(DEFAULT_DATA_ITEM_INVALID);
+                    $mobileUtil.ToggleViewState(null, false);   //disable all input fields
+                }
+
+                bindItem();
+            }));
+        });
+
+        GlobalService.ModuleTypeGetByForeignKey(enColModuleType.Name, true, enCEPaging.NoPaging, enCEPaging.NoPaging, _callback);
+    }
+
+    function populateItem() {
+        var _inputs = [{ Field: enColModuleProperty.DisplayName, ID: "tbDisplayName" }, { Field: enColModuleProperty.ModuleTypeID, ID: "ddlModuleType" },
+                       { Field: enColModuleProperty.IsRoleAssignable, ID: "fpRoleAssignable" }];
+
+        for (var i = 0; i < _inputs.length; i++) {
+            var _item = _inputs[i];
+            var _element = $mobileUtil.GetElementByID(_item.ID);
+
+            var _value = _element.val();
+
+            switch (_item.Field) {
+                case enColModuleProperty.ModuleTypeID:
+                    _value = util_forceInt(_value, enCE.None);
+                    break;
+
+                case enColModuleProperty.IsRoleAssignable:
+                    _value = util_forceBoolFromInt(_value);
+                    break;
+
+                default:
+                    _value = util_trim(_value);
+                    break;
+            }
+
+            EditItem[_item.Field] = _value;
+        }        
+    }
+
+    function saveItem() {
+        populateItem();
+
+        //populate the settings for the module
+        var _fieldsList = $mobileUtil.GetElementByID("divSettingFields").find("[" + DATA_ATTR_INPUT_FIELD + "]");
+        var _updatedSettings = global_moduleSettingPopulateItem(EditID(), _fieldsList); //list of properties for the module settings to be updated for application module settings
+
+        var _callback = ext_requestSuccessCritical(function (data) {
+            AddMessage("Successfully saved.");
+            $mobileUtil.CloseDialog(enCPageRefreshMode.Window); //force refresh of the browser window since module settings will need to be reloaded
+        });
+
+        GlobalService.ModuleSave(EditItem, _updatedSettings, true, false, _callback);
+    }
+
+    function bindItem() {
+        var _values = { "lblModuleID": EditItem[enColModuleProperty.ModuleID],
+            "ddlModuleType": util_forceInt(EditItem[enColModuleProperty.ModuleTypeID], enCE.None),
+            "fpRoleAssignable": (util_forceBool(EditItem[enColModuleProperty.IsRoleAssignable]) ? enCETriState.Yes : enCETriState.No),
+            "lblName": EditItem[enColModuleProperty.Name],
+            "tbDisplayName": EditItem[enColModuleProperty.DisplayName],
+            "lblSettingClass": EditItem[enColModuleProperty.ModuleSettingsClass],
+            "lblCreatedOn": util_FormatDateTime(EditItem[enColModuleProperty.DateAdded], NA, true),
+            "lblLastModified": util_FormatDateTime(EditItem[enColModuleProperty.DateModified], NA, true)
+        };
+
+        for (var _key in _values) {
+            $mobileUtil.SetElementValue(_key, util_forceString(_values[_key]));
+        }
+
+        bindModuleSettingsView();
+    }
+
+    function bindModuleSettingsView() {
+        var _html = global_moduleSettingAdminViewHTML(EditID());
+
+        var _container = $mobileUtil.GetElementByID("divSettingFields");
+
+        _container.html(_html);
+
+        $mobileUtil.RenderRefresh(_container);
+    }
+</script>
+
+<div data-attr-render="script">
+    PageLoad();
+</div>
+
+<div data-role="content">
+    <div>
+        <ul data-role="listview">
+
+            <!--Module Details-->
+            <li data-role="list-divider">Details</li>
+
+            <li>
+
+                <div data-role="fieldcontain">
+                    <label data-attr-render="label_field">Module ID:</label>
+                    <span id="lblModuleID"></span>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label data-attr-render="label_field">Name:</label>
+                    <span id="lblName"></span>
+                </div>
+    
+                <div data-role="fieldcontain">
+                    <label for="tbDisplayName">Display Name:</label>
+                    <input id="tbDisplayName" type="text" data-mini="true" />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="ddlModuleType">Module Type:</label>
+                    <select id="ddlModuleType" data-mini="true"></select>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="fpRoleAssignable">Is Assignable For Roles?</label>
+                    <span id="fpRoleAssignable" data-attr-render="flip_switch" data-mini="true"></span>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label data-attr-render="label_field">Setting Class:</label>
+                    <span id="lblSettingClass"></span>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label data-attr-render="label_field">Date Added:</label>
+                    <span id="lblCreatedOn"></span>
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label data-attr-render="label_field">Last Modified:</label>
+                    <span id="lblLastModified"></span>
+                </div>
+            </li>
+
+            <li data-role="list-divider">Setting</li>
+
+            <li>
+                <div id="divSettingFields">
+                </div>
+            </li>
+        </ul>
+
+        </div>
+
+</div>

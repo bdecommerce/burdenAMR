@@ -1,0 +1,224 @@
+﻿<script type="text/javascript" language="javascript">
+    var USER_LIST_TEMPLATE_ITEM = "<tr class='%ROW_CSS%'>" +
+                                  "<td class='TableCellCenter'><div data-cattr-can-edit-checkbox='%%CAN_EDIT_ITEM%%'>" +
+                                  "<label>" +
+                                  "<input type='checkbox' data-mini='true' data-attr-cb-group='DeleteUserSetting' value='%%USER_ID%%' />&nbsp;" +
+                                  "</label>" + 
+                                  "</div></td>" +                                  
+                                  "<td>%%FIRST_NAME%%</td>" +
+                                  "<td>%%LAST_NAME%%</td>" +
+                                  "<td data-cattr-can-edit='%%CAN_EDIT_ITEM%%'>" +
+                                  "<a data-cattr-edit-link='1' " + DATA_ATTRIBUTE_RENDER + "='dialog' data-attr-dialog-title='Edit User' " +
+                                  DATA_ATTRIBUTE_CONTEXT_HREF + "=\"" + EditFormatURL() + "\" " +
+                                  "href='#' data-role='button' data-rel='dialog' data-inline='true' data-mini='true' data-icon='gear' style='display: none;'>%%USERNAME%%</a>" +
+                                  "<div data-cattr-edit-link='0' style='display: none;'>%%USERNAME%%</div>" +
+                                  "</td>" +
+                                  "<td>%%ROLES%%</td>" +
+                                  "<td>%%IS_LOCKED%%</td>" +
+                                  "</tr>";
+
+    var USER_LIST_RENDER_TOKENS = ["%%USER_ID%%", "%%FIRST_NAME%%", "%%LAST_NAME%%", "%%USERNAME%%", "%%ROLES%%", "%%IS_LOCKED%%",
+                                   "%%CAN_EDIT_ITEM%%"];
+
+    var UserRolesList = [];
+    var IsCurrentUserSysAdmin = null;
+
+    function BindPage() {
+        bindEventHandlers();
+
+        $mobileUtil.GetElementByID("spAddNew").html($mobileUtil.HtmlDialogLink(MSG_CONFIG.LinkAddNew,
+                                                                              util_replaceAll(EditFormatURL(), "%%USER_ID%%", 0), MSG_CONFIG.DialogEditTitle));
+
+        MODULE_MANAGER.DelegateSettings.ExecEvent(enCDelegateType.Repeater, "user_list");
+    }
+
+    function EditFormatURL() {
+        var _ret = "";
+
+        _ret = util_constructModuleURL(enCEModule.GlobalUser, enCEModuleViewType.AdminEdit);
+        _ret = util_appendFragmentQS(_ret, "EditID", "%%USER_ID%%");
+        _ret = util_constructPopupURL(_ret);
+        
+        return _ret;
+    }
+
+    function bindEventHandlers() {
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.Repeater, "user_list", bindUserList);
+    }
+
+    var TempData = null;
+
+    function getItemField(tokenKey, item) {
+        var _ret = NA;
+
+        if (item) {
+            switch (tokenKey) {
+                case "%%USER_ID%%":
+                    _ret = item[enColUserProperty.UserID];
+
+                    //init/first call so set the temporary data required for other fields
+                    TempData = util_arrFilter(UserRolesList, enColUserRoleProperty.UserID, item[enColUserProperty.UserID]);
+
+                    break;
+
+                case "%%FIRST_NAME%%":
+                    _ret = util_forceString(item[enColUserProperty.FirstName], "");
+                    break;
+
+                case "%%LAST_NAME%%":
+                    _ret = util_forceString(item[enColUserProperty.LastName], "");
+                    break;
+
+                case "%%USERNAME%%":
+                    _ret = util_forceString(item[enColUserProperty.Username], "");
+                    break;
+
+                case "%%ROLES%%":
+                    _ret = util_arrJoinStr(TempData, enColUserRoleProperty.RoleIDName, ", ", NA);
+
+                    break;
+
+                case "%%CAN_EDIT_ITEM%%":
+                    var _arrSystemAdminRoles = util_arrFilter(TempData, enColUserRoleProperty.RoleID, enCERoleBase.SystemAdmin);
+
+                    _ret = enCETriState.Yes;
+
+                    if (_arrSystemAdminRoles && _arrSystemAdminRoles.length > 0) {
+                        if (!IsCurrentUserSysAdmin) {
+                            _ret = enCETriState.No;
+                        }
+                    }
+
+                    break;
+
+                case "%%IS_LOCKED%%":
+                    var _isLocked = util_forceBool(item[enColUserProperty.IsLocked], false);
+
+                    _ret = (!_isLocked ? "Active" : "Deactivated");
+
+                    break;
+            }
+        }
+
+        return util_htmlEncode(_ret);
+    }
+
+    function bindUserList() {
+        var _tbl = $("#tblUserList");
+        if (_tbl.length == 0) return false;
+
+        var _sortSetting = ctl_repeater_getSortSetting(_tbl);
+
+        js_bindClick($mobileUtil.GetElementByID("clDeleteUser"), function () {
+            var _cbList = $mobileUtil.GetElementsByAttribute("data-attr-cb-group", "DeleteUserSetting");
+            var _arr = [];
+
+            for (var i = 0; i < _cbList.length; i++) {
+                var _cb = $(_cbList[i]);
+
+                if ($mobileUtil.CheckboxIsChecked(_cb)) {
+                    var _deleteUserID = util_forceInt(_cb.val());
+
+                    if (_deleteUserID != enCE.None) {
+                        _arr.push(_deleteUserID);
+                    }
+                }
+            }
+
+            if (_arr.length > 0) {
+
+                dialog_confirm("Delete User(s)", "Are you sure you want to delete the selected user(s)?", function () {
+
+                    GlobalService.UserDelete(_arr, ext_requestSuccess(function (data) {
+                        $mobileUtil.ReloadActivePage(function () {
+                            AddMessage("The user(s) have been deleted.");
+                            $mobileUtil.ReloadActivePage();
+                        });
+                    }));
+                }, null);                
+            }
+            
+            return false;
+        });
+
+        GlobalService.UserRoleGetByForeignKey(enCE.None, enCE.None, enCETriState.No, enColUserRole.Default, true, enCEPaging.NoPaging, enCEPaging.NoPaging,
+            ext_requestSuccess(function (data) {
+                UserRolesList = data.List;  //store the user roles for future use (in binding the user roles string for each user item)
+
+                //determine if the current user has a system admin role
+                var _userRoles = util_arrFilter(UserRolesList, enColUserRoleProperty.UserID, MODULE_MANAGER.Session[enColCSessionStatusProperty.AuthUserID]);
+
+                var _temp = util_arrFilter(_userRoles, enColUserRoleProperty.RoleID, enCERoleBase.SystemAdmin);
+
+                if (_temp && _temp.length > 0) {
+                    IsCurrentUserSysAdmin = true;
+                }
+                else {
+                    IsCurrentUserSysAdmin = false;
+                }
+
+                GlobalService.UserGetByForeignKey(enCETriState.No, null, null, _sortSetting.SortColumn, _sortSetting.SortASC,
+                                                    PAGE_SIZE, util_forceValidPageNum(_sortSetting.PageNo, 1), function (ret) {
+                                                        global_serviceResultExecute(ret, function (serviceResult) {
+
+                                                            var _settings = ctl_repeater_getSetting(_tbl, USER_LIST_TEMPLATE_ITEM, USER_LIST_RENDER_TOKENS, getItemField,
+                                                                               function () {
+                                                                                   bindUserList();
+                                                                               });
+
+                                                            ctl_repeater_bind(_tbl, ext_getServiceResultData(serviceResult), _settings);
+
+                                                            var _list = $mobileUtil.GetElementsByAttribute("data-cattr-can-edit", null, true);
+
+                                                            var _fnToggleEditLink = function (canEdit) {
+                                                                _list.filter("[data-cattr-can-edit=" + canEdit + "]")
+                                                                     .find("[data-cattr-edit-link=" + canEdit + "]").show();
+                                                            };
+
+                                                            _fnToggleEditLink(enCETriState.Yes);
+                                                            _fnToggleEditLink(enCETriState.No);
+
+                                                            $mobileUtil.GetElementsByAttribute("data-cattr-can-edit-checkbox", enCETriState.No).html("&nbsp;");
+
+                                                            TempData = null;    //clear the temporary data
+
+                                                            $mobileUtil.PageLoadComplete();
+                                                        });
+                                                    }, ajax_err);
+            }));
+    }
+
+    BindPage();
+</script>
+
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+    <tr>
+        <td align="right">
+            <div style="float: right;">
+                <span id="spAddNew"></span>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div id="tblUserList" data-attr-render="repeater">
+                <div data-cattr-type="setting" sort-enum="enColUser"
+                         default-sort="enColUser.Username"
+                         is-footer-default-paging="1" />
+    
+                 <div data-cattr-type="header">
+                    <div data-cattr-type="item" no-link="1" priority="critical">
+                        <a id="clDeleteUser" href="#" data-role="button" data-icon="delete" data-theme="b"
+                                data-corners="false" data-mini="true">Delete</a>
+                    </div>
+                    <div data-cattr-type="item" sort-column="enColUser.FirstName">First Name</div>
+                    <div data-cattr-type="item" sort-column="enColUser.LastName">Last Name</div>
+                    <div data-cattr-type="item" sort-column="enColUser.Username">E-mail</div>
+                    <div data-cattr-type="item" sort-column="enColUser.Default">Role</div>
+                    <div data-cattr-type="item" sort-column="enColUser.IsLocked">Status</div>
+                 </div>
+            </div>
+        </td>
+    </tr>
+</table>

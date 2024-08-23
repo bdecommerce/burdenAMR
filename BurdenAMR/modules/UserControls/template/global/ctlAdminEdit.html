@@ -1,0 +1,1120 @@
+﻿<script type="text/javascript" language="javascript">
+    var m_renderOptions = null;
+
+    function global_templateBindPage() {
+        
+        global_templateBindEventHandlers();
+
+        global_templateBindView();
+    }
+
+    function global_templateBindEventHandlers() {
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.SubFooterClick, null, function (obj, btnID) {
+
+            var _callbackSave = function (lookup, isCloseDialog, processOptions) {
+                isCloseDialog = util_forceBool(isCloseDialog, false);
+
+                //configure the default dialog close event depending on whether it is in no conflict mode
+                var _defaultCloseWithoutRefresh = (util_forceInt($mobileUtil.DialogContainer().attr(DATA_ATTR_DIALOG_IS_NO_CONFLICT_VIEW), enCETriState.None) == enCETriState.Yes);
+
+                processOptions = util_extend({
+                    "IsDisableCloseOnSave": false, "CloseWithoutRefreshing": _defaultCloseWithoutRefresh, "ForceContentContainerContext": false
+                }, processOptions);
+
+                if (lookup && isCloseDialog == false) {
+                    isCloseDialog = true;
+
+                    for (var _fieldName in lookup) {
+                        var _validationResult = lookup[_fieldName];
+
+                        if (_validationResult && _validationResult["IsValid"] == false) {
+                            var _arrErrors = _validationResult["ErrMessages"];
+
+                            if (_arrErrors && _arrErrors.length > 0) {
+                                isCloseDialog = false;  //do not close the dialog since there were validation errors
+
+                                for (var i = 0; i < _arrErrors.length; i++) {
+                                    AddUserError(_arrErrors[i]);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (MessageCount(true) == 0) {
+                    if (util_forceBool(processOptions["CloseWithoutRefreshing"], false)) {
+                        $mobileUtil.CloseDialog();
+                    }
+                    else if (!util_forceBool(processOptions["IsDisableCloseOnSave"], false)) {
+                        $mobileUtil.CloseDialog(enCPageRefreshMode.View);
+                    }
+                }
+                else {
+                    $mobileUtil.AnimateSmoothScroll(MessageContainer());
+                }
+            };
+
+            switch (btnID) {
+
+                case BUTTON_CONFIG.Save.ID:
+
+                    var _fnDetailSave = global_templateGetRenderOptionEvent("OnSave", null, { "IsControllerSupported": true });
+                    var _lookupValidationResult = global_templateValidateAllFields();
+
+                    ClearMessages();    //clear messages before saving the item
+
+                    if (_fnDetailSave["Function"]) {
+                        var _fnSave = _fnDetailSave["Function"];
+
+                        if (_fnDetailSave["IsController"]) {
+                            var _valid = true;
+
+                            for (var _propName in _lookupValidationResult) {
+                                if (!_lookupValidationResult[_propName].IsValid) {
+                                    _valid = false;
+                                    break;
+                                }
+                            }
+
+                            _fnSave({
+                                "RenderOptions": m_renderOptions, "Valid": _valid, "ValidationList": _lookupValidationResult, "Callback": function (result) {
+                                    if (!result) {
+                                        _callbackSave(_lookupValidationResult, null);
+                                    }
+                                    else {
+                                        _callbackSave(result["ValidationList"], result["IsCloseDialog"], result["ProcessOptions"]);
+                                    }
+                                }
+                            });
+                        }
+                        else {
+
+                            //backwards compatible support
+                            _fnSave(_lookupValidationResult, _callbackSave);
+                        }
+                    }
+                    else {
+                        _callbackSave(_lookupValidationResult, null);
+                    }
+
+                    break;
+
+                case BUTTON_CONFIG.Close.ID:
+                case BUTTON_CONFIG.Cancel.ID:
+                case BUTTON_CONFIG.CancelCustom.ID:
+
+                    var _fnCancel = global_templateGetRenderOptionEvent("OnCancel");
+                    var _callbackCancel = function (isCloseDialog) {
+
+                        isCloseDialog = util_forceBool(isCloseDialog, true);
+
+                        if (isCloseDialog) {
+
+                            //check if it is current popup view and no conflict view is configured (in which case will dismiss the popup to handle cleanup)
+                            var $search = $(obj).closest("#popupInlineContainer");
+
+                            if ($search.length == 1 && util_forceInt($search.attr(DATA_ATTR_DIALOG_IS_NO_CONFLICT_VIEW), enCETriState.None) == enCETriState.Yes) {
+                                $mobileUtil.PopupClose();
+                            }
+                            else {
+                                $mobileUtil.CloseDialog(enCPageRefreshMode.View);
+                            }
+                        }
+                    };
+
+                    if (_fnCancel) {
+                        _fnCancel(_callbackCancel);
+                    }
+                    else {
+                        _callbackCancel();
+                    }
+
+                    break;
+            }
+
+            return false;
+        });
+    }
+
+    function global_templateGetRenderOptionEvent(fnName, pRenderOptions, opts) {
+
+        opts = util_extend({ "IsControllerSupported": false }, opts);
+
+        var _ret = null;
+        var _fn = null;
+        var _options = (pRenderOptions || m_renderOptions);
+
+        if (_options && _options["Events"]) {
+            _fn = _options.Events[fnName];
+        }
+
+        if (opts.IsControllerSupported){
+
+            //return an object based result (to allow support of additional parameters for function invocation)
+            _ret = { "IsController": false, "Function": null };
+
+            //check the module template parameters and whether a controller is available
+            if (MODULE_MANAGER.Current.Parameters && MODULE_MANAGER.Current.Parameters["TemplateController"]) {
+                var _controller = MODULE_MANAGER.Current.Parameters["TemplateController"];
+
+                if (_controller[fnName]) {
+                    _ret.IsController = true;
+                    _fn = _controller[fnName];
+                }
+            }
+
+            _ret.Function = _fn;
+        }
+        else {
+            _ret = _fn;
+        }
+
+        return _ret;
+    }
+
+    function global_templateValidateAllFields() {
+        var _ret = {};
+        var _fields = global_templateGetFieldElements();
+
+        $.each(_fields, function (indx) {
+            var _field = $(this);
+            var _validationResult = global_templateValidateField(this);
+            var _propName = util_forceString(_field.attr(DATA_ATTR_INPUT_FIELD));
+
+            if (_propName != "") {
+                _ret[_propName] = _validationResult;
+            }
+        });
+
+        return _ret;
+    }
+
+    function global_templateBindView() {
+
+        $mobileUtil.SetSubFooterView({ PopupFooterViewMode: enCPopupFooterViewMode.SaveCancel, IsPropagateDismiss: true });
+
+        EditItem = null; //set default values for the current edit item (to be populated by project instance)
+
+        $mobileUtil.ActivePage().data("onDismissDialog", function (opts) {
+
+            var _fn = global_templateGetRenderOptionEvent("OnDismissDialog", m_renderOptions);
+
+            if (_fn) {
+
+                opts = util_extend({}, opts);
+
+                opts["RemderOptions"] = m_renderOptions;
+                _fn.call(this, opts);
+            }
+        });
+
+        global_templateViewOptions(function (renderOptions, dataItem) {
+
+            var _fnOnPreProcess = global_templateGetRenderOptionEvent("OnPreProcess", renderOptions);
+
+            if (_fnOnPreProcess) {
+                var _tempOptions = _fnOnPreProcess(renderOptions);
+
+                renderOptions = (_tempOptions || renderOptions);
+            }
+
+            var _html = global_templateRenderViewHTML(renderOptions, dataItem);
+
+            var _contentContainer = getContentContainer();
+
+            _contentContainer.hide();
+
+            _contentContainer.html(_html);
+
+            var _fnOnBeforeEnhance = global_templateGetRenderOptionEvent("OnBeforeEnhance", renderOptions);
+
+            if (_fnOnBeforeEnhance) {
+                _fnOnBeforeEnhance.call(this, { "Element": _contentContainer, "RenderOptions": renderOptions });
+            }
+
+            var _refreshCtx;
+
+            if (renderOptions && util_forceBool(renderOptions["ForceContentContainerContext"], false)) {
+                _refreshCtx = getContentContainer();
+            }
+            else {
+                _refreshCtx = $mobileUtil.ActivePage();
+            }
+
+            $mobileUtil.refresh(_refreshCtx);
+
+            _contentContainer.addClass("EffectBlur");
+
+            _contentContainer.toggle("height", function () {
+
+                _contentContainer.removeClass("EffectBlur");
+
+                _contentContainer.off("click.template_divider_toggle");
+                _contentContainer.on("click.template_divider_toggle", ".TemplateEditTableDividerRowLink", function () {
+                    var _link = $(this);
+
+                    if (!_link.hasClass("TemplateEditTableDividerRowLinkBusy")) {
+                        _link.addClass("TemplateEditTableDividerRowLinkBusy");
+
+                        var _selector = util_forceString(_link.attr("data-attr-collapse-selector"), "");
+                        var _list = null;
+                        var _isVisible = (util_forceInt(_link.attr("data-attr-toggle-link-visible"), enCETriState.None) != enCETriState.No);
+
+                        if (_selector == "") {
+                            _list = _link.nextUntil(".TemplateEditTableDividerRowLink:not(.TemplateEditTableDividerRowLinkBusy)");
+                        }
+                        else {
+                            _list = $mobileUtil.Find(_selector);
+                        }
+
+                        var _fnEndAnimation = function () {
+                            _link.attr("data-attr-toggle-link-visible", _isVisible ? enCETriState.No : enCETriState.Yes);
+                            _link.removeClass("TemplateEditTableDividerRowLinkBusy");
+
+                            var _toggleLink = _link.find(".TemplateEditTableDividerToggle");
+
+                            $mobileUtil.ButtonUpdateIcon(_toggleLink, _isVisible ? "arrow-d" : "arrow-u");
+                        };
+
+                        if (_isVisible) {
+                            _list.fadeOut("normal", function () {
+                                _fnEndAnimation();
+                            });
+                        }
+                        else {
+                            _list.fadeIn("normal", function () {
+                                _fnEndAnimation();
+                            });
+                        }
+
+                    }
+                });
+
+                m_renderOptions = renderOptions;    //store the render options
+
+                global_templateBindFieldEvents();
+
+                var _editEntityExists = util_forceBool(m_renderOptions["IsEditEntityExists"], true);
+
+                if (!_editEntityExists) {
+                    _contentContainer.html("<div class='TemplateEditItemNotFoundMessage'>" +
+                                           util_htmlEncode(m_renderOptions["MessageItemNotFound"], MSG_CONFIG.ItemNotFound) +
+                                           "</div>");
+
+                    $mobileUtil.SetSubFooterView({ PopupFooterViewMode: enCPopupFooterViewMode.Close });
+
+                    return; //force exit the function
+                }
+
+                var _fnBindComplete = function () {
+
+                    //callback that the view has has data bound its default view
+                    var _fnDetailBindComplete = global_templateGetRenderOptionEvent("OnBindComplete", null, { "IsControllerSupported": true });
+
+                    if (_fnDetailBindComplete["Function"]) {
+                        var _fn = _fnDetailBindComplete["Function"];
+
+                        if (_fnDetailBindComplete["IsController"]) {
+                            _fn({ "RenderOptions": m_renderOptions, "LocalCache": m_renderOptions["LocalCache"] });
+                        }
+                        else {
+
+                            //backwards compatible support
+                            _fn(m_renderOptions["LocalCache"]);
+                        }
+                    }
+                };
+
+                if (m_renderOptions && !util_isNullOrUndefined(m_renderOptions["CustomFooter"]) && util_forceBool(m_renderOptions.CustomFooter["Enabled"], false)) {
+
+                    var _customFooterConfig = m_renderOptions["CustomFooter"];
+                    var _buttons = null;
+
+                    if (util_isFunction(_customFooterConfig["FnGetButtonList"])) {
+                        _buttons = _customFooterConfig.FnGetButtonList(m_renderOptions);
+                    }
+
+                    if (_buttons == null) {
+                        var _btnCancelConfig = util_extend({}, BUTTON_CONFIG.CancelCustom);
+
+                        _buttons = [];
+                        _buttons.push(_btnCancelConfig);
+                        _buttons.push(BUTTON_CONFIG.Save);
+                    }
+
+                    $mobileUtil.SetSubFooterView({ PopupFooterViewMode: enCPopupFooterViewMode.Custom, "ButtonList": _buttons });
+                }
+
+                //configure the custom module content, if applicable
+                if (m_renderOptions && m_renderOptions["CustomContent"]) {
+                    var _customContentConfig = m_renderOptions["CustomContent"];
+
+                    if (util_forceValidEnum(_customContentConfig["ModuleID"], enCEModule, null) != null) {
+                        module_getViewHTML(_customContentConfig["ModuleID"], _customContentConfig["CtrlName"], _customContentConfig["ModuleViewType"], function (html) {
+                            var _customContentContainer = $mobileUtil.GetElementByID("divCustomContent");
+
+                            _customContentContainer.html(html);
+                            $mobileUtil.refresh(_customContentContainer);
+
+                            _fnBindComplete();
+                        });
+                    }
+                    else {
+                        _fnBindComplete();
+                    }
+                }
+                else {
+                    _fnBindComplete();
+                }
+
+            });
+
+        });
+    }
+
+    function getContentContainer() {
+        return $mobileUtil.GetElementByID("divRenderContent");
+    }
+
+    function global_templateGetFieldElements() {
+        return getContentContainer().find("[" + DATA_ATTR_INPUT_FIELD + "]");
+    }
+
+    function global_templateBindFieldEvents() {
+        var _list = global_templateGetFieldElements();
+
+        _list.unbind("focus");
+        _list.unbind("blur");
+
+        _list.focus(function () {
+            global_templateEvent_field_focus(this);
+        });
+
+        _list.blur(function () {
+            global_templateEvent_field_blur(this);
+        });
+    }
+
+    function global_templateEvent_field_focus(obj) {
+        var _element = $(obj);
+
+        return false;
+    }
+
+    function global_templateEvent_field_blur(obj) {
+        var _element = $(obj);
+
+        global_templateValidateField(obj);
+
+        return false;
+    }
+
+    function global_templateValidateField(obj) {
+        var _ret = { IsValid: true, ErrMessages: [] };
+        var _element = $(obj);
+        var _fieldPropName = util_forceString(_element.attr(DATA_ATTR_INPUT_FIELD), "");
+        var _value = util_trim(_element.val());
+        var _fieldName = "UNKNOWN";
+        var _fnAddValidationError = function (msg) {
+            msg = util_replaceAll(msg, "%%FIELD%%", _fieldName);
+
+            _ret.ErrMessages.push(msg);
+        };
+
+        //retrieve the property detail for the field from the render options
+        var _propDetail = null;
+
+        if (m_renderOptions && m_renderOptions["Metadata"]) {
+            var _arr = m_renderOptions["Metadata"];
+
+            for (var i = 0; i < _arr.length; i++) {
+                var _prop = _arr[i];
+
+                if (_prop[enColCPropertyDetailProperty.Name] == _fieldPropName) {
+                    _propDetail = _prop;
+                    break;
+                }
+            }
+        }
+
+        if (_propDetail) {
+            var _propDataType = _propDetail[enColCPropertyDetailProperty.DataType];
+
+            _fieldName = util_forceString(_propDetail[enColCPropertyDetailProperty.DisplayName], "");
+
+            if (_fieldName == "") {
+                _fieldName = _propDetail[enColCPropertyDetailProperty.Name];
+            }
+
+            //check if the field's value meets the validation requirements (must have a validator configured)
+            if (_propDetail[enColCPropertyDetailProperty.Validation]) {
+                var _validator = _propDetail[enColCPropertyDetailProperty.Validation];
+                var _valid = _ret.IsValid;
+
+                if (_valid && _validator[enColCFieldValidationProperty.IsRequired] == true && _value.length == 0) {
+                    _valid = false;
+                    _fnAddValidationError("%%FIELD%% is required.");
+                }
+
+                switch (_propDataType) {
+                    case enCDataFormat.Numeric:
+                        if (_valid && !util_isNumeric(_value) &&
+                            (_validator[enColCFieldValidationProperty.IsRequired] == true || (_validator[enColCFieldValidationProperty.IsRequired] == false && _value.length > 0))
+                            ) {
+                            _valid = false;
+                            _fnAddValidationError("%%FIELD%% must be a numeric value.");
+                        }
+                        break;
+
+                    case enCDataFormat.Lookup:
+                        if (_valid && _validator[enColCFieldValidationProperty.ExcludeLookupNumericDefault] == true && util_isNumeric(_value) &&
+                            util_forceInt(_value, enCE.None) == enCE.None) {
+
+                            _valid = false;
+                            _fnAddValidationError("%%FIELD%% is required.");
+                        }
+
+                        break;
+                }
+
+                _ret.IsValid = _valid;
+            }
+
+            switch (_propDataType) {
+                case enCDataFormat.Numeric:
+                case enCDataFormat.Decimal:
+                case enCDataFormat.Text:
+                case enCDataFormat.TextExt:
+                case enCDataFormat.Password:
+                    _element.val(_value);
+                    break;
+            }
+
+            //populate the edit item with the value of the element (converted properly for the data type), if applicable
+            if (_propDataType != enCDataFormat.Unknown && EditItem) {
+                util_propertySetValue(EditItem, _propDetail[enColCPropertyDetailProperty.Name], global_getFieldValue(_element, _propDetail, true));
+            }
+        }
+
+        //if the item is valid, then check if there is a callback for the render options for field validation
+        var _fnValidateField = global_templateGetRenderOptionEvent("OnValidateField");
+
+        if (_ret.IsValid && _fnValidateField) {
+            _ret = _fnValidateField(_element, _value, _fieldPropName, _ret);
+        }
+
+        //configure the field validation state view
+        global_templateToggleValidationState(_element, _ret.IsValid);
+
+        return _ret;
+    }
+
+    function global_templateToggleValidationState(obj, isValid) {
+        var ValidationErrorCssClass = "ValidationError";
+        isValid = util_forceBool(isValid, true);
+
+        var _element = $(obj);
+        var _target = _element;
+
+        var _type = _element.attr("type");
+
+        if (_type == "text" || _type == "password" || _element.is("select")) {
+            _target = _element.parent();
+        }
+
+        if (isValid) {
+            _target.removeClass(ValidationErrorCssClass);
+        }
+        else {
+            _target.addClass(ValidationErrorCssClass);
+        }
+    }
+
+    function global_templateViewOptions(callback) {
+        var _ret = { Fields: [], Sections: [], IsToggleAllField: false, Metadata: [], IsEditEntityExists: true, MessageItemNotFound: MSG_CONFIG.ItemNotFound,
+            Dividers: { "Enabled": false, "Lookup": [] },
+            CustomFooter: { "Enabled": false, "FnGetButtonList": null },
+            LocalCache: {
+                m_localCache: {},
+                SetLocalCacheItem: function (key, val) {
+                    this.m_localCache[key] = val;
+                },
+                GetLocalCacheItem: function (key) {
+                    return this.m_localCache[key];
+                }
+            },
+            CustomContent: { ModuleID: null, CtrlName: null, ModuleViewType: null },
+            Events: {
+                OnSave: null,   //format is of the following: OnSave(lookupValidationResults, callback){ ... } 
+                //where "callback" is defined as function(lookup, isCloseDialog){ ... }
+                OnCancel: null,
+                OnDismissDialog: null,  //executed when the active view (mainly inline dialog) is dismissed using keyboward shortcut or close header button
+                OnPreProcess: null,    //executed prior to the view binding the table/fields HTML (passed the render options as argument for final edits before databind)
+                OnBeforeEnhance: null,  //executed prior to the view being enhanced (i.e. "refresh"/"create" of HTML elements)
+                OnBindComplete: null,    //executed when the view has been rendered with supported metadata fields (callback to process post bind of dynamic content)
+                OnValidateField: null   //validate the specified field element for events such as blur and focus: OnValidateField(element, value, fieldPropDetailName, fieldValidation)
+                //Note: synchronous execution and as such must return the field validation object (which may be modified)
+            },
+            GetNewMetadata: function (mName, mDisplayName, mDataType, mEnumName, mEditable, mValidator, extOptions) {
+                var _ret = {};
+
+                if (util_isNullOrUndefined(mValidator)) {
+                    mValidator = {};
+                }
+
+                for (var _propName in enColCPropertyDetailProperty) {
+                    _ret[_propName] = undefined;
+                }
+
+                _ret[enColCPropertyDetailProperty.Name] = util_forceString(mName, "");
+                _ret[enColCPropertyDetailProperty.DisplayName] = mDisplayName;
+                _ret[enColCPropertyDetailProperty.DataType] = util_forceValidEnum(mDataType, enCDataFormat, enCDataFormat.Unknown);
+                _ret[enColCPropertyDetailProperty.EnumTypeName] = mEnumName;
+                _ret[enColCPropertyDetailProperty.IsEditable] = util_forceBool(mEditable, true);
+                _ret[enColCPropertyDetailProperty.Validation] = mValidator;
+
+                //custom object property value related to additional render options
+                _ret["_extOptions"] = extOptions;
+
+                return _ret;
+            },
+            GetFieldElement: function (fieldName) {
+                fieldName = util_forceString(fieldName);
+
+                return $(getContentContainer().find("[" + util_htmlAttribute(DATA_ATTR_INPUT_FIELD, fieldName) + "]"));
+            },
+            GetFieldElementContainer: function (fieldName) {
+                var _element = this.GetFieldElement(fieldName);
+                var _ret = $mobileUtil.FindClosest(_element, "tr");
+
+                return _ret;
+            },
+            GetFieldElementCell: function (fieldName) {
+                var _element = this.GetFieldElement(fieldName);
+                var _ret = $mobileUtil.FindClosest(_element, "td");
+
+                return _ret;
+            },
+            ToggleFieldElementContainer: function (options) {
+                options = util_extend({ "FieldName": null, "IsVisible": true, "IsAnimate": false }, options);
+
+                var _fieldName = options["FieldName"];
+                var _tr = this.GetFieldElementContainer(_fieldName);
+                var _isVisible = util_forceBool(options["IsVisible"], true);
+                var _isAnimate = util_forceBool(options["IsAnimate"], false);
+
+                if (_isVisible) {
+                    _tr.removeAttr(DATA_ATTRIBUTE_RENDER_OVERRIDE);
+
+                    if (_isAnimate) {
+                        _tr.fadeIn();
+                    }
+                    else {
+                        _tr.show();
+                    }
+                }
+                else {
+                    _tr.attr(DATA_ATTRIBUTE_RENDER_OVERRIDE, "true");
+
+                    if (_isAnimate) {
+                        _tr.fadeOut();
+                    }
+                    else {
+                        _tr.hide();
+                    }
+                }
+
+                this.RefreshContainerStyles();
+            },
+            GetMainContainer: function () {
+                var _ret = $mobileUtil.Find("[" + util_htmlAttribute("data-attr-template-module-container", enCETriState.Yes) + "]");
+
+                return _ret;
+            },
+            GetRenderContainer: function () {
+                return this.GetContentContainers().filter("#divRenderContent");
+            },
+            GetContentContainers: function () {
+                return $mobileUtil.Find("[data-attr-dynamic-template-content-container='1']");
+            },
+            RefreshContainerStyles: function () {
+                $mobileUtil.RenderRefresh(this.GetMainContainer(), true);
+            },
+            SetDivider: function (propName, options) {
+
+                if (!util_isNullOrUndefined(propName)) {
+
+                    options = util_extend({ "Content": "", "IsHTML": false, "CssClass": "TemplateEditTableDividerRow", "IsDisplayEnd": false,
+                                            "IsCollapseLink": true, "TargetCollapseSelector": "" }, options);
+
+                    if (util_isNullOrUndefined(this["Dividers"])) {
+                        this.Dividers = { "Enabled": false, "Lookup": {} };
+                    }
+
+                    if (util_isNullOrUndefined(this.Dividers["Lookup"])) {
+                        this.Dividers["Lookup"] = {};
+                    }
+
+                    this.Dividers.Lookup[propName] = options;
+                }
+            },
+            FindMetadata: function (opts) {
+                var _metadata = null;
+
+                opts = util_extend({ "Search": "" }, opts);
+
+                opts.Search = util_forceString(opts.Search);
+
+                if (opts.Search != "" && this.Metadata) {
+                    for (var m = 0; m < this.Metadata.length; m++) {
+                        var _search = this.Metadata[m];
+
+                        if (_search[enColCPropertyDetailProperty.Name] == opts.Search) {
+                            _metadata = _search;
+                            break;
+                        }
+                    }
+                }
+
+                return _metadata;
+            },
+
+            //used to display additional content (e.g. dialog open but want to display another "dialog" content) via hiding the current/overlayed view
+            //(requires dialog container as active page)
+            TransitionInlineScreen: function (opts) {
+                var _instance = this;
+
+                opts = util_extend({ "IsVisible": true, "HTML": "", "Callback": null, "ShowFooterBackButton": true }, opts);
+
+                var $views = _instance.GetContentContainers();
+                var $footer = $mobileUtil.Find("[data-attr-role='subfooter']");
+                var _hasFooter = ($footer.length && $footer.is(":visible"));
+
+                var _currentPosition = $(window).scrollTop();
+                var $dialog = $mobileUtil.DialogContainer();
+
+                if (opts.IsVisible) {
+
+                    $mobileUtil.Content().addClass("EffectBlur");
+
+                    var $btns = $dialog.find(".PopupHeaderToolButton, [data-attr-popup-close-button]");
+                    var $btnBack = $btns.filter("[data-attr-popup-tool-button-id='back']");
+
+                    var _fnToggleHeaderButtons = function (isToggleBack) {
+
+                        $btns.hide();
+
+                        $btnBack.toggle(isToggleBack);
+                        $btns.filter("[data-attr-popup-close-button]").toggle(!isToggleBack);
+
+                        if (!isToggleBack) {
+                            $btnBack.removeData("OnClick");
+                            $btnBack.removeData("is-busy");
+                            $dialog.data("onDismissRequested", null);
+                        }
+                        else {
+                            var $btnInlineBack = $mobileUtil.Content().find(".TemplateEditInlineOverlayBackButton a");
+
+                            $btnInlineBack.off("click.nav_back");
+                            $btnInlineBack.on("click.nav_back", function () {
+
+                                if (!$btnInlineBack.data("is-busy")) {
+                                    $btnInlineBack.data("is-busy", true);
+
+                                    $mobileUtil.AnimateSmoothScroll($dialog, null, null, function () {
+                                        $btnBack.trigger("click");
+                                    });
+                                }
+                            });
+
+                            $dialog.data("onDismissRequested", function (dismissCallback) {
+
+                                if (dismissCallback) {
+                                    dismissCallback(false); //stop dialog/popup view from being closed
+                                }
+
+                                $dialog.data("onDismissRequested", null);
+
+                                //navigate back to the previous view
+                                $btnInlineBack.trigger("click");
+                            });
+                        }
+
+                    };  //end: _fnToggleHeaderButtons
+
+                    //configure the back button click event via DOM data
+                    $btnBack.data("OnClick", function () {
+
+                        if (!$btnBack.data("is-busy")) {
+                            $btnBack.data("is-busy", true);
+
+                            _instance.TransitionInlineScreen({
+                                "IsVisible": false,
+                                "Callback": function () {
+
+                                    if (_hasFooter) {
+                                        $footer.show();
+                                    }
+
+                                    _fnToggleHeaderButtons(false);
+                                    $mobileUtil.AnimateSmoothScroll(null, null, { "Top": _currentPosition });
+                                }
+                            });
+                        }
+                    });
+
+                    //scroll to the start of the dialog (in case user is elsewhere within the dialog view)
+                    $mobileUtil.AnimateSmoothScroll($dialog, null, null, function () {
+
+                        if (_hasFooter) {
+                            $footer.hide();
+                        }
+
+                        $views.toggle("height").promise().done(function () {
+
+                            var $overlay = $dialog.find(".TemplateEditInlineOverlayView");
+
+                            if ($overlay.length == 0) {
+                                $overlay = $("<div class='TemplateEditInlineOverlayView' />");
+                                $overlay.hide();
+
+                                $overlay.insertAfter(_instance.GetRenderContainer());
+                            }
+
+                            opts.HTML = util_forceString(opts.HTML);
+
+                            if (opts.ShowFooterBackButton) {
+                                opts.HTML += "<div class='TemplateEditInlineOverlayBackButton'>" +
+                                             "  <a data-role='button' data-corners='false' data-inline='true' data-mini='true' data-corners='false' data-icon='arrow-l'>" + 
+                                             util_htmlEncode("Back") + 
+                                             "  </a>" +
+                                             "</div>";
+                            }
+
+                            $overlay.html(opts.HTML);
+                            $mobileUtil.refresh($overlay);
+                            
+                            $mobileUtil.Content().removeClass("EffectBlur");
+
+                            $overlay.slideDown("normal").promise().done(function () {
+
+                                _fnToggleHeaderButtons(true);
+
+                                if (opts.Callback) {
+                                    opts.Callback({ "Container": $overlay });
+                                }
+                            });
+                        });
+                    });
+                }
+                else {
+                    var $overlay = $dialog.find(".TemplateEditInlineOverlayView");
+
+                    $overlay.toggle("height").promise().done(function () {
+
+                        $overlay.empty();
+
+                        $views.toggle("height").promise().done(function () {
+                            if (opts.Callback) {
+                                opts.Callback();
+                            }
+                        });
+                    });
+                }
+            }
+        };
+
+        var _callback = function (renderOptions, dataItem) {
+            if (callback) {
+                callback(renderOptions, dataItem);
+            }
+        };
+
+        GlobalService.EntityMetadata(util_forceInt(MODULE_MANAGER.Current.ModuleID, enCE.None), TemplateParams(), ext_requestSuccess(function (propData) {
+            _ret.Metadata = propData;
+
+            //configure the detail fields based on the metadata render options
+            var _props = (_ret.Metadata || []);
+
+            var _fields = [];
+
+            for (var p = 0; p < _props.length; p++) {
+                var _propMetadata = _props[p];
+                var _renderDetail = _propMetadata[enColCPropertyDetailProperty.RenderDetail];
+
+                if (_renderDetail && _renderDetail[enColCFieldRenderDetailProperty.IsVisible] == true) {
+                    _fields.push(_propMetadata);
+                }
+            }
+
+            if (_fields.length > 0) {
+                _ret.Fields = [];
+
+                //sort by ascending DisplayOrder of the render details; fallback to DisplayName/Name ascending order
+                _fields = _fields.sort(function (lhs, rhs) {
+                    var _retOrder = 0;
+
+                    var _lhRender = lhs[enColCPropertyDetailProperty.RenderDetail];
+                    var _rhRender = rhs[enColCPropertyDetailProperty.RenderDetail];
+
+                    if (!_lhRender && _rhRender) {
+                        _retOrder = -1;
+                    }
+                    else if (_lhRender && !_rhRender) {
+                        _retOrder = 1;
+                    }
+                    else {
+                        _retOrder = (util_forceInt(_lhRender[enColCFieldRenderDetailProperty.DisplayOrder], 0) -
+                                     util_forceInt(_rhRender[enColCFieldRenderDetailProperty.DisplayOrder], 0));
+
+                        if (_retOrder == 0) {
+
+                            //the display order for both items are the same so use the display name
+                            var _lhDisplayName = util_forceString(lhs[enColCPropertyDetailProperty.DisplayName]);
+                            var _rhDisplayName = util_forceString(rhs[enColCPropertyDetailProperty.DisplayName]);
+                            
+                            if (_lhDisplayName == "") {
+                                _lhDisplayName = util_forceString(lhs[enColCPropertyDetailProperty.Name]);
+                            }
+
+                            if (_rhDisplayName == "") {
+                                _rhDisplayName = util_forceString(rhs[enColCPropertyDetailProperty.Name]);
+                            }
+
+                            if (_lhDisplayName === _rhDisplayName){
+                                _retOrder = 0;
+                            }
+                            else{
+                                _retOrder = (_lhDisplayName < _rhDisplayName ? -1 : 1);
+                            }
+                        }
+                    }
+
+                    return _retOrder;
+                });
+
+                for (var i = 0; i < _fields.length; i++) {
+                    var _propMetadata = _fields[i];
+
+                    _ret.Fields.push(_propMetadata[enColCPropertyDetailProperty.Name]);
+                }
+            }
+
+            //check if there is an instance available that supports configuration of template view options (from module parameters), if applicable
+            if (MODULE_MANAGER.Current.Parameters && MODULE_MANAGER.Current.Parameters["TemplateController"]) {
+                var _controller = MODULE_MANAGER.Current.Parameters["TemplateController"];
+
+                if (_controller["Init"]) {
+                    _controller.Init({
+                        "RenderOptions": _ret,
+                        "Callback": function (optionalRenderOpts, dataItem) {
+
+                            //if no render options is provided as first argument, then default to current version (which may have been modified as well)
+                            if (!optionalRenderOpts) {
+                                optionalRenderOpts = _ret;
+                            }
+
+                            //default data item value
+                            if (!dataItem) {
+                                dataItem = null;
+                            }
+
+                            _callback(_ret, dataItem);
+                        }
+                    });
+                }
+                else {
+                    _callback(_ret, null);
+                }
+            }
+            else if (util_isDefined("private_templateViewOptions")) {
+                private_templateViewOptions(_ret, _callback);
+            }
+            else {
+                _callback(_ret, null);
+            }
+        }));
+    }
+
+    function global_templateRenderViewHTML(options, item) {
+        var _ret = "";
+        var _listMetadata = (options ? options["Metadata"] : null);        
+
+        if (_listMetadata) {
+            _ret += "<table border='0' cellpadding='0' cellspacing='0' " + DATA_ATTRIBUTE_RENDER + "='table' style='width: 100%;' " + 
+                    util_htmlAttribute("data-attr-template-module-container", enCETriState.Yes) + ">";
+
+            if (EditItem == null) {
+                EditItem = {};
+            }
+
+            item = (item == null ? EditItem : item);
+
+            var _propLookup = {};
+
+            var _arrFields = options["Fields"];
+            var _isToggleAllField = false;
+
+            if (_arrFields == null || _arrFields == undefined || _arrFields.length == 0) {
+                _arrFields = [];
+                _isToggleAllField = util_forceBool(options["IsToggleAllField"], false);
+            }
+
+            for (var i = 0; i < _listMetadata.length; i++) {
+                var _property = _listMetadata[i];
+                var _propertyName = _property[enColCPropertyDetailProperty.Name];
+
+                _propLookup[_propertyName] = _property;
+
+                if (_isToggleAllField) {
+                    _arrFields.push(_propertyName);
+                }
+            }
+
+            var _hasDividers = (options && options["Dividers"] ? util_forceBool(options.Dividers["Enabled"], false) : false);
+            var _lookupDividerOption = (_hasDividers && options.Dividers["Lookup"] ? options.Dividers.Lookup : {});
+
+            var _fnGetDividerHTML = function (mKey) {
+                var _retDividerHTML = "";
+                var _dividerOption = _lookupDividerOption[mKey];
+
+                if (!util_isNullOrUndefined(_dividerOption)) {
+                    var _dividerHTML = util_forceString(_dividerOption["Content"]);
+
+                    if (!util_forceBool(_dividerOption["IsHTML"], false)) {
+                        _dividerHTML = util_htmlEncode(_dividerHTML);
+                    }
+
+                    var _dividerCssClass = util_forceString(_dividerOption["CssClass"]);
+                    var _isCollapsible = util_forceBool(_dividerOption["IsCollapseLink"], true);
+                    var _searchSelector = util_forceString(_dividerOption["TargetCollapseSelector"], "");
+
+                    if (_isCollapsible) {
+                        _dividerCssClass += (_dividerCssClass != "" ? " " : "") + "TemplateEditTableDividerRowLink";
+                    }
+
+                    _retDividerHTML += "<tr " + (_dividerCssClass != "" ? util_htmlAttribute("class", _dividerCssClass) + " " : "") +
+                                       util_htmlAttribute(DATA_ATTRIBUTE_RENDER_OVERRIDE, "true") +
+                                       (_isCollapsible ? " " + util_htmlAttribute("data-attr-collapse-selector", _searchSelector) : "") + ">" +
+                                       "   <td class='TemplateEditTableDividerContainerCell' colspan='2'>" +
+                                       "    <table class='TemplateEditTableDividerItem' border='0' cellpadding='0' cellspacing='0' style='width: 100%;'>" +
+                                       "        <tr " + util_htmlAttribute(DATA_ATTRIBUTE_RENDER_OVERRIDE, "true") + ">" +
+                                       "            <td valign='top'>" + _dividerHTML + "</td>" +
+                                       "            <td class='TemplateEditTableDividerIndicatorCell'>";
+
+                    if (_isCollapsible) {
+                        _retDividerHTML += "<a class='TemplateEditTableDividerToggle' data-role='button' data-mini='true' data-icon='arrow-u' data-iconpos='notext' " +
+                                           "data-theme='transparent' />";
+                    }
+                    else {
+                        _retDividerHTML += "&nbsp;";
+                    }
+
+                    _retDividerHTML += "            </td>" +
+                                       "        </tr>" +
+                                       "    </table>" +
+                                       "   </td>" +
+                                       "</tr>";
+                }
+
+                return _retDividerHTML;
+            };
+
+            for (var i = 0; i < _arrFields.length; i++) {
+                var _property = _propLookup[_arrFields[i]];
+
+                if (_property) {
+                    var _propertyName = _property[enColCPropertyDetailProperty.Name];
+                    var _displayName = util_forceString(_property[enColCPropertyDetailProperty.DisplayName], "");
+                    var _propertyDataType = _property[enColCPropertyDetailProperty.DataType];
+
+                    var _value = util_propertyValue(item, _propertyName);
+                    var _validator = _property[enColCPropertyDetailProperty.Validation];
+
+                    var _propExtOptions = _property["_extOptions"];
+
+                    if (_validator == null || _validator == undefined) {
+                        _validator = {};
+                    }
+
+                    if (_displayName == "") {
+                        _displayName = _propertyName;
+                    }
+
+                    //if it is a date type, attempt to convert the value to proper date if it is currently invalid (i.e. in JS date string format from service result)
+                    if (_propertyDataType == enCDataFormat.Date) {
+                        if (!util_isNullOrUndefined(_value) && !util_isDate(_value)) {
+                            _value = util_JS_convertToDate(_value, _value);
+                            item[_propertyName] = _value;   //update the property value following conversion
+                        }
+                    }
+
+                    if (_hasDividers) {
+                        _ret += _fnGetDividerHTML(_propertyName);                        
+                    }
+
+                    _ret += "<tr" + (_propExtOptions && _propExtOptions["DisablePropertyRowStyle"] ?
+                            " " + util_htmlAttribute(DATA_ATTRIBUTE_RENDER_OVERRIDE, "true") : "") + ">"; //open row tag #1
+
+                    _ret += "<td class='TemplateEditTableLabelCell' valign='top' style='width: 25%;'>"; //open cell tag #1
+                    _ret += (_validator[enColCFieldValidationProperty.IsRequired] ? "<span class='RequiredNote'>*</span>" : "");
+                    _ret += util_htmlEncode(_displayName != " " ? _displayName + ":" : "");
+                    _ret += "</td>"; //close cell tag #1
+
+
+                    _ret += "<td valign='top'>"; //open cell tag #2
+
+                    //check if the current property has extended options to handle the render
+                    if (_propExtOptions && util_isFunction(_propExtOptions["Render"])) {
+                        _ret += _property._extOptions.Render({ "Property": _property, "Value": _value });
+                    }
+                    else {
+                        _ret += global_getFieldHTML(_property, _value, (_property.IsEditable == true ? "data-mini=\"true\"" : ""));
+                    }
+
+                    //append the note, if available
+                    if (_property[enColCPropertyDetailProperty.RenderDetail]) {
+                        var _propRenderDetail = _property[enColCPropertyDetailProperty.RenderDetail];
+                        var _note = util_forceString(_propRenderDetail[enColCFieldRenderDetailProperty.Note], "");
+
+                        if (_note != "") {
+                            _note = (_propRenderDetail[enColCFieldRenderDetailProperty.IsNoteHTML] ? _note : util_htmlEncode(_note, true));
+
+                            _ret += "<div class='LabelFieldNote'>" + _note + "</div>";
+                        }
+                    }
+
+                    _ret += "</td>"; //close cell tag #2
+
+                    _ret += "</tr>";    //close row tag #1
+                }
+            }
+
+            if (_hasDividers) {
+                for (var _key in _lookupDividerOption) {
+                    var _dividerOption = _lookupDividerOption[_key];
+
+                    if (util_forceBool(_dividerOption["IsDisplayEnd"], false)) {
+                        _ret += _fnGetDividerHTML(_key);
+                    }
+                }
+            }
+
+            _ret += "</table>";
+        }
+
+        if (_ret == "") {
+            _ret = util_htmlEncode("No fields are configured for the specified item.");
+        }
+
+        return _ret;
+    }
+</script>
+
+<div %%DATA_ATTRIBUTE_RENDER%%="script">
+    global_templateBindPage();
+</div>
+
+<div id="divRenderContent" data-attr-dynamic-template-content-container="1"></div>
+
+<div id="divCustomContent" data-attr-dynamic-template-content-container="1"></div>

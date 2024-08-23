@@ -1,0 +1,113 @@
+﻿<script type="text/javascript" language="javascript">
+    function resetUserID() {
+        return util_forceInt(util_queryStringFragment("UID"), enCE.None);
+    }
+
+    function PageLoad() {
+        bindPage();
+    }
+
+    function bindPage() {
+        bindEventHandlers();
+
+        if (resetUserID() == enCE.None) {
+            AddMessage("The specified link is invalid. Please verify the reset link and try again.");
+
+            $mobileUtil.ToggleViewState($mobileUtil.Content(), false);  //disable all inputs
+        }
+    }
+
+    function bindEventHandlers() {
+        var _clResetPassword = $mobileUtil.GetElementByID("clResetPassword");
+
+        util_jsBindEvent(_clResetPassword, "click", function () {
+            var _userID = resetUserID();
+
+            if (_userID != enCE.None) {
+                ClearMessages();
+
+                var _resetCode = util_trim($mobileUtil.GetElementValue("tbResetCode"));
+                var _password = util_forceString($mobileUtil.GetElementValue("tbPassword"));
+                var _confirmPassword = util_forceString($mobileUtil.GetElementValue("tbConfirmPassword"));
+
+                //validate the required values
+
+                if (_resetCode == "") {
+                    AddError("The reset code is required.");
+                }
+
+                if (_password == "" || _confirmPassword == "") {
+                    AddError("The password and confirm password are required.");
+                }
+                else if (_password != _confirmPassword) {
+                    AddError("The password and the confirm password must match.");
+                }
+
+                if (MessageCount() == 0) {
+                    GlobalService.UserResetPassword(resetUserID(), _resetCode, _password, _confirmPassword, function (retService) {
+                        if (retService[enColCServiceResultProperty.ErrorType] == enCEServiceErrorType.Validation) {
+                            var _message = retService[enColCServiceResultProperty.ErrorMessage];
+
+                            _message = util_forceString(_message, MSG_CONFIG.UnexpectedError);
+
+                            var _arrError = _message.split("\n");
+
+                            for (var _index = 0; _index < _arrError.length; _index++) {
+                                var _validateMsg = _arrError[_index];
+
+                                if (_validateMsg != "") {
+                                    AddError(_validateMsg);
+                                }
+                            }
+                        }
+                        else {
+                            AddMessage("The password has been successfully reset.");
+
+                            $mobileUtil.GetElementByID("divResetPassword").text("Please wait while redirecting to the login page...")
+                                                                          .addClass("RedirectInProgressMsg");
+
+                            setTimeout(function () {
+
+                                //redirect to the splash login page (refresh window redirection)
+                                $mobileUtil.ReloadBrowserWindow(util_getDefaultModuleURL(),
+                                                            enCDelayType.Slow);
+                            }, 0);
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>
+
+<div data-attr-render="script">
+    PageLoad();
+</div>
+
+<div id="divResetPassword" >
+    <div>Please enter the reset code as specified in the e-mail, then enter a new password.</div><br />
+
+    <table border="0" cellpadding="0" cellspacing="0" style="padding-left: 0.75em;">
+        <tr>
+            <td>Reset Code:</td>
+            <td class="InputFieldWideContainer"><input id="tbResetCode" type="text" class="InputFieldWide" data-mini="true" /></td>
+        </tr>
+
+        <tr>
+            <td>New Password:</td>
+            <td class="InputFieldWideContainer"><input id="tbPassword" class="InputFieldWide" type="password" maxlength="15" data-mini="true" /></td>
+        </tr>
+
+        <tr>
+            <td>Confirm Password:</td>
+            <td class="InputFieldWideContainer"><input id="tbConfirmPassword" class="InputFieldWide" type="password" maxlength="15" data-mini="true" /></td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="left">
+                <a id="clResetPassword" href="#" data-role="button" data-mini="true" data-inline="true">Submit</a>        
+            </td>
+        </tr>
+    </table>
+</div>

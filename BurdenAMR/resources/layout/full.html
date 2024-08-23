@@ -1,0 +1,147 @@
+﻿<div data-role="page" id="pageMain" class="FullViewPage" data-attr-page-resize="1">
+    <table data-attr-background-effect="EffectBlur" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr>
+            <td valign="top">
+                <div data-role="header"></div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div data-role="content" style="overflow: visible;">
+                    <div class="DisableUserSelectable LoadingLauncherView">
+                        <div class="ProgressBar">
+                            <div class="ModeIndeterminate"></div>
+                        </div>
+                        <div class="Title"><APP_NAME_HTML></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="bottom">
+                <div data-role="footer"></div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div data-role="page" id="pageMainClone" data-attr-page-clone="1" class="FullViewPage" data-attr-page-resize="1">
+    <table data-attr-background-effect="EffectBlur" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr>
+            <td valign="top">
+                <div data-role="header"></div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <div data-role="content" style="overflow: visible;">
+                    <div class="DisableUserSelectable LoadingLauncherView">
+                        <div class="ProgressBar">
+                            <div class="ModeIndeterminate"></div>
+                        </div>
+                        <div class="Title"><APP_NAME_HTML></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="bottom">
+                <div data-role="footer"></div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+
+    var LAYOUT_CONFIGURATION_FULL = {
+        "IsFixedViewMode": false,
+        "ContentPaddingOffset": null,
+        "FixedHeaderHeight": 0,
+        "FixedFooterHeight": 0,
+
+        "FixedHeaderFooter": function (headerHeight, footerHeight) {
+            LAYOUT_CONFIGURATION_FULL.IsFixedViewMode = true;
+            LAYOUT_CONFIGURATION_FULL.FixedHeaderHeight = headerHeight;
+            LAYOUT_CONFIGURATION_FULL.FixedFooterHeight = footerHeight;
+
+            $("body").addClass("FixedHeaderFooter" + (LAYOUT_CONFIGURATION_FULL.ContentPaddingOffset ? " FixedHeaderFooterAbsolute" : ""));
+            global_layoutResizeRoot($("[data-attr-page-resize=" + enCETriState.Yes + "]"));
+        }
+    };
+
+    $(function () {
+        var _window = $(window);
+
+        //bind resize event with scope (with debounce)
+        _window.unbind("resize.global_layoutResizeRoot");
+
+        _window.bind("resize.global_layoutResizeRoot", $.debounce(function () {
+            global_layoutResizeRoot();
+        }));
+        
+        //bind persisted page load delegate for resize of layout following module load
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageLoaded, null, function () {
+            global_layoutResizeRoot();
+        }, true);
+
+        $mobileUtil.Configuration.Popup.DefaultPopupComponentType = enCPopupComponentType.Inline;
+        $mobileUtil.Configuration.Dialog.DefaultDialogComponentType = enCDialogComponentType.Inline;
+        $mobileUtil.Configuration.Notification.Init();
+
+        $mobileUtil.Configuration.BlockUI.SetTransparentMode({ "IsIndicatorMode": true });
+        $mobileUtil.Configuration.Page.ToggleTransition = true;
+
+        global_layoutResizeRoot($("[data-attr-page-resize=" + enCETriState.Yes + "]"));
+    });
+
+    function global_layoutResizeRoot(page) {
+        if (!$mobileUtil.IsActiveDialogPage()) {
+            if (util_isNullOrUndefined(page)) {
+                page = $mobileUtil.ActivePage();
+            }
+            else {
+                page = $(page);
+            }
+
+            var _hasContentPadding = true;
+
+            if (module_isCurrentView(enCEModule.GlobalOnlineModel, "Model")) {
+                var _modelSettings = module_getSetting(enCEModule.GlobalOnlineModel);
+
+                _hasContentPadding = (util_forceBool(_modelSettings["DisableLayoutContentStyles"], false) == false);
+            }
+
+            if (!LAYOUT_CONFIGURATION_FULL.IsFixedViewMode) {
+                var _width = Math.max($(window).width(), 1024);
+
+                page.css("min-width", _width + "px");
+                $("body").css("min-width", _width + "px");
+            
+                //set the padding bottom for the content (to offset the footer)
+                $mobileUtil.Content(page).css("padding-bottom", (_hasContentPadding ? _height + "px" : "inherit"));
+            }
+            else {
+                var _minHeight = $(window).height() - util_forceFloat(LAYOUT_CONFIGURATION_FULL.FixedHeaderHeight) - util_forceFloat(LAYOUT_CONFIGURATION_FULL.FixedFooterHeight);
+                var $content = $mobileUtil.Content(page);
+                
+                $content.css("min-height", _minHeight + "px");
+
+                if (LAYOUT_CONFIGURATION_FULL.ContentPaddingOffset) {
+                    $content.css("padding-bottom", (_hasContentPadding ? LAYOUT_CONFIGURATION_FULL.ContentPaddingOffset + "px" : "inherit"));
+                }
+            }
+
+            var _footer = $mobileUtil.Footer();
+            var _height = _footer.height();
+
+            if (_height == 0 && _footer.children(":first").length != 0) {
+
+                //IE HACK where a resursive call to the layout resize function is required to properly configure content padding based on the valid footer height
+                setTimeout(function () {
+                    global_layoutResizeRoot(page);
+                }, 1000);
+            }
+        }
+    }
+</script>

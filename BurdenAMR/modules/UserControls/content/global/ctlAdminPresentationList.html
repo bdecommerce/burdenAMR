@@ -1,0 +1,484 @@
+﻿<script type="text/javascript" language="javascript">
+    var m_editPresVersionSectionHTML = null;
+    var m_extPresentationVersionList = [];
+
+    var m_defaultOptions = {
+        "List": {},
+        "AddProperty": function (prop, displayName, isSelected) {
+            m_defaultOptions.List[prop] = { "Text": displayName, "Selected": util_forceBool(isSelected, false) };
+        }
+    };
+
+    function BindPage() {
+
+        m_defaultOptions.AddProperty(enColCHtmlValidationOptionsProperty.IsValidateStructure, "Validate Structure", true);
+        m_defaultOptions.AddProperty(enColCHtmlValidationOptionsProperty.IsValidateAnchorLinks, "Validate Anchor Links", true);
+        m_defaultOptions.AddProperty(enColCHtmlValidationOptionsProperty.UseSimpleRegex, "Use Simple Regex", false);
+
+        bindEventHandlers();
+    }
+
+    function bindEventHandlers() {
+
+        var _divResultValidation = $mobileUtil.GetElementByID("divResultValidation");
+
+        js_bindClick($mobileUtil.GetElementByID("clValidateHTML"), function () {
+            showValidateSubsectionsPopup();
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clFileListing"), function () {
+            fileListingSummary();
+        });
+
+        _divResultValidation.off("click.close_button");
+        _divResultValidation.on("click.close_button", ".AdminExtSubsectionValidationButton", function () {
+            _divResultValidation.fadeOut();
+        });
+
+    }
+
+    function EditPresVersionSectionHTML() {
+
+        if (m_editPresVersionSectionHTML == null) {
+            var m_editFormatURL = util_constructModuleURL(enCEModule.GlobalContent, enCEModuleViewType.List, "AdminPresVersionSectionEdit");
+
+            m_editFormatURL = util_appendFragmentQS(m_editFormatURL, "EditID", "%%VERSION_ID%%");
+            m_editFormatURL = util_constructPopupURL(m_editFormatURL);
+
+            m_editPresVersionSectionHTML = $mobileUtil.HtmlDialogLink("%%NAME%%", m_editFormatURL, "Edit Presentation Version", enCDialogMode.Wide);
+        }
+
+        return m_editPresVersionSectionHTML;
+    }
+
+    function getItemField(tokenKey, item) {
+        var _ret = "";
+        var _isEncode = true;
+
+        switch (tokenKey) {
+
+            case "%%TEMPLATE_CELL_CONTENT_0%%":
+                _ret = item[enColExternalPresentationProperty.Name];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_1%%":
+                var _arr = util_arrFilter(m_extPresentationVersionList, enColExternalPresentationVersionProperty.PresentationID,
+                                          item[enColExternalPresentationProperty.PresentationID]);
+
+                if (_arr.length > 0) {
+                    for (var i = 0; i < _arr.length; i++) {
+                        var _presVersion = _arr[i];
+                        var _versionID = _presVersion[enColExternalPresentationVersionProperty.VersionID];
+                        var _tokens = null;
+
+                        _ret += "<div>" +
+                                "   <span class='AdminExtPresentationVersionEditID'>[ID: " + _versionID + "]</span>" +
+                                "   <span class='AdminExtPresentationVersionName'>" + util_htmlEncode(_presVersion[enColExternalPresentationVersionProperty.Name]) + "</span>" + 
+                                util_htmlEncode(" | Order: " + _presVersion[enColExternalPresentationVersionProperty.DisplayOrder]) + " | ";
+
+                        //presentation version edit sections button
+                        _tokens = { "%%NAME%%": util_htmlEncode("EDIT"), "%%VERSION_ID%%": _versionID };
+                        _ret += util_replaceTokens(EditPresVersionSectionHTML(), _tokens);
+
+                        _ret += "</div>";
+                    }
+
+                    _isEncode = false;
+                }
+
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_2%%":
+                _ret = item[enColExternalPresentationProperty.NumVersions];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_3%%":
+                _ret = item[enColExternalPresentationProperty.LastVersionID];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_4%%":
+                _ret = (item[enColExternalPresentationProperty.IsActive] ? "Yes" : "No");
+                break;
+
+        }
+
+        _ret = (_isEncode ? util_htmlEncode(_ret) : _ret);
+
+        return _ret;
+    }
+
+    function getExtPresentationList(element, sortSetting, callback) {
+        var _callback = function (data) {
+            if (callback) {
+                callback(data);
+            }
+        };
+
+        getExtPresentationVersions(function () {
+            var _params = {};
+
+            _params["SortColumn"] = sortSetting.SortColumn;
+            _params["SortASC"] = sortSetting.SortASC;
+            _params["PageSize"] = PAGE_SIZE;
+            _params["PageNum"] = util_forceValidPageNum(sortSetting.PageNo, 1);
+
+            global_extPresentationList(_params, _callback);
+        });
+    }
+
+    function getExtPresentationVersions(callback) {
+
+        global_extPresentationVersionList(null, function (data) {
+            m_extPresentationVersionList = data.List;
+
+            if (util_isNullOrUndefined(m_extPresentationVersionList)) {
+                m_extPresentationVersionList = [];
+            }
+
+            if (callback) {
+                callback();
+            }
+        });
+    }
+
+    function showValidateSubsectionsPopup() {
+        var _options = {};
+        var _html = "";
+
+        _html += "<div class='ui-field-contain' style='margin: 1em;'>" +
+                 "  <fieldset data-role='controlgroup'>" +
+                 "      <legend>" + util_htmlEncode("Please specify the validation options:") + "</legend>";
+
+        var _arr = [];
+
+        _arr.push(enColCHtmlValidationOptionsProperty.IsValidateStructure);
+        _arr.push(enColCHtmlValidationOptionsProperty.IsValidateAnchorLinks);
+        _arr.push(enColCHtmlValidationOptionsProperty.UseSimpleRegex);
+
+        for (var _prop in m_defaultOptions.List) {
+            var _item = m_defaultOptions.List[_prop];
+            var _id = "cb_" + _prop;
+            var _checked = (_item["Selected"] == true ? " checked='checked'" : "");
+
+            _html += "<input type='checkbox' name='" + _id + "' id='" + _id + "'" + _checked + " data-attr-prop-cb='" + enCETriState.Yes + "' " + 
+                     util_htmlAttribute("data-attr-cb-prop-name", _prop) + ">" + 
+                     "<label for='" + _id + "'>" + util_htmlEncode(_item["Text"]) + "</label>";
+        }
+
+        _html += "  </fieldset>" +
+                 "</div>";
+
+        _html += "<div style='text-align: right;'>" +
+                 "  <a id='clValidate' data-role='button' data-mini='true' data-icon='check' data-iconpos='right' data-corners='false' data-inline='true'>" +
+                 util_htmlEncode("Validate") + 
+                 "  </a>" +
+                 "</div>";
+
+        //configure the popup options
+        _options["HeaderTitle"] = "Validate Subsection HTML - Options";
+        _options["IsPositionOnOpen"] = true;
+        _options["blankContent"] = _html;
+        _options["callbackOpen"] = function () {
+            $mobileUtil.GetElementByID("clValidate")
+                       .click(function () {
+                           var _list = $mobileUtil.Find("[data-attr-prop-cb]");
+
+                           $.each(_list, function (indx) {
+                               var _cb = $(this);
+                               var _prop = util_forceString(_cb.attr("data-attr-cb-prop-name"));
+                               var _isChecked = $mobileUtil.CheckboxIsChecked(this);
+                               var _item = m_defaultOptions.List[_prop];
+
+                               if (_item) {
+                                   _item["Selected"] = _isChecked;
+                               }
+                           });
+
+                           validateSubsectionsHTML(null, function () {
+                               $mobileUtil.PopupClose();
+                           });
+                       });
+        };
+
+        $mobileUtil.PopupOpen(_options);
+    }
+
+    function validateSubsectionsHTML(options, callback) {
+        var _callback = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        var _divResultValidation = $mobileUtil.GetElementByID("divResultValidation");
+
+        _divResultValidation.fadeOut();
+
+        if (util_isNullOrUndefined(options)) {
+            options = {};
+
+            for (var _prop in m_defaultOptions.List) {
+                var _item = m_defaultOptions.List[_prop];
+                options[_prop] = _item["Selected"];
+            }
+        }
+
+        GlobalService.ExternalSubsectionValidateHTML(options, ext_requestSuccess(function (data) {
+            var _list = data;
+
+            if (util_isNullOrUndefined(_list)) {
+                _list = [];
+            }
+
+            var _html = "";
+
+            if (_list.length > 0) {
+                _html += getResultHeaderHTML("Subsection Errors: " + _list.length);
+
+                var _filterIDs = "";
+
+                var _fnAppend = function (item, label, propName, isNewLine, suffixHTML) {
+                    isNewLine = (isNewLine != undefined ? isNewLine == true : false);
+
+                    _html += "<div>" +
+                             "  <span class='AdminExtSubsectionHtmlValidationFieldHeading'>" + util_htmlEncode(label) + ":</span>" + (isNewLine ? "<br />" : "&nbsp;") +
+                             util_htmlEncode(item[propName]) + (suffixHTML != null && suffixHTML != undefined ? suffixHTML : "") +
+                             "</div>";
+                };
+
+                var _arrFields = [{ "Text": "Error Code", "Prop": "Code" }, { "Text": "Line", "Prop": "Line" },
+                                  { "Text": "Line Position", "Prop": "LinePosition" }, { "Text": "Reason", "Prop": "Reason" },
+                                  { "Text": "Source Text", "Prop": "SourceText", "IsNewLine": true}];
+
+                for (var i = 0; i < _list.length; i++) {
+                    var _subsection = _list[i];
+                    var _subsectionID = _subsection[enColExternalSubsectionProperty.SubsectionID];
+                    var _displayName = global_extSubsectionDisplayName(_subsection);
+
+                    _html += "<div class='AdminExtSubsectionValidationItem'>";
+
+                    _html += "<div style='margin-bottom: 0.25em;'>" +
+                             "  <div class='InlineBlock AdminExtSubsectionValidationBadge'>" + _subsectionID + "</div>" +
+                             "  <div class='InlineBlock AdminExtSubsectionValidationName'>" +
+                             util_htmlEncode(_displayName) +
+                             "  </div>" +
+                             "</div>";
+
+                    var _validationResult = _subsection[enColExternalSubsectionExtProperty.ValidationResult];
+
+                    if (!util_isNullOrUndefined(_validationResult)) {
+                        var _errors = _validationResult["Errors"];
+                        _html += "<div class='AdminExtSubsectionHtmlValidationResultContainer'>";   //open tag #1
+
+                        _html += "<div class='AdminExtSubsectionHtmlValidationContent'>";   //open tag #2
+
+                        //HTML error summary
+                        _html += "<div class='AdminExtSubsectionHtmlValidationSummary'>" +
+                                 util_htmlEncode("HTML Errors: ") + "<span style='color: #333333;'>" + _errors.length + "</span>" +
+                                 "</div>";
+
+                        for (var e = 0; e < _errors.length; e++) {
+                            var _errorItem = _errors[e];
+                            var _msg = _errorItem["ErrorMessage"];
+                            var _hasErrorMessage = (!util_isNullOrUndefined(_msg));
+
+                            _html += "<div class='AdminExtSubsectionHtmlValidationErrorContainer'>";
+
+                            if (_hasErrorMessage) {
+                                _fnAppend(_item, "Message", "ErrorMessage");
+                            }
+                            else {
+                                for (var f = 0; f < _arrFields.length; f++) {
+                                    var _field = _arrFields[f];
+
+                                    _fnAppend(_errorItem, _field["Text"], _field["Prop"], _field["IsNewLine"], _field["SuffixHTML"]);
+                                }
+                            }
+
+                            _html += "</div>";
+                        }
+
+                        _html += "</div>";  //close tag #2
+
+                        _html += "</div>";  //close tag #1
+                    }
+
+                    _html += "</div><br />";
+
+                    _filterIDs += (_filterIDs != "" ? ", " : "") + _subsectionID;
+                }
+
+                _html += util_htmlEncode("SQL Filter Condition: (" + _filterIDs + ")");
+            }
+
+            _divResultValidation.html(_html);
+            $mobileUtil.refresh(_divResultValidation);
+
+            if (_list.length == 0) {
+                util_alert("Validation successfully completed; no subsections found with malformed HTML content.", "Validation");
+            }
+            else {
+                _divResultValidation.fadeIn();
+            }
+
+            _callback();
+        }));
+    }
+
+    function fileListingSummary(callback, search) {
+
+        var _callback = function () {
+
+            if (callback) {
+                callback();
+            }
+
+        };
+
+        search = util_forceString(search);
+
+        GlobalService.ExternalSubsectionFileListing(false, search, ext_requestSuccess(function (data) {
+
+            var _html = util_forceString(data);
+            var _container = $mobileUtil.GetElementByID("divResultValidation");
+
+            _html = getResultHeaderHTML("File Listing") +
+                    "<div style='margin-bottom: 1em;'>" +
+                    "   <input id='tbFileSearch' type='text' data-mini='true' data-corners='false' placeholder='Search files...' />" +
+                    "</div>" +
+                    _html;
+
+            _container.html(_html);
+            _container.find(".AdminExtSubsectionFileListingHeader").css("cursor", "pointer");
+
+            $mobileUtil.refresh(_container);
+
+            _container.off("click.thumbnail_preview");
+            _container.on("click.thumbnail_preview", ".AdminExtSubsectionFileListingHeader", function () {
+                var _element = $(this);
+                var _previewContainer = _element.next();
+
+                _previewContainer = _previewContainer.children(".CSectionThumbnailPreview");
+
+                if (!_previewContainer.hasClass("CSectionThumbnailPreview")) {
+                    _previewContainer = $("<div class='CSectionThumbnailPreview' />");
+
+                    _element.next().prepend(_previewContainer);
+                }
+
+                var _detail = _previewContainer.next();
+
+                if (_detail.is("ul")) {
+                    var _html = "";
+
+                    var _selector = "";
+                    var _arr = ["png", "jpg", "jpeg", "bmp", "gif"];
+
+                    for (var i = 0; i < _arr.length; i++) {
+                        if (i != 0) {
+                            _selector += ", ";
+                        }
+
+                        _selector += "a[data-rel='external'][href$='" + _arr[i] + "']";
+                    }
+
+                    var _links = _detail.find(_selector);
+
+                    _html += "<div class='InlineBlock' style='margin: 1em; border: 0.1em solid #CCCCCC; background-color: #FFFFFF; padding: 0.25em;'>";
+                    _html += "  <div style='font-size: 1.2em; font-weight: bold;'>" + util_htmlEncode("Images found: " + _links.length) + "</div>";
+                    _html += "</div>";
+
+                    _previewContainer.html(_html);
+                    $mobileUtil.refresh(_previewContainer);
+
+                    $.each(_links, function (indx) {
+                        var _link = $(this);
+                        var _parent = _link.closest("li");
+
+                        var _href = _link.attr("href");
+                        var _search = "/external/";
+                        var _index = _href.indexOf("/external/");
+
+                        var _preview = _parent.find("[data-attr-preview]");
+
+                        if (_preview.length == 0) {
+                            _preview = $("<div data-attr-preview='1' />");
+                            _parent.append(_preview);
+                        }
+
+                        var _html = "<div class='InlineBlock' style='border: 0.1em solid #CCCCCC; margin-top: 0.25em; margin-bottom: 0.5em;'>" +
+                                    "  <div style='background-color: #333333; color: #FFFFFF; padding: 0.2em;'>" + util_htmlEncode(_href.substr(_index + _search.length)) + "</div>" +
+                                    "   <a data-role='none' rel='external' " + util_htmlAttribute("href", _href) + ">" +
+                                    "       <img alt='image' " + util_htmlAttribute("src", _href) + " />" +
+                                    "   </a>" +
+                                    "</div>";
+
+                        _preview.html(_html);
+                    });
+                }
+            });
+
+            if (!_container.is(":visible")) {
+                _container.fadeIn();
+            }
+
+            util_configureKeyPress(_container.find("#tbFileSearch"), KEY_CODES.ENTER, function (obj) {
+                var $tb = $(obj);
+                var _criteria = $tb.val();
+
+                $tb.prop("disabled", true);
+
+                fileListingSummary(function () {
+                    $mobileUtil.GetElementByID("tbFileSearch").val(_criteria);
+                }, _criteria);
+            });
+
+            _callback();
+
+        }));
+    }
+
+    function getResultHeaderHTML(title) {
+        var _ret = "";
+
+        _ret += "<div class='AdminExtSubsectionValidationHeader'>" +
+                "   <div class='AdminExtSubsectionValidationSummary'>" + util_htmlEncode(title) + "</div>" +
+                "   <div class='AdminExtSubsectionValidationTools'>" +
+                "       <a class='AdminExtSubsectionValidationButton' data-role='button' data-inline='true' data-mini='true' data-icon='delete' data-iconpos='notext' />" +
+                "   </div>" +
+                "</div>";
+
+        return _ret;
+    }
+
+</script>
+
+<div data-attr-render="script">
+    BindPage();
+</div>
+
+<a id="clValidateHTML" data-role="button" data-mini="true" data-inline="true" data-icon="gear">Validate Subsection HTML</a>
+<a id="clFileListing" data-role="button" data-mini="true" data-inline="true" data-icon="gear">File Listing</a>
+
+<div id="divResultValidation" class="AdminExtSubsectionValidationContainer" style="display: none;"></div>
+
+<div %%DATA_ATTRIBUTE_RENDER%%="data_admin_list" class="TableExtPresentationAdminList" style="margin-top: 1em;">
+    <div data-attr-data-template="setting" data-attr-toggle-add-new-link="0">
+        <div data-attr-data-template-id="tblExtPresentationList" data-attr-data-template-renderer="repeater">
+            <div data-attr-repeater-ext="fn" data-attr-field-fn="getItemField" data-attr-data-fn="getExtPresentationList" />
+            <div data-attr-repeater-ext="config"  allow-delete="false" />
+            <div data-cattr-type="setting" sort-enum="enColExternalPresentation" default-sort="enColExternalPresentation.Name"
+                is-footer-default-paging="1" />
+            <div data-cattr-type="header">
+                <div data-cattr-type="item" sort-column="enColExternalPresentation.Name" priority="critical">Name</div>
+                <div data-cattr-type="item" no-link="1">Version(s)</div>
+                <div data-cattr-type="item" sort-column="enColExternalPresentation.NumVersions">No. Versions</div>
+                <div data-cattr-type="item" sort-column="enColExternalPresentation.LastVersionID">Last Version ID</div>
+                <div data-cattr-type="item" sort-column="enColExternalPresentation.IsActive">Is Active?</div>
+            </div>
+        </div>
+    </div>
+
+    <div data-attr-data-template="content"></div>
+</div>
+

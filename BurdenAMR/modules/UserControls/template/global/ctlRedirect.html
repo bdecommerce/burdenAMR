@@ -1,0 +1,35 @@
+﻿<script type="text/javascript">
+    var m_temp = function () {
+        var _controller = {
+            "Bind": function (options) {
+                MODULE_MANAGER.Redirect.Enabled = true;
+                MODULE_MANAGER.Redirect.Name = util_forceString(util_queryString("QSR"));
+                MODULE_MANAGER.Redirect.View = null;
+
+                GlobalService.RedirectModuleParam(null, function (param) {
+                    MODULE_MANAGER.Redirect.View = param;
+
+                    if (param && param[enColCModuleRedirectParamProperty.RequiresLogin]) {
+                        GoToLogin();
+                    }
+                    else {
+                        GoToHome();
+                    }
+                });
+            }
+        };
+
+        return _controller;
+    }();
+
+    function BindPage() {
+        m_temp.Bind();
+    }
+
+</script>
+
+<div data-attr-render="script">
+    BindPage();
+</div>
+
+Redirecting...

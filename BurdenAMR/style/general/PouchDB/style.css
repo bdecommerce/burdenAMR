@@ -1,0 +1,395 @@
+﻿.COfflineCardView
+{
+    vertical-align: top;
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+    border-radius: 0.25em;
+    background: #FFFFFF;
+    margin-right: 1%;
+}
+
+.COfflineFixedPosition
+{
+    position: fixed;
+    z-index: 999998;
+}
+
+.COfflineScreen .NotificationContainer
+{
+    z-index: 999999;
+}
+
+.COfflineProgress
+{
+    width: 100%;
+    height: 100%;
+}
+
+.COfflineProgress > .Label 
+{
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.COfflineNotification
+{
+    background-color: #FFFFFF;
+    bottom: 0.5em;
+    right: 0.5em;
+    border-radius: 0.25em;
+    border-top-right-radius: 0em;
+    border-bottom-right-radius: 0em;
+    border: 1px solid #CCCCCC;
+    padding: 0.5em;
+    display: inline-block;
+}
+
+.COfflineNotification > .Icon
+{
+    width: 1em;
+    height: 1em;
+    border: 1px solid #CCCCCC;
+    border-radius: 0.5em;
+    background-color: #808080;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.COfflineNotification.StateOn > .Icon
+{
+    background-color: #009688;
+}
+
+.COfflineNotification.StateOff > .Icon
+{
+    background-color: #D32F2F;
+}
+
+.COfflineNotification > .Label
+{
+    color: #999999;
+    font-weight: bold;
+    margin-left: 0.25em;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.COfflinePopup .NoRecordsLabel
+{
+    font-size: 0.95em;
+    color: #999999;
+}
+
+.COfflinePopup > .EffectBlur
+{
+    background-color: rgba(0,0,0,0.35);
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.COfflinePopup > .PopupContent
+{
+    position: absolute;
+    top: 5%;
+    left: 0%;
+    margin-left: 5%;
+    padding: 1em;
+    width: calc(90% - 2em);
+    background-color: #FFFFFF;
+    text-shadow: none;
+    color: #333333;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail > .Title,
+.COfflinePopup > .PopupContent > .LoginDetailView > .Title
+{
+    color: #000000;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.25em;
+    margin-bottom: 0.5em;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView.Disabled
+{
+    position: relative;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .DisabledOverlay
+{
+    display: none;    
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView.Disabled > .DisabledOverlay
+{
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255, 0.65);
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .Divider
+{
+    border-bottom: 1px solid #999999;
+    margin-bottom: 0.25em;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .Instructions
+{
+    color: #999999;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .TabItem
+{
+    display: inline-block;  
+    padding: 0.5em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    min-width: 5em;
+    vertical-align: top;
+    border-radius: 0.25em;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    border: 1px solid #CCCCCC;
+    background-color: #455a64;
+    color: #FFFFFF;
+    border-bottom-style: none;
+    margin-right: 1px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .TabItem > .Label > .LabelCount
+{
+    font-size: 0.85em;
+    color: #EEEEEE;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .TabItem:not(.Disabled):not(.Selected):hover,
+.COfflinePopup .TabContent > .DetailView > .DetailItem:hover
+{
+    opacity: 0.65;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .TabItem.Disabled
+{
+    background-color: #666666;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .TabItem.Disabled,
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .TabItem.Selected
+{
+    cursor: default;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .TabItem.Selected
+{
+    background-color: #009688;
+}
+
+.COfflinePopup > .PopupContent > .PopupDetail .TabView > .TabContent
+{
+    padding-top: 0.5em;
+}
+
+.COfflinePopup .TabContent > .DetailView > .Title
+{
+    color: #999999;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-bottom: 0.25em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid #CCCCCC;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem
+{
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+    margin-right: 2%;
+    margin-bottom: 0.75em;
+    padding-top: 0em;
+    font-size: 0.95em;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Header > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    border: 1px solid #CCCCCC;
+    padding: 0.5em;
+    padding-top: 0.35em;
+    padding-bottom: 0.35em;
+    border-top-style: none;
+    border-radius: 0.5em;
+    border-top-left-radius: 0em;
+    border-top-right-radius: 0em;
+    color: #999999;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Header > .StateOn,
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Header > .StateOff
+{
+    display: none;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Header > .StateOn .ui-icon
+{
+    background-color: #009688;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Header > .StateOff .ui-icon
+{
+    background-color: #D32F2F;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem.Selected > .Header > .StateOn
+{
+    display: inline-block;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem:not(.Selected) > .Header > .StateOff
+{
+    display: inline-block;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Header
+{
+    text-align: right;
+    margin-bottom: 0.5em;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Header > .ui-btn
+{
+    margin: 0em;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Title
+{
+    color: #000000;    
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Title > .Heading
+{
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Title > .SubTitle
+{
+    margin-top: 0.25em;
+    color: #666666;
+    font-size: 0.9em;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Title > .Divider
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+    border-top: 1px solid #F0F0F0;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Title > .TableSummary td
+{
+    padding-top: 0.25em;
+}
+
+.COfflinePopup .TabContent > .DetailView > .DetailItem > .Title > .TableSummary td.Heading
+{
+    padding-right: 0.25em;
+}
+
+.COfflinePopup .Footer
+{
+    text-align: right;
+    padding-top: 0.5em;
+}
+
+.COfflinePopup .Footer > .ui-btn
+{
+    margin: 0em;
+    background: #4DB6AC;
+    border-radius: 0.25em;
+}
+
+.COfflinePopup .Footer > .ui-btn:hover
+{
+    background: #26A69A;
+}
+
+.COfflinePopup .Footer > .ui-btn > .ui-btn-inner > .ui-btn-text
+{
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+
+.COfflinePopup .Footer > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1em;
+    font-size: 0.9em;
+    color: #666666;
+}
+
+.COfflinePopup.InlineLoginPrompt > .PopupContent > .PopupDetail
+{
+    display: none;
+}
+
+.COfflinePopup:not(.InlineLoginPrompt) > .PopupContent > .LoginDetailView
+{
+    display: none;
+}
+
+.COfflinePopup > .PopupContent > .LoginDetailView > .Label,
+.COfflinePopup > .PopupContent > .LoginDetailView > .Content
+{
+    display: inline-block;
+    margin-bottom: 1em;
+}
+
+.COfflinePopup > .PopupContent > .LoginDetailView > .Label
+{
+    width: 8.5em;
+    padding-right: 0.5em;
+    text-align: right;
+    font-weight: bold;
+}
+
+.COfflinePopup > .PopupContent > .LoginDetailView > .Content
+{
+    width: calc(45% - 8em);
+}
+
+.COfflinePopup > .PopupContent > .LoginDetailView > .Content > .ui-input-text
+{
+    border-radius: 2px;
+}
+
+.COfflinePopup > .PopupContent > .LoginDetailView > .Footer
+{
+    margin-top: 0em;
+    padding-top: 0em;
+    margin-bottom: 0.5em;
+    text-align: left;
+    padding-left: 9.25em;
+}
+
+.COfflinePopup > .PopupContent > .LoginDetailView > .Footer > .ui-btn
+{
+    margin-left: 0em;
+    margin-right: 1em;
+    width: 6em;
+}

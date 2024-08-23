@@ -1,0 +1,8213 @@
+﻿.PluginEditorCardView,
+.EditorElementText
+{
+    vertical-align: top;
+    padding: 0.5em;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+    border-radius: 0.25em;
+    background: #FFFFFF;
+}
+
+.PluginEditorCardView:not(.EditorElementText)
+{
+    margin-right: 1%;
+    margin-bottom: 0.5em;
+}
+
+.PluginEditorCardView.StateDisabled
+{
+    box-shadow: 0px 1px 2px 0px #F0F0F0;
+    border-color: rgba(0,0,0,0.05);
+}
+
+.PluginEditorCardView.CardModeInline
+{
+    padding: 0em;
+    margin: 0em;
+}
+
+.Listbox
+{
+    width: 100%;
+    min-height: 4em;
+    overflow-y: auto;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
+    border: 1px solid #AAAAAA;
+    border-radius: 2px;
+}
+
+.ListBoxPopup
+{
+}
+
+.ListBoxPopup > .ui-btn
+{
+    margin-top: 0em;
+    margin-left: 0em;
+}
+
+.ListBoxPopup > .ListBoxSelections > .ItemSelection
+{
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    border-top: 1px solid #F0F0F0;
+}
+
+.ListBoxPopupSummary > .ItemSelection:not(:last-of-type)
+{
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    margin-bottom: 1px;
+}
+
+.ListBoxPopup > .ListBoxSelections > .ItemSelection > .Label,
+.ListBoxPopupSummary > .ItemSelection > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    word-break: break-word;
+    width: calc(100% - 0.5em - 24px);
+    padding-top: 2px;
+}
+
+.ListBoxPopupSummary > .ItemSelection > .Label
+{
+    padding-top: 0px;
+}
+
+.ListBoxPopup > .ListBoxSelections > .ItemSelection > .ui-btn,
+.ListBoxPopupSummary > .ItemSelection > .ui-btn
+{
+    margin: 0em;
+}
+
+.ListBoxPopupSummary > .ItemSelection > .ui-btn
+{
+    cursor: default;
+}
+
+.EditorFixedView
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.CEditorListBoxControl:not(.StateReadOnlyOn):not(.StateIsPopupMode)
+{
+    border: 1px solid #E0E0E0;
+    border-radius: 2px;
+}
+
+.CEditorListBoxControl > .EntityLineItem
+{
+    padding: 6px;
+}
+
+.CEditorListBoxControl > .EntityLineItem.LinkNotAllowed
+{
+    cursor: not-allowed;
+}
+
+.CEditorListBoxControl > .EntityLineItem:not(.LinkDisabled):not(.LinkNotAllowed)
+{
+    cursor: pointer;
+}
+
+.CEditorListBoxControl > .EntityLineItem:nth-child(even)
+{
+    background-color: rgba(0,0,0,0.01);
+}
+
+.CEditorListBoxControl > .EntityLineItem:not(:last-of-type)
+{
+    border-bottom: 1px solid #F5F5F5;
+}
+
+.CEditorListBoxControl > .EntityLineItem.OptionUnspecifiedLineItem
+{
+    border-top: 2px solid #CFD8DC;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.CEditorListBoxControl > .EntityLineItem > .ImageToggleSelection
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.CEditorListBoxControl > .EntityLineItem.LinkDisabled > .ImageToggleSelection > .ImageIcon,
+.CEditorListBoxControl > .EntityLineItem.LinkDisabled > .EditorImageButton.ImageToggleSelection:not(.StateOn):hover > .ImageIcon
+{
+    background-image: none;
+}
+
+.CEditorListBoxControl > .EntityLineItem > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    word-break: break-word;
+    width: calc(100% - 12px - 2px - 24px);
+    padding-top: 1px;
+}
+
+.CEditorListBoxControl > .EntityLineItem.LinkNotAllowed > .Label
+{
+    color: #90A4AE;
+}
+
+.CEditorListBoxControl > .EntityLineItem > .ViewUnauthorizedAccess
+{
+    padding-left: 20px;
+    color: #9E9E9E;
+}
+
+.CEditorListBoxControl > .EntityLineItem > .ViewUnauthorizedAccess > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 12px - 20px - 2px);
+    padding-top: 4px;
+    margin-left: 2px;
+}
+
+.CEditorListBoxControl > .EntityLineItem > .ViewUnauthorizedAccess > .Label > span
+{
+    font-size: 0.85em;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Header
+{
+    border-bottom: 2px solid #F0F0F0;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.25em;
+    position: relative;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Header > .ui-btn
+{
+    margin: 0em;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Header > .ui-btn:last-of-type
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.PropertyView.EditModeOn > .ViewInput > .CEditorListBoxControl.StateIsPopupMode > .Content
+{
+    margin-top: 0.25em;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem
+{
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem:not(:last-of-type)
+{
+    border-bottom: 1px solid #F0F0F0;
+    padding-bottom: 2px;
+    margin-bottom: 0.5em;
+}
+
+.PropertyView.EditModeOn > .ViewInput > .CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem
+{
+    position: relative;
+    min-height: 30px;
+}
+
+.PropertyView.EditModeOn > .ViewInput > .CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem.HighlightOn
+{
+    border-color: #666666;
+    border-width: 2px;
+}
+
+.CEditorListBoxControl.StateIsPopupMode.StateLayoutMinimal > .Content > .EntityLineItem
+{
+    display: inline-block;
+    margin-right: 1em;
+    padding-right: 6px;
+}
+
+.PropertyView.EditModeOn > .ViewInput > .CEditorListBoxControl.StateIsPopupMode:not(.StateLayoutMinimal) > .Content > .EntityLineItem > .ViewDetailField
+{
+    width: calc(100% - 24px - 8px);
+}
+
+.PropertyView.EditModeOn > .ViewInput > .CEditorListBoxControl.StateIsPopupMode.StateLayoutMinimal > .Content > .EntityLineItem > .ViewDetailField
+{
+    padding-right: calc(24px + 4px + 0.5em);
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .Header
+{
+    position: absolute;
+    right: 4px;
+    top: 4px;
+}
+
+.CEditorListBoxControl.StateIsPopupMode.StateLayoutMinimal > .Content > .EntityLineItem > .Header
+{
+    top: 6px;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .Header > .ui-btn
+{
+    margin: 0em;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .ViewDetailField.StateOptionalField
+{
+    border-top: 1px solid #FAFAFA;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .ViewDetailField > .Icon,
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .ViewDetailField > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .ViewDetailField > .Icon
+{
+    color: #666666;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .ViewDetailField > .Label
+{
+    padding-top: 4px;
+}
+
+.CEditorListBoxControl.StateIsPopupMode:not(.StateLayoutMinimal) > .Content > .EntityLineItem > .ViewDetailField > .Label
+{
+    width: calc(100% - 28px - 0.5em - 0.25em);
+}
+
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .ViewDetailField > .Label > div > .Label.Heading
+{
+    color: #666666;
+    text-shadow: 1px 0px 0px #CCCCCC;
+    padding-right: 4px;
+}
+
+.PropertyView.EditModeOn > .ViewInput > .CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .ViewDetailField > .Label > div
+{
+    font-size: 0.9em;
+}
+
+.CEditorListBoxControl.StateIsPopupMode .EditorViewNoRecords
+{
+    padding-top: 0em;
+    padding-bottom: 0em;
+}
+
+.PropertyView:not(.EditModeOn) .CEditorListBoxControl.StateIsPopupMode .EditorViewNoRecords,
+.PropertyView:not(.EditModeOn) .CEditorListBoxControl.StateIsPopupMode .EditorNoRecordsLabel
+{
+    padding: 0em;
+}
+
+.PropertyView:not(.EditModeOn) .CEditorListBoxControl.StateIsPopupMode .EditorNoRecordsLabel
+{
+    font-size: unset;
+}
+
+.EditorStateCustomView > :not(.EditorActiveView)
+{
+    display: none;
+}
+
+.EditorFixedView > .Content > .EditorFixedViewContent
+{
+    position: absolute;
+    padding: 1em;
+    padding-right: 0em;
+    margin: 0em;
+}
+
+.EditorFixedView > .Content > .EditorFixedViewContent:not(.EditorFixedViewPopup)
+{
+    z-index: 1;
+}
+
+.EditorFixedView > .Content > .EditorFixedViewContent.NoPadding
+{
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+.EditorFixedView > .Content > .EditorFixedViewContent.EditorFixedViewTransitionFullScreen
+{
+    z-index: 2;
+}
+
+.EditorFixedViewContent > .Title,
+.EditorCardViewKOL.LayoutTypeRow > .RC > .Title,
+.EditorCardViewKOL .Filter > .Title
+{
+    margin-top: 0.25em;
+    font-weight: bold;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+.EditorFixedViewContent > .Title > .LabelCount,
+.EditorCardViewKOL.LayoutTypeRow > .RC > .Title > .LabelCount
+{
+    padding-left: 0.25em;
+}
+
+.EditorFixedViewContent.EditorFixedViewPopup > .Title > .EditorImageButton > .ImageIcon
+{
+    width: 42px;
+    height: 42px;
+    border-radius: 21px;
+}
+
+.EditorFixedViewContent.EditorFixedViewPopup:not(.EmbeddedViewMode) > .Heading
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding-left: 1em;
+    border: 2px solid #F0F0F0;
+    padding-right: 1em;
+    border-top-style: none;
+    border-radius: 0.5em;
+    border-top-left-radius: 0em;
+    border-top-right-radius: 0em;
+    margin-left: 1em;
+    color: #CCCCCC;
+    background-color: #FFFFFF;
+}
+
+.EditorFixedViewContent.EditorFixedViewPopup.EmbeddedViewMode > .Heading
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    text-align: right;
+}
+
+.EditorFixedViewContent.EditorFixedViewPopup.EmbeddedViewMode > .Heading > .ui-btn
+{
+    margin-right: 0em;
+}
+
+.EditorFixedViewContent.EditorFixedViewPopup > .Heading > .Label
+{
+    font-size: 0.75em;
+    text-transform: uppercase;
+}
+
+.EditorFixedViewContent.EditorFixedViewPopup > .Title
+{
+    margin-top: 0.5em;
+    text-transform: none;
+    margin-bottom: 1em;
+    width: calc(100% - 24px - 42px - 4em);
+}
+
+.EditorFixedViewContent.EditorFixedViewPopup > .Title > .Label,
+.EditorNotificationTooltipView > .Title > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    font-size: 1.2em;
+}
+
+.EditorFixedViewContent.EditorFixedViewPopup > .Title.ImageStateOn > .Label
+{
+    padding-top: 12px;
+}
+
+.EditorCardViewKOL .Filter > .Title
+{
+    margin-top: 1em;
+    margin-bottom: 0.25em;
+}
+
+.EditorCardViewKOL .Filter:first-child > .Title
+{
+    margin-top: 0em;
+}
+
+.EditorFixedViewContent > .ScrollableContent.ScrollbarPrimary
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 1em;
+    width: calc(100% - 2em);
+    height: calc(100% - 2em - 2px);
+    overflow: auto;
+}
+
+.EditorFixedViewContent > .ScrollableContent.ScrollbarPrimary.FooterStateOn
+{
+    height: calc(100% - 2em - 2em - 1.5em - 2px);
+}
+
+.ScrollbarPrimary,
+.EditorFixedViewContent > .ScrollableContent.ScrollbarPrimary:focus,
+.EditorFixedView > .Content > .EditorFixedViewContent.ScrollbarPrimary:focus
+{
+    outline: none;
+}
+
+.EditorFixedViewContent > .Footer
+{
+    background-color: #F4F4F4;
+    border-top: 2px solid #666666;
+    position: absolute;
+    left: 0em;
+    bottom: 0em;
+    padding: 1em;
+    width: calc(100% - 2em);
+    text-align: center;
+}
+
+.EditorFixedViewContent > .Footer > .SearchableView.NoEnhance
+{
+    text-align: left;
+}
+
+.EditorFixedViewContent > .Footer > .SearchableView.NoEnhance.PaddingScrolled
+{
+    width: calc(100% - 0.5em);
+}
+
+.EditorFixedViewContent > .Footer > .SearchableView > input[type='text'][data-role='none'],
+.EditorSearchableView > input[type='text'][data-role='none'],
+.EditorElementText > input[type='text'][data-role='none']
+{
+    border-style: none;
+    background: none;
+    background-color: transparent;
+    border-bottom: 1px solid #666666;
+}
+
+.EditorFixedViewContent > .Footer > .SearchableView > input[type='text'][data-role='none'],
+.EditorSearchableView > input[type='text'][data-role='none']
+{
+    height: 1.5em;
+}
+
+.EditorFixedViewContent > .Footer > .SearchableView:not(.SearchModeOn) > input[type='text'][data-role='none']
+{
+    width: 100%;
+}
+
+.EditorFixedViewContent > .Footer > .SearchableView.NoEnhance.SearchModeOn > input[type=text]
+{
+    width: calc(100% - 30px);
+}
+
+.EditorSearchableView > input[type='text'][data-role='none'],
+.EditorElementText > input[type='text'][data-role='none']
+{
+    border-style: none;
+    width: 100%;
+}
+
+.SearchableView.EditorSearchableView.SearchModeOn > input[type='text'][data-role='none']
+{
+    width: calc(100% - 0.5em - 24px);
+}
+
+.SearchableView.EditorSearchableView > .SearchClearButton
+{
+    margin: 0em;
+}
+
+.EditorSearchableView
+{
+    margin-bottom: 0.5em;
+}
+
+.EditorSearchableView.EditorHeaderActionEnabled
+{
+    display: inline-block;
+    width: calc(100% - 1em - 14em);
+    margin-right: 0em;
+}
+
+.EditorHeaderActionAdd
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 8em;
+}
+
+.EditorHeaderActionAdd > .ui-btn
+{
+    margin: 0em;
+    margin-top: calc(0.5em - 2px);
+}
+
+.EditorHeaderActionDivider
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 4em;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 2.5em;
+    margin-left: 0.5em;
+}
+
+.EditorHeaderActionDivider > .Label
+{
+    font-weight: bold;
+}
+
+.EditorFixedViewContent > .Footer > .SearchableView > input[type='text'][data-role='none']:focus,
+.EditorSearchableView > input[type='text'][data-role='none']:focus,
+.EditorElementText > input[type='text'][data-role='none']:focus
+{
+    outline: none;
+    box-shadow: none;
+}
+
+.EditorFixedView > .Content > .EditorFixedViewContent.ScrollbarPrimary
+{
+    overflow: auto;
+}
+
+.EditorFixedViewPositionTopLeft
+{
+    top: 0%;
+    left: 0%;
+}
+
+.EditorFixedViewPositionTopRight
+{
+    top: 0%;
+    right: 0%;
+}
+
+.EditorFixedViewPositionBottomLeft
+{
+    bottom: 0%;
+    left: 0%;
+}
+
+.EditorFixedViewPositionA
+{
+    top: 0%;
+    left: 16%;
+}
+
+.EditorFixedViewPositionB
+{
+    top: 0%;
+    left: 32%;
+}
+
+.EditorFixedViewSizeWidthA
+{
+    width: calc(15% - 1em - 2px);
+}
+
+.EditorFixedViewSizeWidthA.NoPadding:not(.EditorFixedViewTransitionFullScreen)
+{
+    width: calc(15% - 2px + 1em);
+}
+
+.EditorFixedViewSizeWidthB
+{
+    width: calc(52% - 2em - 2px);
+}
+
+.EditorFixedViewSizeHeightA
+{
+    height: calc(50% - 2em - 0.5em - 2px);
+}
+
+.EditorFixedViewSizeHeightFull
+{
+    height: calc(100% - 2em - 2px);
+}
+
+.EditorFixedViewTransition,
+.EditorFixedViewTransitionFullScreen,
+.EditorFixedViewTransitionSizeHeightA,
+.EditorFixedViewTransitionSizeWidthFull,
+.EditorFixedViewSizeWidthA,
+.EditorFixedViewSizeWidthB,
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail.HighlightOn > .Label,
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail.HighlightOn.HighlightPrimary > .Label,
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail.Today:not(.HighlightOn) > .Label
+{
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.EditorFixedViewDisableTransition
+{
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+.EditorFixedViewTransitionFullScreen,
+.EditorFixedViewPopup
+{
+    z-index: 2;
+    width: calc(100% - 1em - 2px);
+    height: calc(100% - 2em - 2px);
+}
+
+.EditorFixedViewPopup.EmbeddedViewMode
+{
+    width: calc(100% - 3em);
+    height: auto;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    border-style: none;
+    box-shadow: none;
+    position: relative;
+    padding-top: 2em;
+}
+
+.EditorPopupFullscreenViewer .EditorFixedViewPopup.EmbeddedViewMode
+{
+    width: 100%;
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+.EditorPopup.StateHiddenDefaultContent.PopupInlineContainer .PopupContent
+{
+    display: none;
+}
+
+.EditorPopup.PopupNavigationModeInline .EmbeddedViewMode
+{
+    padding-top: 0em;
+}
+
+.EditorPopup.PopupNavigationModeInline .EmbeddedViewMode > .Heading > .ActionButtonNavigationBack
+{
+    display: none;
+}
+
+.EditorFixedViewTransitionFullScreen.NoPadding
+{
+    width: calc(100% - 2px);
+}
+
+.EditorFixedViewPositionB.EditorFixedViewTransitionFullScreen
+{
+    left: 0%;
+}
+
+.EditorFixedViewTransitionSizeHeightA:not(.EditorFixedViewTransitionFullScreen)
+{
+    height: calc(50% - 2em - 0.5em - 2px);
+}
+
+.EditorFixedViewTransitionSizeWidthFull
+{
+    width: calc(100% - 1em - 2px);
+}
+
+.EditorElementHidden
+{
+    display: none;
+}
+
+.EditorElementPlaceholderOn > .Placeholders > .Placeholder,
+.TableRenderFieldListView.EditorElementPlaceholderOn .Placeholders > .Placeholder
+{
+    height: 0.65em;
+    width: 100%;
+    background-color: rgba(0,0,0,0.25);
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+    opacity: 0.5;
+    border-radius: 2px;
+}
+
+.EditorElementPlaceholderOn > .Placeholders > .Placeholder.TextLine_2,
+.TableRenderFieldListView.EditorElementPlaceholderOn .Placeholders > .Placeholder.TextLine_2
+{
+    width: 70%;
+}
+
+.EditorElementPlaceholderOn > .Placeholders > .Placeholder.TextLine_3,
+.TableRenderFieldListView.EditorElementPlaceholderOn .Placeholders > .Placeholder.TextLine_3
+{
+    width: 45%;
+}
+
+.EditorElementPlaceholderOn > .Placeholders > .Placeholder:last-child:not(:first-child),
+.TableRenderFieldListView.EditorElementPlaceholderOn .Placeholders > .Placeholder:last-child:not(:first-child)
+{
+    width: 80%;
+}
+
+.EditorInlineHeaderView
+{
+}
+
+textarea.EditorInputLarge
+{
+    min-height: 12em;
+}
+
+.LinkClickable, .Clickable
+{
+    cursor: pointer;
+}
+
+.LinkClickable:hover
+{
+    opacity: 0.7;
+}
+
+.LinkDisabled, .ElementLinksDisabled .LinkClickable
+{
+    cursor: default;
+}
+
+.LinkDisabled:hover, .ElementLinksDisabled .LinkClickable:hover
+{
+    opacity: initial;
+}
+
+.EditorEffectDisabledGrayscale .LinkDisabled
+{
+    opacity: 0.75;
+    filter: grayscale(100%);
+}
+
+.LinkSelected, .LinkSelected:hover
+{
+    cursor: default;
+    opacity: initial;
+}
+
+.ButtonDisabled, .ButtonDisabled:hover
+{
+    cursor: default;
+    opacity: 0.5;
+}
+
+.EditorImageButton
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorImageButton > .ImageIcon
+{
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}
+
+.EditorDownloadIconLink.ui-btn > .ui-btn-inner > .ui-btn-text > .EditorImageButton
+{
+    width: 18px;
+    height: 18px;
+}
+
+.EditorDownloadIconLink.ui-btn > .ui-btn-inner > .ui-btn-text > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 3px;
+    margin-left: 6px;
+}
+
+.EditorDownloadIconLink.ui-btn.LinkDisabled > .ui-btn-inner > .ui-btn-text > .Label
+{
+    color: #666666;
+}
+
+.EditorFixedViewPopup a.LinkDownload
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorFixedViewPopup a.LinkDownload.LinkDisabled
+{
+    opacity: 0.3;
+    cursor: default;
+}
+
+.EditorFixedViewPopup .EditorImageButton.ImageDownloadFile
+{
+    margin-right: 5px;
+}
+
+.EditorFixedViewPopup .EditorImageButton > .ImageIcon
+{
+    width: 22px;
+    height: 22px;
+}
+
+.EditorImageButton.ImageMaximize > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_collapse.png');
+}
+
+.EditorImageButton.ImageMaximize.StateOff > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_expand.png');
+}
+
+.EditorImageButton.ImageFavorite > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_favorite_on.png');
+}
+
+.EditorImageButton.ImageFavorite.StateOff > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_favorite_off.png');
+}
+
+.EditorImageButton.ImageDownloadFile > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_download.svg');
+}
+
+.EditorImageButton.ImageDownloadFile.StateOff > .ImageIcon,
+.EditorImageButton.ImageDownloadFile.StatePlaceholderOn > .ImageIcon
+{
+    background-image: none;
+}
+
+.EditorImageButton.ImageDownloadFile.StatePlaceholderOn > .ImageIcon
+{
+    border-radius: 50%;
+    background-color: #616161;
+    opacity: 0.75;
+}
+
+.EditorImageButton.ImageToggleSelection > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_check_up.svg');
+    width: 18px;
+    height: 18px;
+}
+
+.EditorImageButton.ImageToggleSelection:not(.StateOn):hover > .ImageIcon,
+.EntityLineItem:hover > .ImageToggleIconCell > .EditorImageButton.ImageToggleSelection:not(.StateOn) > .ImageIcon,
+.CListViewToggles:not(.EditableStateOff) > .OptionItem:not(.Selected):hover > .EditorImageButton.ImageToggleSelection:not(.StateOn) > .ImageIcon,
+.CEditorListBoxControl > .EntityLineItem:not(.LinkDisabled):not(.LinkNotAllowed):hover > .EditorImageButton.ImageToggleSelection:not(.StateOn) > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_check_over.svg');
+}
+
+.CListViewToggles.EditableStateOff > .OptionItem:not(.Selected) > .EditorImageButton.ImageToggleSelection:hover > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_check_up.svg');
+}
+
+.EditorImageButton.ImageToggleSelection.StateOn > .ImageIcon,
+.CListViewToggles > .OptionItem.Selected > .EditorImageButton.ImageToggleSelection > .ImageIcon,
+.CListViewToggles > .OptionItem.Selected:hover > .EditorImageButton.ImageToggleSelection > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_check_on.svg');
+}
+
+.LinkNotAllowed > .EditorImageButton.ImageToggleSelection > .ImageIcon,
+.LinkNotAllowed:hover > .EditorImageButton.ImageToggleSelection > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_check_not_allowed.svg');
+}
+
+.EditorOverflowPageHidden.ui-mobile-viewport
+{
+    overflow: hidden;
+}
+
+.EditorPanel
+{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.EditorPanel > .ActionButton
+{
+    display: inline-block;
+    position: fixed;
+    background-color: rgba(255,255,255,0.9);
+    border: 2px solid #F0F0F0;
+    border-radius: 1.5em;
+    border-top-right-radius: 0em;
+    border-bottom-right-radius: 0em;
+    top: 0px;
+    right: calc(30% + 4px);
+    margin-right: 2em;
+    padding: 0.25em;
+    padding-left: 0em;
+    cursor: pointer;
+}
+
+.EditorPanel > .Overlay
+{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.EditorPanel > .Content
+{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    height: calc(100% - 1.75em);
+    width: calc(33% - 2px - 2em);
+    background-color: #FFFFFF;
+    border-left: 2px solid #F0F0F0;
+    overflow: auto;
+    padding: 1em;
+    padding-top: 0.75em;
+    padding-bottom: 1em;
+}
+
+.EditorPanel > .Content > .Title
+{
+    text-align: center;
+    border-bottom: 1px solid #CCCCCC;
+    padding-bottom: 0.25em;
+    margin-bottom: 0.5em;
+    color: #999999;
+}
+
+.DeletedItem
+{
+}
+
+.PermissionNoAccessItem
+{
+}
+
+.EffectFocusDisable.ui-focus,
+.EffectFocusDisable.ui-btn:focus
+{
+    box-shadow: none;
+}
+
+.ViewHighlight
+{
+}
+
+.PaginationView
+{
+    position: relative;
+}
+
+.PaginationView > .ui-select,
+.PaginationView > .LabelPageCount
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.PaginationView > .ui-select,
+.PaginationView > .ui-btn
+{
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.PaginationView > .ui-btn,
+.PaginationView:not(.PaginationLayoutButtons) > .LabelPageCount
+{
+    margin-top: 9px;
+}
+
+.PaginationView > .LabelPageCount
+{
+    padding-top: 2px;
+}
+
+.PaginationView > .LabelPageCount,
+.PaginationView.PaginationLayoutButtons > .ui-btn.ui-disabled > .ui-btn-inner > .ui-btn-text
+{
+    color: #666666;
+    font-weight: bold;
+}
+
+.PaginationView.PaginationLayoutButtons > .ui-btn
+{
+    border: 1px solid #E0E0E0;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    background: transparent;
+    border-radius: 4px;
+}
+
+.PaginationView.PaginationLayoutButtons > .ui-btn > .ui-btn-inner > .ui-btn-text
+{
+    text-transform: none;
+}
+
+.PaginationView.PaginationLayoutButtons > .ui-btn:first-of-type
+{
+    border-top-right-radius: 0em;
+    border-bottom-right-radius: 0em;
+}
+
+.PaginationView.PaginationLayoutButtons > .ui-btn:last-of-type
+{
+    border-top-left-radius: 0em;
+    border-bottom-left-radius: 0em;
+}
+
+.PaginationView.PaginationLayoutButtons > .ui-btn.ui-disabled
+{
+    opacity: 0.7;
+    border-color: #FAFAFA;
+    box-shadow: 0 1px 3px #FAFAFA;
+}
+
+.PaginationView.PaginationLayoutButtons > .LabelPageCount
+{
+    padding: 0em;
+    margin: 0em;
+    margin-top: 13px;
+}
+
+.PaginationView > .LabelPagingItemCount
+{
+    position: absolute;
+    bottom: 5px;
+    left: 0px;
+}
+
+.EditorInlineNote
+{
+    font-style: italic;
+    color: #666666;
+    font-size: 0.9em;
+}
+
+.EditorNoRecordsLabel
+{
+    color: #666666;
+    font-size: 0.9em;
+    padding-left: 0.5em;
+}
+
+:not(.ModeNoRecords) > .EditorViewNoRecords
+{
+    display: none;
+}
+
+.EditorEmbeddedView > .Title, .EditorEmbeddedView > .InlineTitle
+{
+    margin-top: 1em;
+}
+
+.EditorEmbeddedView > .Title .Label, .EditorEmbeddedView > .InlineTitle > .Label
+{
+    font-size: 1.5em;
+    color: #333333;
+}
+
+.EditorEmbeddedView > .Title .Description, .EditorEmbeddedView > .InlineTitle .Description
+{
+    font-size: 0.95em;
+    color: #666666;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+.EditorFixedViewContent.DisableInteractiveEvents .EditorInteractiveStateMode > .ListView .TableRepeaterView .EntityLineItem:not(.LinkDisabled),
+.EditorFixedViewContent.DisableInteractiveEvents .EditorInteractiveStateMode > .ListView .TableRepeaterView .EntityLineItem:not(.LinkDisabled):hover
+{
+    cursor: default;
+    color: #999999;
+}
+
+.EditorDraggableOn .ModeToggleHidden
+{
+    display: none;
+}
+
+.ModeToggleView
+{
+    display: inherit;
+}
+
+.ModeToggleView.ModeDisplayBlock
+{
+    display: block;
+}
+
+.ModeToggleEdit
+{
+    display: none;
+}
+
+.ViewModeEdit .ModeToggleEdit
+{
+    display: inherit;
+}
+
+.ViewModeEdit .ModeToggleView
+{
+    display: none;
+}
+
+.ModeToggleEntityView
+{
+    display: none;
+}
+
+.ViewModeEdit .EditorEntityEditMode .ModeToggleEntityView
+{
+    display: inherit;
+}
+
+.ViewModeEdit .EditorEntityEditMode .ModeToggleEntityView.ModeDisplayInlineBlock
+{
+    display: inline-block;
+}
+
+.ViewParentToggleEdit:not(.EditModeOn) .ViewToggleEditModeOn
+{
+    display: none;
+}
+
+.EditorAbsorbView
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+.Overlay
+{
+    position: relative;
+}
+
+.OverlayTransparent
+{
+}
+
+.OverlayContent
+{
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.OverlayDisabled, .EditorOverlayUserInteraction
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: #FFFFFF;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.OverlayTransparent .OverlayDisabled
+{
+    background-color: transparent;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+}
+
+.Overlay .OverlayContent
+{
+    display: block;
+}
+
+.EditorOverlayUserInteraction
+{
+    display: none;
+}
+
+.EditorDisableUserInteraction
+{
+    position: relative;
+    opacity: 0.65;
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.EditorDisableUserInteraction .EditorOverlayUserInteraction
+{
+    cursor: not-allowed;
+    background-color: #E0E0E0;
+    display: block;
+}
+
+.EditorPopup
+{
+    left: 4%;
+    width: 92%;
+    margin-top: 4%;
+}
+
+.EditorPopupSizeSmall
+{
+    left: 32.5%;
+    width: 35%;
+}
+
+.EditorPopupSizeMedium
+{
+    left: 20%;
+    width: 60%;
+}
+
+.EditorPopupSizeLarge
+{
+    left: 10%;
+    width: 80%;
+}
+
+.PopupInlineContainer.EditorPopupFixed
+{
+    position: fixed;
+    max-height: 92%;
+    overflow: auto;
+    margin: 0em;
+    margin-top: 2%;
+}
+
+.PopupInlineContainer.EditorPopupFixed.EditorPopupFullscreenViewer
+{
+    margin: 0em;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    max-height: unset;
+}
+
+/* hide all popup header buttons (in particular the close/dimiss popup button) */
+.PopupInlineContainer.EditorPopupFixed.EditorPopupFullscreenViewer .PopupHeaderContainer .ui-btn
+{
+    display: none;
+}
+
+.EditorPopup.PopupInlineContainer .PopupContent
+{
+    background-image: none;
+    background-color: #FFFFFF;
+    color: #333333;
+    padding: 0.5em;
+    width: 90%;
+    width: calc(100% - 1em);
+}
+
+.EditorPopup.EditorRoadmapStudyPopup
+{
+    background: none;
+    background-color: #333333;
+    text-shadow: none;
+    opacity: 0.85;
+}
+
+.EditorRoadmapStudyPopup.PopupInlineContainer .PopupContent
+{
+    padding-left: 2px;
+    padding-right: 2px;
+    width: calc(100% - 4px);
+}
+
+.EditorRoadmapStudyPopup.PopupInlineContainer .PopupHeaderContainer,
+.EditorRoadmapStudyPopup.PopupInlineContainer .PopupContent
+{
+    background-color: transparent;
+}
+
+.EditorRoadmapStudyPopup,
+.EditorRoadmapStudyPopup .PopupHeaderTitle,
+.EditorRoadmapStudyPopup.PopupInlineContainer .PopupContent
+{
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+.InlinePopup
+{
+    display: none;
+}
+
+.InlinePopup .SubHeaderTitle
+{
+    padding: 0.5em;
+    padding-left: 0em;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+}
+
+.CViewController .ViewEditEntity
+{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.CViewController .ViewEditEntity > .Title
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.CViewController .ViewEditEntity > .Title > div
+{
+    font-size: 1.5em;
+}
+
+.CViewController .ViewItemNotFoundMessage
+{
+    color: #EF5350;
+    border-bottom: 1px solid #F0F0F0;
+    padding-bottom: 2px;
+}
+
+.CViewController .ViewItemNotFoundMessage > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 4px;
+    color: #607D8B;
+}
+
+.CEditorComponentHome:not(.ModeInlineEditOn) .CViewController .ViewEditEntity,
+.CViewController .ViewEditEntity:not(.StateItemNotFoundOn) > .ViewItemNotFoundMessage,
+.CViewController .ViewEditEntity.StateItemNotFoundOn > .Content
+{
+    display: none;
+}
+
+.FixedMessageLabel
+{
+    display: none;
+}
+
+.FixedMessageLabel .ui-btn
+{
+    margin: 0em;
+    margin-right: 4px;
+}
+
+.Overlay .FixedMessageLabel
+{
+    display: inline-block;
+    position: fixed;
+    bottom: 0px;
+    right: 2px;
+    padding: 0.25em;
+    padding-right: 0.5em;
+    max-width: 50%;
+    overflow: hidden;
+    z-index: 100;
+    font-weight: bold;
+    color: #999999;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+    border: 2px solid #CCCCCC;
+    border-bottom-style: none;
+    font-size: 0.95em;
+    text-shadow: none;
+    background-color: #FFFFFF;
+    border-radius: 0.5em;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+}
+
+.EditorScrollableContent
+{
+    overflow: auto;
+    position: relative;
+}
+
+.gu-mirror
+{
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.gu-mirror .InlineConfirmation,
+.gu-mirror .HiddenDragElement
+{
+    display: none;
+}
+
+.EditorInlineFileUploadView
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.25em;
+}
+
+.EditorInlineFileUploadView > .ui-checkbox,
+.EditorInlineFileUploadView > .ui-checkbox > label
+{
+    margin-top: 0em;
+}
+
+.ViewEditorRepositoryResourceInlineEdit > .LinkExternal
+{
+    display: block;
+    margin-left: 10px;
+    margin-top: 6px;
+}
+
+.ViewEditorRepositoryResourceInlineEdit > .LinkExternal > .EditorImageButton.ImageDownloadFile
+{
+    margin-right: 2px;
+}
+
+.ViewEditorRepositoryResourceInlineEdit > .LinkExternal > .LabelFileName
+{
+    font-size: 0.95em;
+}
+
+.ViewEditorRepositoryResourceInlineEdit .LabelEditorFileWarning,
+.ViewEditorRepositoryResourceLegacy .LabelEditorFileWarning
+{
+    margin-top: 2px;
+    color: #999999;
+}
+
+.ViewEditorRepositoryResourceInlineEdit .LabelEditorFileWarning > .LabelMessage,
+.ViewEditorRepositoryResourceLegacy .LabelEditorFileWarning > .LabelMessage
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 4px;
+    font-size: 0.95em;
+}
+
+.EditorInlineOpenExtLink.PluginEditorCardView
+{
+    display: inline-block;
+}
+
+.EditorInlineOpenExtLink.PluginEditorCardView > .EditToolButtons
+{
+    text-align: right;
+}
+
+.EditorInlineOpenExtLink:not(.DeletedItem) > .Label
+{
+    color: #666666;
+}
+
+.EditorInlineOpenExtLink.DeletedItem .EditorPreviewThumbnail
+{
+    opacity: 0.35;
+}
+
+.EditorPreviewThumbnail > img
+{
+    max-width: 192px;
+    max-height: 192px;
+    height: auto;    
+}
+
+.CEditorAdminRoleComponentsView
+{
+    text-shadow: none;
+}
+
+.CEditorAdminRoleComponent
+{
+    padding-bottom: 1em;
+}
+
+.CEditorAdminRoleComponent .Title, .GroupHeaderTitle
+{
+    font-size: 1.1em;
+    margin-bottom: 0.25em;
+    color: #333333;
+    padding: 0.25em;
+    border-bottom: 1px solid #E0E0E0;
+    background-color: #FAFAFA;
+}
+
+.CEditorAdminRoleComponent .Content, .GroupContentDetails
+{
+    padding-left: 1em;
+    vertical-align: top;
+}
+
+.CEditorAdminRoleComponent .PropertyLineItem, .TableBlockRow
+{
+    margin-bottom: 0.5em;
+}
+
+.TableBlockCell,
+.TableBlockCell_C2,
+.CEditorAdminRoleComponent .ColumnHeading,
+.CEditorAdminRoleComponent .ColumnContent
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.TableBlockCell_Full
+{
+    width: 100%;
+}
+
+.TableBlockHeadingCell
+{
+    color: #666666;
+    font-weight: bold;
+}
+
+.TableBlockDropdown
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorDataAdminListTable .TableHeaderRow .TableHeaderFirstCell,
+.EditorDataAdminListTable .TableHeaderRow .TableHeaderLastCell
+{
+    border-radius: 0em;
+}
+
+.EditorDataAdminListTable .TableHeaderRow
+{
+    color: #333333;
+    background-color: #FFFFFF;
+}
+
+.EditorDataAdminListTable .TableHeaderRow .CRepeaterSort.ui-btn,
+.EditorDataAdminListTable .CRepeaterFooterContainer > .ui-btn
+{
+    background: none;
+    background-color: #F0F0F0;
+    border-color: #CCCCCC;
+    border-radius: 0em;
+}
+
+.EditorDataAdminListTable.EditorDataAdminListTableTheme .CRepeaterFooterContainer > .ui-btn
+{
+    background-color: #FFFFFF;
+}
+
+.EditorDataAdminListTable .TableHeaderRow .CRepeaterSort.ui-btn
+{
+    border-style: none;
+    box-shadow: none;
+    border-bottom: 2px solid #999999;
+}
+
+.EditorDataAdminListTable .TableHeaderRow .CRepeaterSort.ui-btn > .ui-btn-inner > .ui-btn-text,
+.EditorDataAdminListTable .CRepeaterFooterContainer > .ui-btn > .ui-btn-inner > .ui-btn-text
+{
+    text-shadow: none;
+    color: #333333;
+}
+
+.EditorDataAdminListTable .TableHeaderRow .CRepeaterSort.ui-btn:hover,
+.EditorDataAdminListTable .CRepeaterFooterContainer > .ui-btn:hover
+{
+    opacity: 0.7;
+}
+
+.EditorTableList,
+.EditorDataAdminListTable
+{
+    width: 100%;
+    width: calc(100% - 2px);
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+}
+
+.EditorDataAdminListTable.EditorDataAdminListTableTheme
+{
+    box-shadow: none;
+}
+
+.EditorTableList .TableHeaderRow td
+{
+    padding: 0.25em;
+}
+
+.EditorTableList .TableHeaderRow td:last-child
+{
+    border-right-style: none;
+}
+
+.EditorTableList .TableRowItem:nth-child(odd),
+.EditorDataAdminListTable tr.TableRowOdd
+{
+    background-color: #ECEFF1;
+}
+
+.EditorDataAdminListTable.EditorDataAdminListTableTheme tr.TableRowOdd
+{
+    background-color: #FAFAFA;
+}
+
+.EditorTableList .TableRowItem:nth-child(even),
+.EditorDataAdminListTable tr.TableRowEven
+{
+    background-color: #FFFFFF;
+}
+
+.EditorDataAdminListTableTheme .TableRowOdd.EntityLineItem:not(.LinkDisabled):hover,
+.EditorDataAdminListTableTheme .TableRowEven.EntityLineItem:not(.LinkDisabled):hover,
+.EditorDataAdminListTableTheme .TableRowOdd.EntityLineItem:not(.LinkDisabled).Highlight,
+.EditorDataAdminListTableTheme .TableRowEven.EntityLineItem:not(.LinkDisabled).Highlight,
+.EditorDataAdminListTableTheme .TableRowOdd:not(.LinkDisabled).ViewHighlight,
+.EditorDataAdminListTableTheme .TableRowEven:not(.LinkDisabled).ViewHighlight
+{
+    background-color: #ECEFF1;
+    text-shadow: none;
+}
+
+.EditorDataAdminListTableTheme .TableRowOdd.EntityLineItem:not(.LinkDisabled).Highlight,
+.EditorDataAdminListTableTheme .TableRowEven.EntityLineItem:not(.LinkDisabled).Highlight
+{
+    background-color: #FFF9C4;
+}
+
+.EditorTableList .TableCellNoRecords
+{
+    padding-left: 0.5em;
+}
+
+.EditorTableStyleA .TableRowItem > td
+{
+    padding: 0.25em;
+}
+
+.CEditorAdminRoleComponent .ColumnHeading
+{
+    width: 46%;
+    text-align: right;
+    margin-right: 4%;
+    padding-top: 0.25em;    
+}
+
+.CEditorAdminRoleComponent .ColumnContent
+{
+    width: 46%;
+}
+
+.CEditorAdminRoleComponent .ColumnContent .ui-slider,
+.FlipSwitchInline .ui-slider
+{
+    margin: 0em;
+}
+
+.CEditorAdminRoleComponent .ColumnContent .ui-slider.ui-btn-corner-all,
+.CEditorAdminRoleComponent .ColumnContent .ui-slider .ui-btn-corner-all,
+.FlipSwitchInline .ui-slider.ui-btn-corner-all,
+.FlipSwitchInline .ui-slider .ui-btn-corner-all
+{
+    border-radius: 0.25em;
+}
+
+.FlipSwitchInline
+{
+    vertical-align: top;
+}
+
+.FlipSwitchInline .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 0.55em;
+}
+
+.FlipSwitchInline > .FlipSwitchChildToggles
+{
+    padding-left: 0.5em;
+    border-left: 1px solid #CCCCCC;
+}
+
+.ViewComponentToggles, .ViewPlatformToggles
+{
+    display: inline-block;
+}
+
+.DropdownSelectionView
+{
+    margin-top: 0.5em;
+}
+
+.DropdownSelectionView.DropdownSelectionViewSizeSmall
+{
+    margin-top: 0em;
+}
+
+.DropdownSelectionView.StyledSearchViewA > .SearchableView > .ui-input-text
+{
+    background-color: #FFFFFF;
+}
+
+.ViewBridgeListRenderer > .DropdownSelectionView
+{
+    margin-top: 0em;
+}
+
+.ViewBridgeListRenderer
+{
+    margin-bottom: 0.5em;
+}
+
+.ViewBridgeListRenderer > .Label
+{
+    font-weight: bold;
+}
+
+.ViewRoleToggles > .ui-checkbox > label
+{
+    margin-left: 0em;
+}
+
+.DropdownSelectionView > .ui-select
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 16em;
+}
+
+.DropdownSelectionView.DropdownSelectionViewSizeSmall > .ui-select
+{
+    min-width: calc(100% - 5em);
+    width: calc(100% - 5em);
+}
+
+.ViewListSelectionItem
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 0.5em;
+    margin-right: 1%;
+}
+
+.ViewListSelectionItem.ItemSizeSmall
+{
+    width: calc(100% - 1em - 2px);
+    display: block;
+    margin-right: 0em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.ViewListSelectionItem.ItemInlineView
+{
+    width: unset;
+    display: inline-block;
+    margin-right: 1em;
+}
+
+.ViewListSelectionItem.ItemBlockView
+{
+    display: block;
+    margin-top: 0em;
+    margin-bottom: 0.65em;
+}
+
+.EditorDraggableGroupR1C1, .EditorDraggableGroupR1C2
+{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(49% - 0.5em);
+}
+
+.EditorDraggableGroupR1C1
+{
+    margin-right: 1%;
+}
+
+.EditorDraggableGroupR1C2
+{
+    margin-left: 1%;
+}
+
+.EditorDraggableGroupR1C1 > .Content,
+.EditorDraggableGroupR1C2 > .Content
+{
+    padding-bottom: 2em;
+}
+
+.EditorDraggableGroupR1C1 > .Content > .EditorDragViewLineItem > .DragButtonAction,
+.EditorDraggableGroupR1C2 > .Content > .EditorDragViewLineItem > .DragButtonAction
+{
+    margin: 0em;
+    margin-top: 7px;
+}
+
+.EditorDraggableGroupR1C1 > .Content > .EditorDragViewLineItem > .DragButtonAction.ButtonSecondary,
+.EditorDraggableGroupR1C2 > .Content > .EditorDragViewLineItem > .DragButtonAction.ButtonPrimary,
+.gu-mirror.EditorDragViewLineItem > .DragButtonAction
+{
+    display: none;
+}
+
+.EditorDraggableGroupR1C1 > .Title, .EditorDraggableGroupR1C2 > .Title
+{
+    font-size: 1.1em;
+    border-bottom: 2px solid #F0F0F0;
+    padding-bottom: 0.25em;
+    margin-bottom: 0em;
+}
+
+.EditorDraggableGroupR1C1 > .Tools > .ui-btn, .EditorDraggableGroupR1C2 > .Tools > .ui-btn
+{
+    margin-left: 0em;
+    margin-bottom: 0em;
+}
+
+.EditorDraggableContainer.EditorDraggableOn > .ViewListSelectionItem
+{
+    display: block;
+    margin-right: 0em;
+    width: 90%;
+}
+
+.ViewListSelectionItem > .Label
+{
+    display: inline-block;
+    padding-top: 0.25em;
+}
+
+.ViewListSelectionItem.ItemSizeSmall > .Label
+{
+    padding-top: 0.5em;
+}
+
+.EditorDraggableContainer.EditorDraggableOn > .ViewListSelectionItem > .Label,
+.gu-mirror.ViewListSelectionItem > .Label
+{
+    width: calc(100% - 12em);
+}
+
+.ViewListSelectionItem.ItemSizeSmall > .Label
+{
+    width: calc(100% - 6em);
+}
+
+.ViewListSelectionItem.ItemSizeSmall.LogoImageViewOn > .Label
+{
+    width: calc(100% - 6em - 24px - 0.5em);
+}
+
+.ViewListSelectionItem > .ViewListItemTools
+{
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+    width: 12em;
+}
+
+.ViewListSelectionItem.ItemSizeSmall > .ViewListItemTools
+{
+    width: 6em;
+}
+
+.DropdownSelectionView.StateDisableActionLinkMarginOn > .ContentSelections > .ViewListSelectionItem > .ViewListItemTools > .LinkClickable
+{
+    margin-top: 0em;
+}
+
+.ViewListSelectionItem > .LinkClickable
+{
+    vertical-align: top;
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.ViewListSelectionItem.LinkClickable > .LinkDisabled
+{
+    cursor: pointer;
+}
+
+.CEditorTableAdminUserRoles .ListLineItemView
+{
+    margin-bottom: 0.5em;
+}
+
+.CEditorTableAdminUserRoles .TableBlockRow .TableBlockCell .ui-select,
+.CEditorTableAdminUserRoles .TableBlockRow .TableBlockCell .ui-select .ui-btn,
+.CEditorTableAdminUserRoles .TableBlockRow .TableBlockCell a.ui-btn
+{
+    margin-top: 0em;
+}
+
+.CEditorTableAdminUserRoles .TableBlockRow .TableBlockCell a.ui-btn
+{
+    margin-left: 0em;
+}
+
+.CEditorTableAdminUserRoles .TableBlockRow .TableBlockCell
+{
+    width: 70%;
+}
+
+.CEditorTableAdminUserRoles .TableBlockRow .TableBlockCell:first-child
+{
+    width: 25%;
+}
+
+.CEditorTableAdminUserRoles .TableBlockRow .TableBlockCell .TableBlockCell_C2
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 40%;
+    margin-right: 4%;
+}
+
+.CEditorTableAdminUserRoles .TableBlockRow .TableBlockCell .TableBlockCell_C2 .ActionAddButton
+{
+    float: right;
+    margin-right: 0em;
+    text-transform: uppercase;
+}
+
+.EffectivePermissionSummary
+{
+    margin: 0.5em;
+    margin-top: 0.25em;
+}
+
+.EffectivePermissionSummary ul
+{
+    margin: 0em;
+    padding: 0em;
+    margin-left: 1em;
+}
+
+.EffectivePermissionSummary ul > li
+{
+    margin-bottom: 0.25em;
+}
+
+.EffectivePermissionSummary > .SubHeaderTitle > .Label,
+.EffectivePermissionSummary > .SubHeaderTitle > .Actions
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EffectivePermissionSummary > .SubHeaderTitle > .Label
+{
+    width: calc(100% - 18em - 0.5em);
+    padding-top: 0.75em;
+}
+
+.EffectivePermissionSummary > .SubHeaderTitle > .Actions
+{
+    text-align: right;
+    width: 18em;
+    margin-left: 0.5em;
+}
+
+.EffectivePermissionSummary > .SubHeaderTitle > .Actions > .ui-btn
+{
+    margin: 0em;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails
+{
+    padding: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail
+{
+    border-bottom: 2px solid #CCCCCC;
+    padding-bottom: 0.25em;
+}
+
+.TableBlockRow.EffectivePermissionSummary
+{
+    margin: 0em;
+    margin-bottom: 1em;
+}
+
+.EffectivePermissionSummary .SubHeaderTitle
+{
+    color: #000000;
+    border-bottom: 0.1em solid #9E9E9E;
+    padding: 0.25em;
+    padding-left: 0em;
+    padding-bottom: 2px;
+    padding-right: 0em;
+    padding-top: 0em;
+    margin-bottom: 0.25em;
+}
+
+.EffectivePermissionSummary .Content .Title
+{
+    font-size: 0.95em;
+}
+
+.EffectivePermissionSummary .Content .TableBlockRow
+{
+    width: 90%;
+    margin-bottom: 0em;
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: #666666;
+}
+
+.EffectivePermissionSummary .Content .TableBlockRow .TableBlockCell
+{
+    width: 30%;
+    margin-right: 4%;
+    text-align: right;
+}
+
+.EffectivePermissionSummary .Content .TableBlockRow .TableBlockCell_C2
+{
+    text-align: left;
+}
+
+.EffectivePermissionSummary .Content .TableBlockRow .TableBlockCell.ColumnHeading
+{
+    color: #666666;
+}
+
+.EffectivePermissionSummary .Content .TableBlockRow .TableBlockCell_C2.ColumnContent
+{
+    color: #000000;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails .GroupHeaderTitle
+{
+    background-color: transparent;
+    border-bottom-style: none;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails .Content > .PluginEditorCardView
+{
+    margin-right: 0em;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails .Content > .PluginEditorCardView.StateDisabled
+{
+    background-color: #FDFDFD;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails .Content > .PluginEditorCardView.StateDisabled > .Title
+{
+    color: #999999;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails .Content > .PluginEditorCardView.StateDisabled .TableBlockRow .TableBlockCell_C2.ColumnContent
+{
+    color: #CCCCCC;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown
+{
+    margin-top: 0.25em;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown:not(.StateOn)
+{
+    padding-top: 0.5em;
+    border-top: 2px solid #CCCCCC;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown.StateOn
+{
+    position: relative;
+    height: 3em;
+    overflow: hidden;
+    border-color: #F0F0F0;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown > .Message
+{
+    background-color: rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown > .Message.ActionRestore
+{
+    margin-bottom: 0.25em;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown.StateOn > .Message:not(.ActionRestore)
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;    
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown > .Message > .Label
+{
+    background-color: #FFFFFF;
+    padding-bottom: 2px;
+    border-bottom: 2px solid #CCCCCC;
+    text-shadow: none;
+    padding: 0.25em;
+    border: 1px solid #CCCCCC;
+    width: calc(100% - 0.5em - 2px);
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown > .Message > .Label > div
+{
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 4px;
+    padding-left: 2px;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown.StateOn > .Message.ActionRestore,
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown:not(.StateOn) > .Message:not(.ActionRestore)
+{
+    display: none;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown > .PluginEditorCardView
+{
+    margin-right: 0em;
+    margin-left: 0.5em;
+    box-shadow: none;
+    border-color: #F0F0F0;
+    width: calc(50% - 2em);
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EffectivePermissionSummary > .GroupContentDetails > .Detail > .Content > .PreviewPermissionBreakdown.StateOn > .PluginEditorCardView
+{
+    display: none;
+}
+
+/*SECTION START: Home */
+
+.CEditorHomeView
+{
+    text-align: center;
+}
+
+.CEditorHomeView.ModeAnimationTransitionHide > .LoadingView
+{
+    background: #FFFFFF;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.CEditorHomeView .LabelError,
+.EditorTableEdit .LabelError
+{
+    font-size: 0.85em;
+    color: #FF0000;
+}
+
+.CEditorHomeView div.LabelError,
+.EditorTableEdit div.LabelError
+{
+    padding: 1em;
+    padding-left: 0.5em;
+    border-bottom: 1px solid #E57373;
+}
+
+.CEditorHomeView .LabelError.LabelValidation,
+.EditorTableEdit .LabelError.LabelValidation
+{
+    padding: 0.25em;
+}
+
+.CEditorHomeView .CFileUploadContent,
+.EditorPopup .CFileUploadContent,
+.EditorFileUploadView .CFileUploadContent,
+.CEditorHomeView .FileUploadExternalInputView > .ui-checkbox > .ui-btn,
+.EditorPopup .FileUploadExternalInputView > .ui-checkbox > .ui-btn,
+.FileUploadExternalInputField > .ui-input-text,
+.Filter > .Content > .ui-checkbox > .ui-btn,
+.EditorCheckbox > .ui-checkbox > .ui-btn
+{
+    border-style: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    border-radius: 0em;
+    border: 1px solid #E0E0E0;
+    background-color: #FFFFFF;
+    background: #FFFFFF;
+}
+
+.EditorCheckbox > .ui-checkbox > .ui-btn
+{
+    margin-top: 0em;
+}
+
+.EditorCheckbox > .ui-checkbox > .ui-btn > .ui-btn-inner > .ui-btn-text
+{
+    text-shadow: none;
+    color: #666666;
+}
+
+.CEditorHomeView .DetailItem
+{
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+    text-align: left;
+    width: 20%;
+    margin-right: 5%;
+    margin-bottom: 2%;
+}
+
+.CEditorHomeView .DetailItem .Label
+{
+    text-align: center;
+}
+
+.CEditorHomeView .ComponentDetailEditorGroupSelection
+{
+    padding-top: 1em;
+    margin-left: 1.5em;
+    text-align: left;
+    vertical-align: top;
+    width: 20%;
+}
+
+.EditorGroupComponentReferenceLink
+{
+    margin-top: 1em;
+    text-align: left;
+}
+
+.CEditorComponentHome
+{
+    text-align: left;
+}
+
+.CEditorComponentHome.Overlay
+{
+}
+
+.CEditorComponentHome .NavigationHeader
+{
+    text-align: left;
+}
+
+.CEditorComponentHome .NavigationHeader,
+.CEditorComponentHome .Toolbar
+{
+    background-color: rgba(255,255,255,0.75);
+    display: inline-block;
+    min-height: 40px;
+}
+
+.CEditorComponentHome.CEditorComponentHomeHiddenHeader .NavigationHeader,
+.CEditorComponentHome.CEditorComponentHomeHiddenHeader .Toolbar
+{
+    display: none;
+}
+
+.CEditorComponentHome .NavigationHeader
+{
+    width: 80%;
+    width: calc(100% - 360px);
+}
+
+.CEditorComponentHome .Toolbar
+{
+    text-align: right;
+    float: right;
+    width: 360px;
+}
+
+.CEditorComponentHome .NavigationHeader .SectionTab
+{
+    display: inline-block;
+    padding: 0.5em;
+    padding-bottom: 0.75em;
+    margin-right: 4px;
+    min-width: 10%;
+    color: #333333;
+    background-color: #FFFFFF;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 0.5em;
+    border-bottom-right-radius: 0em;
+    border-bottom-left-radius: 0em;
+}
+
+.CEditorComponentHome .NavigationHeader .SectionTab.SectionTabComponentView
+{
+    border-style: none;
+    box-shadow: none;
+}
+
+.CEditorComponentHome.ModeInlineEditOn .FiltersControl
+{
+    display: none;
+}
+
+.CEditorComponentHome .FiltersControl
+{
+    text-align: right;
+}
+
+.CEditorComponentHome .FiltersControl > .EditorFilterView
+{
+    text-align: left;
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+    margin-right: 1%;
+    margin-bottom: 0.5em;
+}
+
+.FiltersControl > .EditorFilterView > .Label
+{
+    color: #666666;
+    text-shadow: 1px 0px 0px #999999;
+}
+
+.EditorElementDropdown > .ui-select > .ui-btn,
+.FiltersControl > .EditorFilterView > .FilterElement > .ui-select > .ui-btn,
+.PropertyView > .ViewInput > .ui-select > .ui-btn,
+.SearchListViewEditor .ui-select > .ui-btn,
+.Filter > .Content > .ui-select > .ui-btn,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings .ui-select > .ui-btn
+{
+    border-color: #F0F0F0;
+    background: none;
+    background-color: #FFFFFF;
+    border-radius: 0.25em;
+}
+
+.EditorNotifications > .PluginEditorCardView > .ViewSettings > .Filter .ui-select > .ui-btn
+{
+    margin-top: 0em;
+}
+
+.SearchListViewEditor .ui-select > .ui-btn
+{
+    box-shadow: none;
+    border-style: none;
+    border-bottom: 2px solid #666666;
+    border-radius: 0em;
+}
+
+.EditorElementDropdown > .ui-select > .ui-btn .ui-btn-text,
+.FiltersControl > .EditorFilterView > .FilterElement > .ui-select > .ui-btn .ui-btn-text,
+.PropertyView > .ViewInput > .ui-select > .ui-btn .ui-btn-text,
+.SearchListViewEditor .ui-select > .ui-btn .ui-btn-text,
+.Filter > .Content > .ui-select > .ui-btn .ui-btn-text
+{
+    color: #666666;
+    text-shadow: none;
+}
+
+.EditorCriteriaDetail .Label,
+.EditorCriteriaDetail .Description
+{
+    padding: 0.5em;
+}
+
+.EditorCriteriaDetail .Label
+{
+    font-weight: bold;
+    padding-bottom: 0em;
+}
+
+.EditorEntityItem div.ui-input-text,
+.EditorWidgetElement div.ui-input-text
+{
+    border-radius: 0em;
+}
+
+.ViewModeEdit .EditorEntityItem:not(.PermissionNoAccessItem),
+.EditorDraggableContainer.EditorDraggableOn > .ViewListSelectionItem:not(.DisableDragElement)
+{
+    cursor: move;
+}
+
+.EditorDraggableContainer.EditorDraggableOn > .ViewListSelectionItem.DisableDragElement
+{
+    cursor: default;
+}
+
+.gu-mirror.EditorEntityItem,
+.gu-mirror.EditorValueMessageStatement
+{
+    background-color: #FFFFFF;
+    opacity: 0.9;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+    padding-top: 1em;
+}
+
+.ViewModeEdit .EditorEntityItem .ModeToggleEdit.IndicatorDraggable
+{
+    position: absolute;
+    display: inline-block;
+    top: 8px;
+    left: 8px;
+    opacity: 0.65;
+}
+
+.ViewModeEdit .EditorEntityItem .ModeToggleEdit.IndicatorDraggable img
+{
+    width: 16px;
+    height: 16px;
+}
+
+.ViewModeEdit .EditorEntityItem.EditorDragViewLineItem,
+.gu-mirror.EditorDragViewLineItem
+{
+    padding-top: 0em;
+}
+
+.EditorEntityItem.EditorDragViewLineItem > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 16px - 0.5em - 24px);
+    margin-left: calc(16px + 0.5em);
+    margin-top: 0.5em;
+}
+
+.gu-mirror.EditorDragViewLineItem > .Label
+{
+    margin-left: 0.5em;
+}
+
+.ViewModeEdit .EditorEntityItem .DeletedItem .ModeToggleEdit.IndicatorDraggable
+{
+    display: none;
+}
+
+.ViewModeEdit .EditorCriteriaDetail .ModeToggleEdit.LabelEditHeading
+{
+    color: #333333;
+    display: inline-block;
+    width: 10em;
+    margin-left: 32px;
+}
+
+.ViewModeEdit .EditorCriteriaDetail .Label,
+.ViewModeEdit .EditorCriteriaDetail .Description
+{
+    width: 70%;
+    width: calc(100% - 10em - 32px);
+    display: inline-block;
+    vertical-align: top;
+    padding: 0em;
+}
+
+.ViewModeEdit .EditorCriteriaDetail .LabelEditHeading,
+.ViewModeEdit .EditorCriteriaDetail .Label,
+.ViewModeEdit .EditorCriteriaDetail .Description
+{
+    margin-top: 0.5em;
+}
+
+.ViewModeEdit .EditorEntityItemActionButtons:not(.EditorEntityItemActionBlock)
+{
+    position: absolute;
+    top: 4px;
+    right: 2px;
+    display: inline-block;
+}
+
+.ViewModeEdit .EditorEntityItemActionButtons
+{
+    text-align: right;
+}
+
+.EditorCriteriaDetail
+{
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.ViewModeEdit .EditorEntityItem
+{
+    margin-top: 1em;
+    padding-bottom: 0.5em;
+    position: relative;
+    padding-top: 40px;
+}
+
+.EditorEntityItem.DeletedItem
+{
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.ContentPlaceholder .IndicatorSmall
+{
+    margin: 1em;
+    margin-bottom: 1.5em;
+}
+
+.ContentEditor
+{
+    padding: 0em;
+    margin-top: 1em;
+}
+
+.ContentEditorDisabled .Header,
+.ContentEditorDisabled .Footer
+{
+    display: none;
+}
+
+.ContentEditor .Header,
+.ContentEditor .Footer
+{
+    text-align: right;
+    display: inherit;
+}
+
+.ContentEditor .Header
+{
+    background-color: rgba(0,0,0,0.02);
+}
+
+.ContentEditor .cke_editable
+{
+    border: 1px solid rgba(0,0,0,0.02);
+    border-left-style: none;
+    border-right-style: none;
+}
+
+.ContentEditor .Header .LinkClickable.ui-btn .ui-btn-text,
+.ContentEditor .Footer .LinkClickable.ui-btn .ui-btn-text
+{
+    text-transform: uppercase;
+}
+
+.ContentEditor .Header .LinkClickable.ui-btn .ui-icon,
+.ContentEditor .Footer .LinkClickable.ui-btn .ui-icon
+{
+    background-color: #666666;
+}
+
+.ModifiedIndicator
+{
+    display: inline-block;
+    padding-right: 0.25em;
+}
+
+.ModifiedIndicator:not(.NoBorder)
+{
+    border-right: 2px solid #CCCCCC;
+}
+
+.ModifiedIndicator .Label
+{
+    color: #666666;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.ModifiedIndicator .ui-btn
+{
+    margin: 0em;
+}
+
+.ContentEditor .Header .ModifiedIndicator
+{
+    display: none;
+}
+
+.ContentEditorModified .Header .ModifiedIndicator
+{
+    display: initial;
+}
+
+.ContentEditor .Header .ModifiedIndicator .ui-btn .ui-icon
+{
+    background-color: #000000;
+}
+
+.ContentEditorFocused
+{
+    border-color: #607D8B;
+    box-shadow: 0px 1px 2px 0px #E57373;
+}
+
+.ContentEditorFocused .Header .ModifiedIndicator,
+.ContentEditorFocused .Footer
+{
+    display: none;
+}
+
+.EditorDraggableContainer.EditorDraggableOn .InlineConfirmation,
+.EditorTransparentInlineConfirmation .InlineConfirmation
+{
+    cursor: default;
+}
+
+.ContentEditorFocused .Header .InlineConfirmation,
+.EditorEntityItemActionButtons .InlineConfirmation,
+.EditorTransparentInlineConfirmation .InlineConfirmation
+{
+    background-color: transparent;
+    border-style: none;
+    margin-bottom: 0em;
+}
+
+.ContentEditorFocused .Header .InlineConfirmation .InlineConfirmButton,
+.EditorEntityItemActionButtons .InlineConfirmation .InlineConfirmButton,
+.EditorTransparentInlineConfirmation .InlineConfirmation .InlineConfirmButton
+{
+    background-color: transparent;
+}
+
+.ContentEditorFocused .Header .InlineConfirmation .InlineConfirmButton .LabelButtonContent,
+.EditorEntityItemActionButtons .InlineConfirmation .InlineConfirmButton .LabelButtonContent,
+.EditorTransparentInlineConfirmation .InlineConfirmation .InlineConfirmButton .LabelButtonContent
+{
+    color: #000000;
+    font-weight: bold;
+}
+
+.ContentEditorFocused .Header .InlineConfirmation .InlineConfirmButton.PositiveActionButton .ui-btn .ui-btn-inner .ui-icon,
+.EditorEntityItemActionButtons .InlineConfirmation .InlineConfirmButton.PositiveActionButton .ui-btn .ui-btn-inner .ui-icon,
+.EditorTransparentInlineConfirmation .InlineConfirmation .InlineConfirmButton.PositiveActionButton .ui-btn .ui-btn-inner .ui-icon
+{
+    background-color: #92bd6d;
+}
+
+.ContentEditorFocused .Header .InlineConfirmation .InlineConfirmButton.NegativeActionButton .ui-btn .ui-btn-inner .ui-icon,
+.EditorEntityItemActionButtons .InlineConfirmation .InlineConfirmButton.NegativeActionButton .ui-btn .ui-btn-inner .ui-icon,
+.EditorTransparentInlineConfirmation .InlineConfirmation .InlineConfirmButton.NegativeActionButton .ui-btn .ui-btn-inner .ui-icon
+{
+    background-color: #E57373;
+}
+
+.InlineConfirmation .EditorWarningHighlight
+{
+    color: #FF0000;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.DeletedItem .cke_editable
+{
+    display: none;
+}
+
+.EditorAdminEditTable
+{
+    width: 100%;
+}
+
+.EditorAdminEditTable .TableBlockRow
+{
+    margin-bottom: 1em;
+}
+
+.EditorAdminEditTable .TableBlockRow .ColumnHeading
+{
+    width: 10em;
+}
+
+.EditorAdminEditTable .TableBlockRow .ColumnContent
+{
+    width: 70%;
+    width: calc(100% - 10em - 1em);
+}
+
+.EditorAdminEditTable .TableBlockRow .ui-input-text
+{
+    border-radius: 0em;
+    margin: 0em;
+}
+
+.EditorCriteriaAdminEditTable .TableBlockCell_Full .BlockElement_1,
+.EditorCriteriaAdminEditTable .TableBlockCell_Full .BlockElement_2,
+.EditorCriteriaAdminEditTable .TableBlockCell_Full .BlockElement_3
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 1em;
+}
+
+.EditorCriteriaAdminEditTable .TableBlockCell_Full .BlockElement_1
+{
+    margin-left: 10.25em;
+    width: 30%;
+}
+
+.EditorCriteriaAdminEditTable .TableBlockCell_Full .BlockElement_3
+{
+    width: 80px;
+    margin-left: 1.25em;
+}
+
+.EditorCriteriaAdminEditTable .TableBlockRowGroupDivider
+{
+    margin-bottom: 1em;
+}
+
+.EditorCriteriaAdminEditTable .TableBlockRowGroupDivider > .TableBlockRow > .TableBlockCell.ColumnContent
+{
+    width: calc(55% - 10em - 1em);
+}
+
+.EditorCriteriaAdminEditTable .TableBlockRowGroupDivider > .Label
+{
+    text-transform: uppercase;
+    font-size: 1.2em;
+    color: #666666;
+}
+
+.EditorCriteriaAdminEditTable .EditorTableList
+{
+    margin-top: 1em;
+}
+
+.TableRowItem.DeletedItem,
+.EffectStrikethrough.DeletedItem
+{
+    text-decoration: line-through;
+    color: #E57373;
+}
+
+.EditorCriteriaAdminEditTable .EditorTableList .TableRowItem td
+{
+    padding-top: 0.25em;
+    vertical-align: top;
+}
+
+.EditorCriteriaAdminEditTable .EditorTableList .TableRowItem td:last-child
+{
+    padding-top: 0em;
+}
+
+.EditorCriteriaAdminEditTable .EditorTableList .EditToolButtons .ui-btn
+{
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.EditorCriteriaAdminEditTable .EditorTableList .TableRowItem div.ui-input-text
+{
+    width: 90%;
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+}
+
+.EditorCriteriaAdminEditTable .ReplaceFileToggle
+{
+    border: 1px solid #E0E0E0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    border-radius: 0em;
+    background: #FFFFFF;
+    margin-left: 0em;
+    margin-bottom: 0.5em;
+}
+
+.EditorCriteriaAdminEditTable .EditorCriteriaAdminValueMessageList
+{
+    width: 90%;
+}
+
+.EditorCriteriaAdminValueMessageList .TableBlockRow .TableBlockCell:first-child,
+.ValueMessageEditView.TableBlockRow .TableBlockCell:first-child
+{
+    width: 70%;
+    width: calc(100% - 8.5em);
+}
+
+.EditorCriteriaAdminValueMessageList .TableBlockRow.InlineConfirmationMode .TableBlockCell:first-child
+{
+    width: calc(100% - 14.5em);
+}
+
+.EditorCriteriaAdminValueMessageList .TableBlockRow .TableBlockCell:last-child,
+.ValueMessageEditView.TableBlockRow .TableBlockCell:last-child
+{
+    text-align: right;
+    width: 8em;
+}
+
+.EditorCriteriaAdminValueMessageList .TableBlockRow.InlineConfirmationMode .TableBlockCell:last-child
+{
+    width: 14em;
+}
+
+.EditorCriteriaAdminValueMessageList .TableBlockRow.ValueMessageEditView a.LinkClickable.ui-btn
+{
+    margin: 0em;
+}
+
+.EditorCriteriaAdminValueMessageList .LinkDisabled
+{
+    opacity: 0.6;
+}
+
+.EditorCriteriaAdminValueMessageList .ValueMessageEditView
+{
+    margin-bottom: 0.5em;
+    cursor: move;
+}
+
+.ValueMessageEditView .Title
+{
+    padding-top: 0.25em;
+    color: #666666;
+}
+
+.EditorValueMessageDetail
+{
+    padding-top: 0.25em;
+    padding-bottom: 0em;
+    border: 1px solid #CCCCCC;
+    border-left-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+}
+
+.EditorValueMessageDetail.ViewHighlight
+{
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    background-color: #FFF9C4;
+}
+
+.EditorValueMessageDetail:last-child,
+.ViewModeEdit .EditorValueMessageDetail
+{
+    border-bottom-style: solid;
+}
+
+.EditorValueMessageDetail > .Label
+{
+    font-size: 1.25em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    width: calc(100% - 12em);
+}
+
+.EditorValueMessageDetail > .EditorValueMessageBadgeView
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 14em;
+    text-align: right;
+    min-height: 3em;
+    margin-bottom: 0.25em;
+}
+
+.Content .EditorValueMessageDetail:not(.EditorEntityEditMode) > .EditorValueMessageBadgeView .EditorBadge.OffState:not(.PlaceholderState),
+.Content .EditorValueMessageDetail:not(.EditorEntityEditMode) > .EditorValueMessageBadgeView .EditorBadgeDivider.OffState
+{
+    display: none;
+}
+
+.EditorEntityEditMode.EditorValueMessageDetail > .EditorValueMessageInputRow:not(.ModeDisplayInlineBlock)
+{
+    width: 50%;
+    width: calc(100% - 15em);
+    display: inline-block;
+}
+
+.EditorValueMessageDetail > .EditorValueMessageBadgeView .LabelLoading
+{
+    margin-top: 1em;
+}
+
+.EditorValueMessageStatement
+{
+    background-color: #FFFFFF;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.EditorValueMessageStatement.DeletedItem
+{
+    background-color: #F0F0F0;
+    border-color: #CCCCCC;
+}
+
+.gu-mirror.EditorValueMessageStatement
+{
+    padding-bottom: 1em;
+}
+
+.gu-mirror.EditorValueMessageStatement .Label
+{
+    margin-left: 1em;
+}
+
+.gu-mirror .EditorValueMessageStatement
+{
+    background-color: transparent;
+}
+
+.EditorValueMessageStatement > .Label
+{
+    font-size: 1.05em;
+}
+
+.ViewModeEdit .EditorValueMessageDetail
+{
+    padding-bottom: 0em;
+}
+
+.ViewModeEdit .EditorValueMessageDetail .EditorValueMessageStatement
+{
+    position: relative;
+    padding-top: 40px;
+    cursor: move;
+}
+
+.ViewModeEdit .EditorEntityEditMode.EditorValueMessageDetail > .Label
+{
+    display: none;
+}
+
+.ViewModeEdit .EditorValueMessageStatementActionButtons
+{
+    text-align: right;
+}
+
+.ViewModeEdit .EditorValueMessageStatementActionButtons a.ui-btn
+{
+    margin-right: 0em;
+}
+
+.EditorValueMessageInputRow,
+.EditorEntityInputRow
+{
+    padding-left: 0.5em;
+    padding-top: 0.25em;
+}
+
+.EditorValueMessageInputRow:not(.ModeDisplayInlineBlock),
+.EditorEntityInputRow:not(.ModeDisplayInlineBlock)
+{
+    width: 100%;
+    width: calc(100% - 0.5em);
+}
+
+.EditorValueMessageInputRow.ModeDisplayInlineBlock .FlipSwitchInline,
+.EditorCriteriaAdminEditTable .FlipSwitchInline
+{
+    display: inline-block;
+    width: 40%;
+    margin-left: 1%;
+}
+
+.ViewModeEdit .EditorValueMessageDetail .EditorValueMessageInputRow div.ui-input-text,
+.ViewModeEdit .EditorEntityInputRow div.ui-input-text
+{
+    margin-top: 0em;
+    margin-left: 0em;
+}
+
+.EditorValueMessageStatement .ui-input-text
+{
+    margin-left: 0.5em;
+}
+
+.gu-mirror.EditorValueMessageDetail
+{
+    padding-bottom: 1em;
+}
+
+.gu-mirror.EditorValueMessageDetail .EditorValueMessageStatement > .Label
+{
+    margin-left: 1em;
+    margin-right: 1em;
+    color: #666666;
+}
+
+.gu-mirror.EditorValueMessageDetail .EditorValueMessageStatement
+{
+    border-color: rgba(0,0,0,0.05);
+}
+
+.EditorTableList.EditorPopupLegend
+{
+    box-shadow: none;
+}
+
+.EditorPopupLegend .TableRowItem
+{
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    padding-left: 1em;
+}
+
+.EditorPopupLegend.EditorPopupLegendViewDefault .TableRowItem
+{
+    margin-bottom: 1em;
+}
+
+.EditorPopupLegend.EditorTableList .TableRowItem:nth-child(odd),
+.EditorPopupLegend.EditorTableList .TableRowItem:nth-child(even)
+{
+    background-color: transparent;
+}
+
+.EditorPopupLegend .TableRowItem .Title
+{
+    display: inline-block;
+    margin-left: 1em;
+    margin-top: 1em;
+    color: #666666;
+    font-weight: bold;
+}
+
+.EditorPopupLegend.EditorPopupLegendViewDefault .TableRowItem .Title
+{
+    margin-top: 2px;
+}
+
+.EditorPopupLegend.EditorPopupLegendViewDefault .TableRowItem .Description
+{
+    margin-top: 0.5em;
+    color: #666666;
+    font-weight: normal;
+}
+
+.ViewEditorValueMessageStatement.EditorValueMessageInfo > .Title .Label,
+.ViewEditorValueMessageStatement.EditorValueMessageInfo > .Title .EditorValueMessageBadgeView 
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ViewEditorValueMessageStatement.EditorValueMessageInfo > .Title .Label
+{
+    width: 79%;
+    margin-top: 0.25em;
+}
+
+.ViewEditorValueMessageStatement.EditorValueMessageInfo > .StatementTitle
+{
+    margin-top: 0.5em;
+    margin-left: 1em;
+    margin-bottom: 1em;
+}
+
+.ViewEditorValueMessageStatement.EditorValueMessageInfo > .Title .EditorValueMessageBadgeView 
+{
+    text-align: right;
+    width: 20%;
+}
+
+.ViewReferenceFileController
+{
+    padding-left: 0em;
+    padding-right: 0em;
+    margin-bottom: 1em;
+}
+
+.EditorReferenceFile
+{
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.EditorReferenceFile .InlineConfirmation
+{
+    padding-top: 0em;
+    margin-top: 0em;
+}
+
+.EditorReferenceFile.DeletedItem,
+.EditorReferenceFile.EffectStrikethrough.DeletedItem
+{
+    opacity: 1;
+    text-decoration: none;
+}
+
+.EditorReferenceFile.DeletedItem .TableBlockCell.Title > .DisplayName
+{
+    text-decoration: line-through;
+}
+
+.ViewModeEdit .EditorReferenceFile.DeletedItem .ModeToggleEdit.IndicatorDraggable,
+.ViewModeEdit .EditorReferenceFile.DeletedItem .TableBlockCell.Title .ModeToggleEdit
+{
+    display: none;
+}
+
+.EditorReferenceFile.TitleRow
+{
+    border-bottom: 2px solid #E0E0E0;
+}
+
+.EditorReferenceFile.TitleRow .TableBlockCell.Title
+{
+    font-weight: bold;
+    color: #666666;
+}
+
+.EditorReferenceFile .TableBlockCell
+{
+    width: 70%;
+    width: calc(100% - 9em);
+    padding-left: 0.5em;
+    padding-bottom: 0.25em;
+}
+
+.EditorEntityEditMode.EditorReferenceFile .TableBlockCell
+{
+    width: calc(100% - 1em);
+}
+
+.EditorReferenceFile .TableBlockCell.Title
+{
+    padding-top: 0.25em;
+}
+
+.EditorReferenceFile .TableBlockCell.Title .LinkClickable,
+.EditorInlineOpenExtLink .LinkClickable
+{
+    text-decoration: none;
+}
+
+.EditorReferenceFile .TableBlockCell.Title .LinkClickable.ui-focus,
+.EditorReferenceFile .TableBlockCell.Title .LinkClickable.ui-btn:focus
+{
+    box-shadow: none;
+}
+
+.EditorReferenceFile .TableBlockCell_C2
+{
+    text-align: right;
+    width: 8em;
+    padding-bottom: 0.25em;
+}
+
+.EditorReferenceFile .TableBlockCell_C2 .LinkClickable
+{
+    min-width: 4.5em;
+    margin-top: 0em;
+    margin-left: 0em;
+    margin-right: 0em;
+}
+
+.EditorReferenceFile .EditorEntityInputRow .EditorInputRowCell_R1C1,
+.EditorReferenceFile .EditorEntityInputRow .EditorInputRowCell_R1C2
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorReferenceFile .EditorEntityInputRow .EditorInputRowCell_R1C2 > .ui-checkbox,
+.EditorReferenceFile .EditorEntityInputRow .EditorInputRowCell_R1C2 > .ui-checkbox .ui-btn
+{
+    margin-top: 0em;
+}
+
+.EditorReferenceFile .EditorEntityInputRow .ReferenceFileExternalLinkToggle,
+.FileExternalLinkToggle
+{
+    margin-top: 0.5em;
+}
+
+.EditorResourceFileLinkView
+{
+    margin-top: 0.5em;
+}
+
+.EditorResourceFileLinkView > .LinkExternal
+{
+    display: inline-block;
+    vertical-align: top;
+    border-style: none;
+}
+
+.EditorResourceFileLinkView > a > .EditorImageButton
+{
+    margin-right: 0.5em;
+}
+
+.EditorReferenceFile:not(.DeletedItem) .TableBlockCell.Title > .DisplayName
+{
+    color: #666666;
+}
+
+.gu-mirror.EditorReferenceFile .TableBlockCell.Title > .DisplayName
+{
+    margin-bottom: 0.5em;
+}
+
+.EditorClaimList
+{
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    width: 20%;
+    width: calc(20% - 1em);
+}
+
+.EditorClaimList > .Heading
+{
+    text-align: center;
+}
+
+.EditorClaimList > .Heading .EditorBadgeLabel
+{
+    font-size: 1.25em;
+    margin-top: 0.5em;
+    color: #666666;
+}
+
+.EditorClaimList > .List
+{
+    margin-top: 1em;
+}
+
+.EditorClaim
+{
+    margin-bottom: 0.5em;
+}
+
+.PluginEditorCardView.EditorClaim
+{
+    border-radius: 0em;
+}
+
+.PluginEditorCardView.EditorClaim:not(.LinkClickable),
+.PluginEditorCardView.EditorClaim.LinkDisabled
+{
+    border-style: none;
+    box-shadow: none;
+}
+
+.PluginEditorCardView.EditorClaim.LinkDisabled
+{
+    border-style: solid;
+    background-color: rgba(0,0,0,0.01);
+}
+
+.EditorClaim > .EditorClaimType,
+.EditorClaim > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorClaim > .Label
+{
+    width: 90%;
+    margin-left: 0.25em;
+    width: calc(100% - 30px - 1em);
+}
+
+.EditorClaimAdminEditTable.EditorAdminEditTable .TableBlockRow .ColumnHeading
+{
+    width: 15em;
+}
+
+.EditorClaimAdminEditTable.EditorAdminEditTable .TableBlockRow .ColumnContent
+{
+    width: calc(65% - 15em - 1em);
+}
+
+.EditorClaimAdminEditTable.EditorAdminEditTable .TableBlockRow .ColumnContent.EditorElementDropdown > .ui-select > .ui-btn
+{
+    border-radius: 0em;
+}
+
+.EditorDropdownStatement.EditorDropdownOptionFixedHeight.EditorDropdownOption:not(.EditorDropdownStatementBlankItem)
+{
+    padding-top: 0.5em;
+    min-height: inherit;
+}
+
+.EditorDropdownStatement.EditorDropdownOptionFixedHeight.EditorDropdownStatementBlankItem
+{
+    min-height: 2em;
+}
+
+.EditorDropdownCurrentSelected.EditorDropdownStatement
+{
+    margin-top: 0.5em;
+}
+
+.EditorStudyAdminEditTable > .TableBlockRow.TableBlockTwoColumn
+{
+    display: inline-block;
+    margin-left: 2%;
+    width: 44%;
+    vertical-align: top;
+}
+
+.EditorStudyAdminEditTable > .TableBlockRow.TableBlockTwoColumn > .TableBlockCell.ColumnHeading
+{
+    text-align: right;
+    padding-top: 2px;
+    padding-right: 0.5em;
+}
+
+.EditorStudyAdminEditTable > .TableBlockRow.TableBlockFullColumn > .TableBlockCell
+{
+    display: block;
+    padding-left: 1em;
+    margin-top: 1em;
+}
+
+.EditorStudyAdminEditTable > .TableBlockRow.TableBlockFullColumn > .TableBlockCell > .Label
+{
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.PluginEditorResourceSelection
+{
+    margin-top: 1em;
+    margin-left: 1%;
+    margin-right: 1%;
+    width: 98%;
+}
+
+.PluginEditorResourceSelection > .Label
+{
+    margin-top: 1em;
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.EditorResourceCategoryDetail:not(.EditorElementHidden)
+{
+    margin: 0em;
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+    margin-left: 3%;
+    margin-bottom: 1em;
+}
+
+.EditorResourceCategoryDetail > .Label
+{
+    text-align: center;
+    margin-top: 0.25em;
+    height: 2.25em;
+    max-height: 2.25em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+}
+
+.EditorBrowser_IE .EditorResourceCategoryDetail > .Label
+{
+    white-space: nowrap;
+}
+
+.ViewModeEdit .EditorResourceCategoryDetail:not(.EditorElementHidden)
+{
+    display: block;
+    width: 92%;
+}
+
+.ViewModeEdit .EditorResourceCategoryDetail > .Label,
+.gu-mirror.EditorResourceCategoryDetail > .Label
+{
+    text-align: left;
+    text-overflow: unset;
+    overflow: visible;
+    height: unset;
+    max-height: unset;
+}
+
+.EditorResourceCategoryDetail > .TopHeaderBar
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 2.5em;
+    background: rgba(0,0,0,0.05);
+    border-radius: 0.25em;
+}
+
+.EditorResourceCategoryDetail > .BottomSummaryBar
+{
+    margin-top: 0.25em;
+    font-size: 0.9em;
+}
+
+.EditorResourceCategoryDetail > .BottomSummaryBar > a.LinkClickable
+{    
+    margin: 0em;
+}
+
+.gu-mirror.EditorResourceCategoryDetail > .TopHeaderBar
+{
+    display: none;
+}
+
+.gu-mirror.EditorResourceCategoryDetail > .Label
+{
+    margin-bottom: 1em;
+}
+
+.PluginEditorResourceCategoryDetails > .SortModeView
+{
+    width: 14em;
+    max-width: 14em;
+    margin-bottom: 0.5em;
+}
+
+.PluginEditorResourceCategoryDetails > .SortModeView .EditorDropdown > .EditorDropdownOption
+{
+    padding: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0em;
+}
+
+.PluginEditorResourceCategoryDetails > .EditorResourceListView
+{
+    border-top: 1px solid #E0E0E0;
+}
+
+.EditorResourceLineItem
+{
+    margin-top: 1em;
+}
+
+.EditorResourceLineItem > .Thumbnail,
+.EditorResourceLineItem > .Detail
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorResourceLineItem > .Divider
+{
+    margin-top: 1em;
+    border-bottom: 2px solid #F0F0F0;
+    margin-left: 4%;
+    width: 92%;
+}
+
+.EditorResourceLineItem:last-child > .Divider
+{
+    border-style: none;
+}
+
+.EditorResourceLineItem > .Thumbnail
+{
+    width: 200px;
+    margin-left: 0.25em;
+    text-align: center;    
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+    border: 2px solid #CCCCCC;
+}
+
+.EditorResourceLineItem > .Thumbnail > .Image
+{
+    min-height: 192px;
+    height: 192px;
+    background-color: rgba(0,0,0,0.02);
+    border-bottom: 1px solid #CCCCCC;
+    overflow: hidden;
+}
+
+.EditorResourceLineItem > .Thumbnail > .Image > .ActionButtonDownload
+{
+    position: absolute;
+    top: 6px;
+    right: 4px;
+}
+
+.ViewModeEdit .EditorResourceLineItem > .Thumbnail > .Image > .ActionButtonDownload
+{
+    display: none;
+}
+
+.EditorResourceLineItem > .Thumbnail > .Image > .ActionButtonDownload > .EditorImageButton.ImageDownloadFile > .ImageIcon
+{
+    width: 22px;
+    height: 22px;
+}
+
+.EditorResourceLineItem > .Thumbnail > .Image > img
+{
+    width: 192px;
+    max-height: 192px;
+    height: auto;
+}
+
+.EditorResourceLineItem > .Thumbnail > .Image.Loading > img,
+.EditorResourceTransitionDismiss .EditorResourceLineItem > .Thumbnail > .Image > img
+{
+    display: none;
+}
+
+.EditorResourceLineItem > .Thumbnail > .Image:not(.Loading)
+{
+    position: relative;
+}
+
+.EditorResourceLineItem > .Thumbnail > .Image:not(.Loading) > img
+{
+    position: absolute;
+    top: 0px;
+    left: 4px;
+}
+
+.EditorResourceLineItem > .Thumbnail > .Image > img.Placeholder
+{
+    width: 128px;
+    left: 40px;
+    height: auto;
+    opacity: 0.35;
+}
+
+.EditorResourceLineItem .Detail
+{
+    width: 90%;
+    margin-left: 0.5em;
+    width: calc(100% - 200px - 2em);
+}
+
+.EditorResourceLineItem > .Detail > .Title
+{
+    font-size: 1.5em;
+    color: #000000;
+}
+
+.EditorResourceLineItem > .Detail > .Label
+{
+    font-size: 1.1em;
+    color: #666666;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.EditorResourceLineItem > .Detail > .Description
+{
+    color: #999999;
+    margin-bottom: 0.5em;
+}
+
+.EditorResourceLineItemDisabled
+{
+    position: relative;
+    opacity: 0.7;
+}
+
+.EditorResourceLineItem.PermissionNoAccessItem
+{
+    overflow: hidden;
+    position: relative;
+    height: 125px;
+    border-bottom: 1px solid #CCCCCC;
+    opacity: 0.45;
+}
+
+.EditorResourceLineItem.PermissionNoAccessItem > .Thumbnail
+{
+    opacity: 0.55;
+}
+
+.ViewModeEdit .EditorResourceLineItem > .Detail > .Description,
+.gu-mirror.EditorResourceLineItem > .Detail > .Description
+{
+    position: relative;
+    overflow: hidden;
+    max-height: 3.1em;
+}
+
+.ViewOverflowFadeOut
+{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    height: 4px;
+    width: 100%;
+
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%); 
+    background-image: -moz-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background-image: -o-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background-image: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.PluginEditorScenarioDetails > .InlineTitle
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 68%;
+}
+
+@media screen and (max-width: 1024px) {
+    .PluginEditorScenarioDetails > .InlineTitle
+    {
+        width: calc(95% - 455px);
+    }
+}
+
+/*SECTION END: Home */
+
+.EditorTabView
+{
+    margin-top: 1em;
+    margin-left: 0.25em;
+}
+
+.EditorTabView .TabItem
+{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(33% - 0.25em);
+    text-align: center;
+}
+
+.EditorTabView .TabItem.Tab
+{
+    text-transform: uppercase;
+    border-right: 0.1em solid #CCCCCC;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    border-bottom: 0.1em solid #F0F0F0;
+}
+
+.EditorTabView.EditorTabViewDisabled .TabItem.Tab:not(.Selected)
+{
+    color: #CCCCCC;
+}
+
+.EditorTabView .TabItem.Tab.Selected
+{
+    border-bottom-color: #009688;
+}
+
+.EditorTabView.EditorTabViewDisabled .TabItem.Tab.Selected
+{
+    border-bottom-color: #999999;
+}
+
+.EditorTabView .TabItem.Tab:not(.LinkDisabled):hover
+{
+    background-color: #FAFAFA;
+}
+
+.EditorTabView .TabItem.Tab.LastChild
+{
+    border-right-style: none;
+}
+
+.EditorTabView .TabItem.TabIndicator > .Icon
+{
+    width: 16px;
+    height: 16px;
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/tab_indicator.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.EditorTabView .TabItem.TabIndicator:not(.Selected) > .Icon
+{
+    background-image: none;
+}
+
+.EditorTabView > .TabContent
+{
+    margin-top: 0.25em;
+    margin-bottom: 1em;
+}
+
+.ui-btn.ui-btn-up-editor-checkbox-a,
+.ui-btn.ui-btn-hover-editor-checkbox-a,
+.ui-btn.ui-btn-down-editor-checkbox-a
+{
+    background: none;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    border: 1px solid #E0E0E0;
+}
+
+.ui-btn.ui-btn-hover-editor-checkbox-a
+{
+    background-color: #FAFAFA;
+}
+
+.EditorBadge
+{
+    width: 3em;
+    background-size: cover;
+}
+
+.EditorBadge,
+.EditorBadgeDivider
+{
+    display: inline-block;
+    vertical-align: top;
+    height: 3em;
+}
+
+.EditorBadge.EditorBadgeFullSize
+{
+    width: 72px;
+    height: 72px;
+}
+
+.EditorDropdownOption > .EditorValueMessageBadgeViewMinimal > .EditorBadge
+{
+    width: 40px;
+    height: 40px;
+}
+
+.EditorDropdownValueMessage > .Label
+{
+    margin-left: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.EditorBadgeLabel
+{
+    margin-top: 1em;
+}
+
+.EditorBadgeViewModeList > .EditorBadge,
+.EditorBadgeViewModeList > .EditorBadgeLabel,
+.EditorClaimViewModeList > .EditorClaimType,
+.EditorClaimViewModeList > .EditorClaimTypeLabel
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorBadgeViewModeList > .EditorBadgeLabel,
+.EditorClaimViewModeList > .EditorClaimTypeLabel
+{
+    margin-left: 0.5em;
+}
+
+.EditorBadgeDivider
+{
+    width: 1px;
+    background-color: #000000;
+    opacity: 0.25;
+}
+
+.EditorBadgeDivider,
+.EditorValueMessageBadgeView .EditorBadge
+{
+    margin-left: 0.25em;
+}
+
+.EditorValueMessageBadgeView.EditorValueMessageBadgeViewMinimal .EditorBadge.OffState,
+.EditorValueMessageBadgeView.EditorValueMessageBadgeViewMinimal .EditorBadgeDivider.OffState
+{
+    display: none;
+}
+
+.EditorValueMessageBadgeView .LabelLoading
+{
+    color: #666666;
+    text-shadow: 2px 2px #E0E0E0;
+}
+
+.EditorValueMessageFilter
+{
+    margin: 0em;
+    margin-bottom: 1em;
+}
+
+.EditorValueMessageFilter.LinkDisabled
+{
+    position: relative;
+    opacity: 0.75;
+}
+
+.EditorValueMessageFilter.LinkDisabled .IndicatorSmall
+{
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.EditorValueMessageFilter.LinkDisabled .LinkClickable,
+.EditorValueMessageFilter.LinkDisabled .LinkClickable:hover
+{
+    cursor: default;
+    opacity: 0.5;
+}
+
+.EditorValueMessageFilter .EditorBadge,
+.EditorValueMessageFilter .EditorBadgeDivider
+{
+    margin-right: 0.5em;
+}
+
+.EditorValueMessageFilter .ResultLabel
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 0.7em;
+}
+
+.EditorValueMessageFilter .ui-checkbox
+{
+    display: inline-block;
+}
+
+.EditorValueMessageFilter .ui-checkbox .ui-btn
+{
+    background: none;
+    background-color: transparent;
+    border-style: none;
+}
+
+.EditorValueMessageFilter .ui-checkbox input[type=checkbox]
+{
+    display: none;
+}
+
+.EditorValueMessageFilter > .Title
+{
+    font-size: 1.5em;
+    color: #696969;
+    margin-bottom: 0.5em;
+}
+
+.EditorClaimViewModeList.EditorDropdownOption,
+.EditorClaimViewModeList.EditorDropdownCurrentSelected
+{
+    min-height: 2.5em;
+    padding-top: 0.5em;
+}
+
+.EditorClaimViewModeList.EditorDropdownCurrentSelected
+{
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+.EditorClaimViewModeList.EditorDropdownOption > .EditorClaimType,
+.EditorClaimViewModeList.EditorDropdownCurrentSelected > .EditorClaimType
+{
+    margin-left: 1em;
+}
+
+.EditorClaimType
+{
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorClaimTypeLabel
+{
+    margin-top: 0.5em;
+}
+
+.EditorDropdown
+{
+    z-index: 100;
+}
+
+.EditorDropdown.EditorFloatingDropdown
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0em;
+    margin: 0em;
+    border-radius: 0px;
+    box-shadow: none;
+    overflow: auto;
+    border: 1px solid #999999;
+}
+
+.EditorDropdown.EditorFloatingDropdown.ModeAnchorAbove
+{
+    border-bottom-color: rgba(0,0,0,0.1);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.EditorDropdown.EditorFloatingDropdown.ModeAnchorBelow
+{
+    border-top-style: none;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.EditorDropdownCurrentSelected .EditorDropdownLabel
+{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.EditorDropdownOption
+{
+    padding: 2px;
+    border-right: 1px solid #F0F0F0;
+}
+
+.EditorDropdownOption:not(:last-of-type)
+{
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.EditorDropdownTrigger.StateOpen > .ui-btn
+{
+    border-color: #CCCCCC;
+}
+
+.EditorDropdownTrigger.StateOpen > .ui-btn > .ui-btn-inner > .ui-icon
+{
+    background-color: #666666;
+}
+
+.EditorDropdownOption.EditorDropdownOptionFixedHeight, .EditorDropdownTrigger .EditorDropdownOptionFixedHeight
+{
+    min-height: 3em;
+}
+
+.EditorDropdownTrigger .ui-btn .ui-btn-inner .ui-btn-text .EditorDropdownOptionFixedHeight
+{
+    min-height: 2.75em;
+}
+
+.EditorDropdown > .EditorDropdownOption:nth-child(odd)
+{
+    background-color: #FFFFFF;
+}
+
+.EditorDropdown > .EditorDropdownOption:nth-child(even)
+{
+    background-color: rgba(0,0,0,0.02);
+}
+
+.EditorDropdown > .EditorDropdownOption.Selected
+{
+    border-color: #CCCCCC;
+    border-right-color: #F0F0F0;
+    cursor: default;
+}
+
+.EditorDropdown > .EditorDropdownOption:hover
+{
+    opacity: 1;
+}
+
+.EditorDropdown > .EditorDropdownOption:not(.Selected):hover
+{
+    color: #1565C0;
+    border-color: #BDBDBD;
+    border-right-color: #F0F0F0;
+}
+
+.EditorDropdownTrigger.ui-select .ui-btn
+{
+    text-align: left;
+}
+
+.EditorDropdownTrigger.ui-select .ui-btn .ui-btn-inner
+{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.EditorDropdownTrigger.ui-select .ui-btn.ui-focus
+{
+    box-shadow: none;
+}
+
+.EditorDropdownSelectionView
+{
+    padding-top: 2px;
+    padding-left: 0.5em;
+}
+
+.EditorDropdownDatePickerElement > .ui-select
+{
+    display: inline-block;
+    width: 6em;
+    min-width: 6em;
+    max-width: 6em;
+    margin-right: 0.5em;
+}
+
+.EditorDropdownDatePickerElement > .ui-select:last-child
+{
+    margin-right: 0em;
+}
+
+.EditorDropdownDatePickerElement > .LinkClickable
+{
+    vertical-align: top;
+}
+
+.EditorEvidenceRoadmapTimeline,
+.EditorEvidenceRoadmapTable
+{
+    width: 98%;
+    width: calc(98% - 2em);
+    margin-left: 0.5em;
+    margin-top: 1em;
+    padding: 0.25em;
+
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+    border-radius: 0.25em;
+}
+
+.EditorEvidenceRoadmapTimeline > .Title,
+.EditorEvidenceRoadmapTable > .Title
+{
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    color: #999999;
+    text-shadow: 1px 0px 0px #E0E0E0;
+    width: 100%;
+}
+
+.EditorEvidenceRoadmapTable .EditorDataAdminListTable
+{
+    box-shadow: none;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorScrollableContent
+{
+    overflow-y: visible;
+}
+
+.EditorEvidenceRoadmapTimeline > .EditorScrollableContainer
+{
+    position: relative;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorScrollableContent,
+.EditorEvidenceRoadmapTimeline > .EditorScrollableContainer
+{
+    height: 17em;
+    width: 100%;
+}
+
+.EditorEvidenceRoadmapTimeline > .EditorScrollableContainer > .EditorScrollableContent
+{
+    position: absolute;
+    top: 0em;
+    left: 0em;
+}
+
+.EditorEvidenceRoadmapTimeline > .EditorScrollableContainer > .Divider
+{
+    position: absolute;
+    top: 7.25em;
+    left: 0%;
+    width: 100%;
+    height: 0.55em;
+    background-color: #FAFAFA;
+    border: 1px solid #E0E0E0;
+    border-radius: 2px;
+    border-top-style: none;
+    border-left-style: none;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorScrollableContent .EditorStudyTimelineDetail
+{
+    position: absolute;    
+    display: inline-block;  
+    vertical-align: top;
+    width: 9em;
+    max-width: 9em;
+    min-width: 9em;
+    height: 6em;
+    overflow: hidden;
+    margin: 0em;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorStudyTimelineDetail > .EditorCallout
+{
+
+    border-color: transparent;
+    border-bottom-color: #E0E0E0;
+    border-top-color: #E0E0E0;
+
+	width: 0px;
+	height: 0px;
+	position: absolute;
+    z-index: 2;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorStudyTimelineDetail.EditorStudyTimelineDetailPositionTop > .EditorCallout
+{
+    border-style: solid dashed dashed;
+    border-width: 12px 12px 0;
+    left: 1.5em;
+	bottom: 2px;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorStudyTimelineDetail.EditorStudyTimelineDetailPositionBottom > .EditorCallout
+{
+    border-style: dashed dashed solid;
+    border-width: 0 12px 12px;
+    left: 1.5em;
+	top: 0px;
+}
+
+.EditorScrollableContent .EditorStudyTimelineDetail > .Label
+{
+    height: 5em;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 1em;
+    z-index: 1;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    width: calc(100% - 2px);
+    box-shadow: 0px 1px 2px 0px #999999;
+}
+
+.EditorScrollableContent .EditorStudyTimelineDetail.EditorStudyTimelineDetailPositionBottom > .Label
+{
+    top: 12px;
+}
+
+.EditorScrollableContent .EditorStudyTimelineDetail > .Label > .LabelName,
+.EditorScrollableContent .EditorStudyTimelineDetail > .Label > .LabelDate
+{
+    font-size: 0.9em;
+}
+
+.EditorScrollableContent .EditorStudyTimelineDetail > .Label > .LabelName
+{
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    padding-left: 0.5em;
+
+    width: 94%;
+    width: calc(100% - 1em);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.EditorScrollableContent .EditorStudyTimelineDetail > .Label > .LabelDate
+{
+    padding-left: 0.5em;
+    color: #666666;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorScrollableContent .EditorStudyTimelineDetail.EditorStudyTimelineDetailPositionTop
+{
+    top: 0.25em;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorScrollableContent .EditorStudyTimelineDetail.EditorStudyTimelineDetailPositionBottom
+{
+    top: 9em;
+}
+
+.EditorEvidenceRoadmapTimeline .EditorScrollableContent .EditorStudyTimelineDetail.EditorStudyTimelinePlaceholder
+{
+    background: none;
+    background-color: transparent;
+    box-shadow: none;
+    border-style: none;
+}
+
+.EditorEvidenceRoadmapTable
+{
+    margin-bottom: 1em;
+}
+
+.EditorRoadmapStudyDetailTable > .Title
+{
+    background-color: rgba(0,0,0,0.45);
+    padding: 0.5em;
+    border: 1px solid #666666;
+    border-left-style: none;
+    border-right-style: none;
+}
+
+.EditorRoadmapStudyDetailTable > .Title
+{
+    color: #FFFFFF;
+}
+
+.EditorRoadmapStudyDetailTable > .Title > .LabelName,
+.EditorRoadmapStudyDetailTable > .Title > .LinkClickable,
+.EditorRoadmapStudyPopup .LabelLoading
+{
+    font-size: 1.5em;
+}
+
+.EditorRoadmapStudyDetailTable > .Title > .LabelName,
+.EditorRoadmapStudyDetailTable > .Title > .LinkClickable
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorRoadmapStudyDetailTable > .Title > .LabelName
+{
+    width: 90%;
+    width: calc(100% - 1.5em);
+}
+
+.EditorRoadmapStudyDetailTable > .Title > .LinkClickable
+{
+    text-align: right;
+    width: 1em;
+}
+
+.EditorRoadmapStudyDetailTable > .NavigationButtons
+{
+    text-align: right;
+    padding-right: 0.25em;
+}
+
+.EditorRoadmapStudyDetailTable > .NavigationButtons .LinkDisabled
+{
+    opacity: 0.55;
+}
+
+.EditorRoadmapStudyDetailTable.EditorLoadProgressView > .NavigationButtons .LinkClickable
+{
+    cursor: default;
+}
+
+.EditorRoadmapStudyPopup .LabelLoading
+{
+    padding: 0.5em;
+    font-size: 1.25em;
+}
+
+.EditorRoadmapStudyDetailTable > .TableBlockRow
+{
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.EditorRoadmapStudyDetailTable > .TableBlockRow > .ColumnHeading
+{
+    font-weight: bold;
+    padding-left: 0.5em;
+    width: 30%;
+    margin-right: 1%;
+    color: #FFFFFF;
+}
+
+.EditorRoadmapStudyDetailTable.EditorLoadProgressView > .TableBlockRow
+{
+    opacity: 0.65;
+}
+
+.EditorRoadmapStudyDetailTable > .TableBlockRow > .ColumnContent
+{
+    padding-right: 0.5em;
+    width: 70%;
+    width: calc(70% - 1% - 1em - 6px);
+    color: #E0E0E0;
+}
+
+.EditorRoadmapStudyDetailTable > .TableBlockRow > .ColumnContent > a.LinkClickable[data-rel]
+{
+    color: #03A9F4;
+    text-decoration: none;
+    padding-bottom: 1px;
+    border-bottom: 1px solid #03A9F4;
+}
+
+.EditorRoadmapStudyDetailTable > .TableBlockRow:nth-child(odd)
+{
+    background-color: #666666;
+}
+
+.EditorRoadmapStudyDetailTable .LabelError
+{
+    padding: 0.5em;
+    padding-top: 0em;
+}
+
+.CEditorEvidenceRoadmap > .Content
+{
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .BannerBubbleView:not(.BannerListView)
+{
+    margin-top: 0em;
+    margin-bottom: 0.5em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .EditorSearchableView,
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .EditorSearchableView
+{
+    margin-right: 0em;
+    margin-bottom: 0.25em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .Divider
+{
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1em;
+    width: 1px;
+    background: #666666;
+    height: 2em;
+    margin-top: 4px;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .EditorSearchableView,
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettings
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettings > .ui-select
+{
+    margin-top: 0em;
+    display: inline-block;
+    width: 13em;
+    max-width: 13em;
+    margin-right: 0.5em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettings > .material-icons
+{
+    color: #999999;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettings
+{
+    width: calc(13em + 0.5em + 72px);
+    text-align: right;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .EditorSearchableView
+{
+    width: calc(100% - 2em - 1px - 13em - 0.5em - 72px - 1em - 2px);
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettingContent
+{
+    border-top: 2px solid #FAFAFA;
+    margin-top: 0.25em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    background-color: rgba(0,0,0,0.01);
+    border-bottom: 1px solid #F0F0F0;
+    margin-bottom: 0.5em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettingContent > .Section > .Title > span
+{
+    color: #000000;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettingContent > .Section .ToggleGroupSetting
+{
+    cursor: pointer;
+    margin-top: 0.5em;
+    width: calc(20% - 1em  - 1em - 4px - 2px);
+    display: inline-block;
+    padding: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-bottom: 0.25em;
+    margin-left: 1em;
+    border: 2px solid #F5F5F5;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettingContent > .Section .ToggleGroupSetting > .EditorImageButton,
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettingContent > .Section .ToggleGroupSetting > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.CEditorEvidenceRoadmap > .Content > .ViewHeadingSortOptions > .ViewExtendedSettingContent > .Section .ToggleGroupSetting > .Label
+{
+    padding-top: 1px;
+    margin-left: 2px;
+}
+
+.CEditorEvidenceRoadmap > .ViewEditEntity
+{
+    margin-bottom: 1em;
+}
+
+.CEditorEvidenceRoadmap .TableEvidenceRoadmapA .CellExpandedDate
+{
+    width: 12em;
+}
+
+.CEditorComponentHome.ModeInlineEditOn .CEditorEvidenceRoadmap > .Header,
+.CEditorComponentHome.ModeInlineEditOn .CEditorEvidenceRoadmap > .Content
+{
+    display: none;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView
+{
+    padding-bottom: 1em;
+    border-bottom: 1px solid #757575;
+    margin-bottom: 0.5em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView > .Group:not(.StateLoadingOn) > .Content > .LoadingView
+{
+    display: none;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView > .Group > .Content > .LoadingView
+{
+    text-align: center;
+    color: #E0E0E0;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group:not(.EditorElementHidden)
+{
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    width: calc(20% - 1em);
+    margin-bottom: 1em;
+    text-align: center;
+    position: relative;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault.LayoutGroupCount_1 > .Group:not(.EditorElementHidden),
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault.LayoutGroupCount_2 > .Group:not(.EditorElementHidden),
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault.LayoutGroupCount_3 > .Group:not(.EditorElementHidden),
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault.LayoutGroupCount_4 > .Group:not(.EditorElementHidden)
+{
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault.LayoutGroupCount_1 > .Group:not(.EditorElementHidden)
+{
+    width: calc(100% - 1em);
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault.LayoutGroupCount_2 > .Group:not(.EditorElementHidden)
+{
+    width: calc(50% - 1em);
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault.LayoutGroupCount_3 > .Group:not(.EditorElementHidden)
+{
+    width: calc(33% - 1em);
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault.LayoutGroupCount_4 > .Group:not(.EditorElementHidden)
+{
+    width: calc(25% - 1em);
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Badge > span
+{
+    position: absolute;
+    font-size: 10px;
+    text-align: center;
+    left: 0px;
+    top: 2px;
+    width: 100%;
+    text-shadow: none;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Badge
+{
+    position: absolute;
+    top: 5px;
+    left: calc(50% + 15px);
+    background-color: #2196F3;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    overflow: hidden;
+    color: #FFFFFF;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group.StateNoRecordsOn > .Badge
+{
+    background-color: #666666;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Badge > span.LabelSizeSmall
+{
+    font-size: 8.5px;
+    top: 3px;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Title > .Icon
+{
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    position: relative;
+    background: #FAFAFA;
+    border-radius: 50%;
+    border: 2px solid #F0F0F0;
+    overflow: hidden;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Title > .Label > span
+{
+    text-shadow: 1px 0px #E0E0E0;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Title > .Icon > .material-icons
+{
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content
+{
+    border-top: 1px solid #CCCCCC;
+    padding-top: 0.5em;
+    margin-top: 0.25em;
+    text-align: left;
+    position: relative;
+    min-height: 30px;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .LoadingView
+{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 2px;
+    left: 0px;
+    background-color: rgba(255,255,255,0.4);
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .LabelNoRecords
+{
+    color: #9E9E9E;
+    text-align: center;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .LabelNoRecords > .Label
+{
+    font-size: 0.95em;
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 4px;
+    margin-left: 6px;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail:not(:last-of-type)
+{
+    margin-bottom: 0.5em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail > .LineItem > .Icon,
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail > .LineItem > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail > .LineItem:not(:last-of-type)
+{
+    margin-bottom: 0.25em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail
+{
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail.ViewHighlight
+{
+    border-color: #2196F3;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail > .LineItem > .Icon
+{
+    text-align: center;
+    width: calc(28px + 4px);
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail > .LineItem > .Label
+{
+    word-break: break-word;
+    width: calc(100% - 28px - 4px - 6px);
+    padding-top: 4px;
+    padding-right: 6px;
+}
+
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail > .LineItem.Subtitle > .Icon,
+.CEditorEvidenceRoadmap > .Content > .SummaryView.LayoutDefault > .Group > .Content > .ListView > .Detail > .LineItem.Subtitle > .Label
+{
+    color: #999999;
+}
+
+.CEditorEvidenceRoadmap .ViewEditEntity.StateEditModeOn .TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC2 > .PropertyNote
+{
+    padding-left: 0.25em;
+}
+
+.BannerBubbleView
+{
+    position: relative;
+    border-bottom: 1px solid #F0F0F0;
+    color: #666666;
+    padding-top: 0.5em;
+}
+
+.BannerBubbleView > .ui-btn:first-of-type
+{
+    position: absolute;
+    top: 0.25em;
+    left: 0px;
+    margin: 0em;
+}
+
+.BannerBubbleView > .LabelResultCount
+{
+    text-align: right;
+}
+
+.BannerBubbleView > .LabelResultCount > div
+{
+    border: 2px solid #F0F0F0;
+    border-bottom-style: none;
+    border-radius: 2px;
+    display: inline-block;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 4px;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+}
+
+.BannerBubbleView > .LabelResultCount > div > span
+{
+    font-size: 0.8em;
+}
+
+.PopupEditorComponentExport .ResultFilterContainer
+{
+    margin-top: 0em;
+    margin-left: 0em;
+    margin-right: 0em;
+}
+
+.PopupEditorComponentExport .PopupContent > .Instructions
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    color: #666666;
+}
+
+.PopupEditorComponentExport .PopupContent > .Instructions > .Label,
+.PopupEditorComponentExport .PopupContent > .Instructions > .ActionButtons
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.PopupEditorComponentExport .PopupContent > .Instructions > .Label
+{
+    padding-top: 4px;
+    width: calc(100% - 15em - 0.5em - 0.5em);
+}
+
+.PopupEditorComponentExport .PopupContent > .Instructions > .ActionButtons
+{
+    width: 15em;
+    text-align: right;
+}
+
+.PopupEditorComponentExport .PopupContent > .Instructions > .ActionButtons > .ui-btn
+{
+    margin: 0em;
+}
+
+.PopupEditorComponentExport .PopupContent > .Instructions > .ActionButtons > .ui-btn:first-of-type
+{
+    margin-right: 0.5em;
+}
+
+.PopupEditorComponentExport .PopupContent > .ViewFilterGroupExpanded .FilterContentCell
+{
+    width: 18em;
+}
+
+.EditorScenarioLayoutView
+{
+}
+
+.EditorScenarioLayoutView.LegendLayout
+{
+    display: inline-block;
+    min-width: 455px;
+    width: 30%;
+    overflow: hidden;
+    height: 20em;
+    font-size: 0.6em;
+    cursor: default;
+    margin: 1em;
+}
+
+.EditorScenarioCategory
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1em;
+}
+
+.EditorScenarioCategory > .Title
+{
+    padding: 0.25em;
+    padding-left: 0.5em;    
+    background-color: #333333;
+    color: #FFFFFF;
+    border-radius: 2px;
+    margin-bottom: 0.5em;
+}
+
+.EditorScenarioLayoutView:not(.LegendLayout) > .EditorScenarioCategory > .Title
+{
+    font-size: 1.2em;
+}
+
+.EditorScenarioLayoutView.LegendLayout > .EditorScenarioCategory
+{
+    overflow: hidden;
+}
+
+.EditorScenarioLayoutView.LegendLayout > .EditorScenarioCategory > .Title
+{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;  
+}
+
+.EditorScenarioLayoutView.LegendLayout > .EditorScenarioCategory.Disabled > .Title
+{
+    color: #666666;
+}
+
+.EditorScenarioCategoryRefComponentContent, .EditorScenarioCategoryRefComponentContent .ButtonTheme.ui-btn
+{
+    text-align: left;
+}
+
+.EditorScenarioCategoryRefComponentContent > .EditorScenarioCategoryRefComponentDetail
+{
+    border-bottom: 1px solid #F0F0F0;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.EditorScenarioCategoryRefComponentContent > .EditorScenarioCategoryRefComponentDetail:first-child
+{
+    margin-top: 0em;
+}
+
+.EditorScenarioCategoryRefComponentDetail > .Description
+{
+    padding: 1em;
+    padding-top: 0em;
+    font-size: 0.8em;
+    position: relative;
+    max-height: 3.5em;
+    overflow: hidden;
+    margin-bottom: 0.5em;
+    color: #999999;
+}
+
+.EditorScenarioGroup
+{
+    display: inline-block;
+    vertical-align: top;
+    min-height: 10em;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    width: calc(50% - 2% - 0.5em - 2px);
+    border-width: 1px;
+    border-radius: 0em;
+    padding: 0.25em;
+    text-align: center;
+}
+
+.EditorScenarioGroup.EditorHoverOn
+{
+    position: relative;
+}
+
+.EditorScenarioGroup.EditorHoverOn > .HoverDetails > .ProgressBar
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.EditorScenarioLayoutView.LegendLayout .EditorScenarioGroup
+{
+    min-height: 2em;
+}
+
+.EditorScenarioLayoutView.LegendLayout .EditorScenarioGroup.Selected
+{
+    border-color: #999999;
+}
+
+.EditorScenarioGroup .EditorGroupSituationLink
+{
+    background-color: #FAFAFA;
+    border-radius: 2px;
+    border: 1px solid #E0E0E0;
+    color: #000000;
+    margin-bottom: 0.5em;
+}
+
+.EditorScenarioGroup .EditorGroupSituationLink > .Label
+{
+    padding: 0.5em;
+}
+
+.EditorScenarioGroup > .Title
+{
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #F0F0F0;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-top: 1em;
+}
+
+.EditorScenarioGroup > .Description
+{
+    text-align: left;
+}
+
+.EditorScenarioLayoutView.LegendLayout .EditorScenarioGroup > .Title
+{
+    height: 2em;
+
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; 
+}
+
+.EditorScenarioLayoutView.LegendLayout > .EditorScenarioCategory .EditorScenarioGroup:not(.Selected) > .Title
+{
+    color: #999999;
+}
+
+.EditorScenarioGroup > .Description,
+.EditorScenarioGroup > .HoverDetails
+{
+    font-size: 0.8em;
+    padding-top: 1em;
+    color: #999999;
+}
+
+.EditorScenarioGroup.Loading > .HoverDetails
+{
+    padding: 0em;
+    margin: 0em;
+}
+
+.EditorScenarioGroup > .Description > .Placeholder
+{
+    height: 0.65em;
+    width: 100%;
+    background-color: rgba(0,0,0,0.25);
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+    opacity: 0.5;
+    border-radius: 0.5em;
+}
+
+.EditorScenarioLayoutView.LegendLayout .EditorScenarioGroup > .Description > .Placeholder
+{
+    height: 0.45em;
+    border-radius: 0.25em;
+    background-color: rgba(0,0,0,0.15);
+}
+
+.EditorScenarioLayoutView.LegendLayout .EditorScenarioGroup.Selected > .Description > .Placeholder
+{
+    background-color: rgba(0,0,0,0.5);
+}
+
+.EditorScenarioGroup .Placeholder.TextLine_2
+{
+    width: 70%;
+}
+
+.EditorScenarioGroup .Placeholder.TextLine_3
+{
+    width: 45%;
+}
+
+.EditorScenarioGroup .Placeholder:last-child
+{
+    width: 80%;
+}
+
+.EditorScenarioGroup:not(.EditorHoverOn) > .HoverDetails
+{
+    display: none;
+}
+
+.EditorScenarioGroup.EditorHoverOn:not(.Loading) > .Description
+{
+    display: none;
+}
+
+.EditorScenarioCategory.Disabled
+{
+    opacity: 0.9;
+}
+
+.EditorScenarioLayoutView.LegendLayout .EditorScenarioGroup:not(.Selected)
+{
+    background-color: rgba(0,0,0,0.02);
+}
+
+.EditorLayoutClassificationComponent
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.25em;
+}
+
+.PluginEditorScenarioDetails .EditorInlineHeaderView
+{
+    text-align: right;
+}
+
+.EditorSituationEntityBase
+{
+    padding-top: 0em;
+    padding-left: 0em;
+    padding-right: 0em;
+    border-radius: 2px;
+    border-color: #999999;
+    margin-bottom: 1em;
+}
+
+.EditorSituationEntityBase:not(.EditorEntityEditMode) > .EditorCollapseContent > .ModeToggleEntityView
+{
+    display: none;
+}
+
+.EditorSituationEntityBase > .EditorCollapseContent > .ModeToggleEntityView > .Label
+{
+    font-weight: bold;
+}
+
+.EditorSituationEntityBase.EditorSituationRationaleDetail
+{
+    border-color: #BDBDBD;
+    margin-left: 0.5em;
+}
+
+.EditorSituationEntityBase.EditorSituationRationaleDetail.PermissionNoAccessItem
+{
+    border-color: #E0E0E0;
+    cursor: default;
+}
+
+.ViewModeEdit .EditorEntityItem.EditorSituationRationaleDetail.PermissionNoAccessItem
+{
+    padding-top: 0em;
+}
+
+.EditorSituationEntityBase > .Title
+{
+    background-color: #FAFAFA;
+    padding: 0.5em;
+    padding-right: 0em;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.EditorSituationEntityBase > .Title > .Label
+{
+    color: #000000;
+}
+
+.EditorSituationEntityBase > .Title > .Label,
+.EditorSituationEntityBase > .Title > .ModeToggleEntityView
+{
+    width: calc(100% - 3em - 0.75em);
+}
+
+.EditorSituationEntityBase.EditorSituationRationaleDetail > .Title > .Label,
+.EditorSituationEntityBase.EditorSituationRationaleDetail > .Title > .ModeToggleEntityView
+{
+    width: calc(100% - 3em - 0.75em - 9em);
+}
+
+.EditorSituationEntityBase.EditorSituationRationaleDetail:not(.EditorEntityEditMode) > .Title > .ModeToggleEntityView
+{
+    display: none;
+}
+
+.EditorSituationEntityBase > .Title > .Label,
+.EditorSituationEntityBase.EditorEntityEditMode > .Title > .ModeToggleEntityView,
+.EditorSituationEntityBase:not(.gu-mirror) > .Title > .EditorCollapseToggleButton,
+.EditorSituationEntityBase.EditorSituationRationaleDetail > .Title > .EditorPlatformIcons
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorSituationEntityBase.EditorEntityEditMode > .Title > .Label
+{
+    display: none;
+}
+
+.EditorSituationEntityBase > .Title > .EditorCollapseToggleButton
+{
+    width: 3em; 
+    text-align: right;
+}
+
+.EditorSituationEntityBase.EditorSituationRationaleDetail > .Title > .EditorCollapseToggleButton
+{
+    width: 2em;
+}
+
+.EditorSituationEntityBase > .Title > .EditorCollapseToggleButton > .LinkClickable
+{
+    margin: 0em;
+}
+
+.EditorSituationEntityBase > .EditorCollapseContent
+{
+    padding-top: 0.5em;
+    padding-bottom: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.EditorSituationEntityBase > .EditorCollapseContent .ViewBridgeListRenderer
+{
+    margin-top: 0.5em;
+}
+
+.EditorSituationEntityBase > .EditorCollapseContent > .ContentEditor
+{
+    width: calc(100% - 0.75em);
+    margin-left: 0.25em;
+    margin-right: 0.5em;
+}
+
+.EditorSituationEntityBase:not(.gu-mirror) > .EditorEntityItemActionButtons:not(.EditorEntityItemActionBlock)
+{
+    display: block;
+    text-align: right;
+    position: static;
+}
+
+.EditorSituationEntityBase.gu-mirror > .EditorCollapseContent
+{
+    max-height: 6em;
+    overflow: hidden;
+}
+
+.EditorSituationEntityBaseDisabled:not(.gu-mirror) > .EditorCollapseContent
+{
+    position: relative;
+}
+
+.EditorSituationEntityBaseDisabled .DisabledOverlay
+{
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: #FAFAFA;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+    filter: alpha(opacity=75);
+    -moz-opacity: 0.75;
+    -khtml-opacity: 0.75;
+    opacity: 0.75;
+    cursor: default;
+    border: 1px solid #E0E0E0;
+    border-left-style: none;
+    border-right-style: none;
+}
+
+.EditorSituationEntityBase:not(.EditorSituationEntityBaseDisabled) > .EditorCollapseContent > .DisabledOverlay,
+.EditorSituationEntityBase.gu-mirror .DisabledOverlay
+{
+    display: none;
+}
+
+.EditorPlatformIcons
+{
+    width: 9em;
+    margin-right: 0.5em;
+    text-align: right;
+}
+
+.EditorPlatformIcons > .EditorPlatformIcon
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 0.65em;
+    margin-bottom: 0.5em;
+    width: 1.75em;
+    height: 1.75em;
+    border-radius: 1em;
+    border: 2px solid #E0E0E0;
+    background-color: #FAFAFA;
+    position: relative;
+    overflow: hidden;
+}
+
+.EditorPlatformIcons > .EditorPlatformIcon > div
+{
+    width: 100%;
+    position: absolute;
+    top: 0.75em;
+    left: 0em;
+    text-align: center;
+    font-size: 0.65em;
+    font-weight: bold;
+    color: #333333;
+}
+
+.EditorPlatformIcons > .EditorPlatformIcon.OffState
+{
+    display: none;
+}
+
+.EditorRepositoryView
+{
+    padding-top: 0.5em;
+}
+
+.EditorRepositoryView > .ViewFilters,
+.EditorRepositoryView > .ViewResults,
+.EditorRepositoryView > .ViewResults > .Header > .Title,
+.EditorRepositoryView > .ViewResults > .Header > .ToolButtons
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorRepositoryView > .ViewFilters
+{
+    margin-left: 0.5em;
+    width: calc(250px - 20px - 2px);
+    min-height: 15em;
+    padding-top: 1.25em;
+    padding-bottom: 1.25em;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.EditorRepositoryView > .ViewResults
+{
+    width: calc(100% - 1em - 230px - 2em - 1em - 2px);
+}
+
+.EditorRepositoryView > .ViewFilters > .FilterGroup:not(:last-child)
+{
+    margin-bottom: 1.5em;
+}
+
+.EditorRepositoryView > .ViewFilters > .FilterGroup > .Label
+{
+    padding-top: 0.25em;
+    margin-left: 0.25em;
+    text-transform: uppercase;
+    color: #000000;
+}
+
+.EditorRepositoryView > .ViewFilters > .FilterGroup.FilterEnabled > .Label
+{
+    font-weight: bold;
+    color: #009688;
+}
+
+.EditorRepositoryView > .ViewFilters > .FilterGroup > .Logo,
+.EditorRepositoryView > .ViewFilters > .FilterGroup > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorRepositoryView > .ViewFilters > .FilterGroup > .Logo
+{
+    width: 26px;
+    height: 26px;
+}
+
+.RepositoryFilterOption
+{
+    margin-bottom: 0.5em;
+}
+
+.RepositoryFilterOption > .ui-checkbox > .ui-btn
+{
+    background: #FFFFFF;
+    border-radius: 0em;
+    border: 2px solid #F0F0F0;
+}
+
+.EditorRepositoryView > .ViewResults > .Header
+{
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid #F0F0F0;
+}
+
+.EditorRepositoryView > .ViewResults > .Header > .Title
+{
+    width: 8em;
+    padding-top: 0.35em;
+}
+
+.EditorRepositoryView > .ViewResults > .Header > .Title > .Label
+{
+    font-size: 1.1em;
+}
+
+.EditorRepositoryView > .ViewResults > .Header > .Title > .Label,
+.EditorRepositoryView > .ViewResults > .Header > .ToolButtons > .LinkClickable.ui-btn > .ui-btn-inner > .ui-btn-text
+{
+    color: #5F5E63;
+}
+
+.EditorRepositoryView > .ViewResults > .Header > .ToolButtons
+{
+    width: calc(100% - 8em - 0.5em);
+    text-align: right;
+}
+
+.EditorRepositoryView > .ViewResults > .Header > .ToolButtons > .ui-btn
+{
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.EditorRepositoryView > .ViewResults > .Header > .ToolButtons > .ui-btn:last-child
+{
+    margin-right: 0em;
+}
+
+.EditorRepositoryView > .ViewResults > .LabelDisclaimer > .Label
+{
+    font-size: 0.8em;
+}
+
+.EditorRepositoryView > .ViewResults > .SearchableView > .ui-input-text,
+.TableRepositoryEdit > .TableBlockRow > .TableBlockCell > .ui-input-text
+{
+    border-radius: 2px;
+    background: #FFFFFF;
+    margin: 0em;
+}
+
+.EditorRepositoryView > .ViewResults > .LabelDisclaimer,
+.EditorRepositoryView > .ViewResults > .SearchableView
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorRepositoryView > .ViewResults > .LabelDisclaimer
+{
+    width: 70%;
+}
+
+.EditorRepositoryView > .ViewResults > .SearchableView
+{
+    margin-left: 0.5em;
+    width: calc(30% - 1em);
+}
+
+.EditorRepositoryView > .ViewResults > .SearchableView > .SearchClearButton
+{
+    margin-bottom: 0em;
+}
+
+.EditorRepositoryView > .ViewResults > .PaginationView
+{
+    text-align: right;
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+}
+
+.EditorRepositoryView > .ViewResults > .ListView
+{
+    overflow: auto;
+    border: 2px solid #F0F0F0;
+    border-radius: 2px;
+}
+
+.EditorRepositoryView > .ViewResults > .ListView.EditModeOn
+{
+    border-color: #999999;
+}
+
+.EditorRepositoryView > .ViewResults > .ListView:not(.EditModeOn) .ActionButton.ViewModeEdit,
+.EditorRepositoryView > .ViewResults > .ListView.EditModeOn .UserFavoriteToggle,
+.EditorRepositoryView > .ViewResults > .ListView.EditModeOn .EntityLineItem.EntityLineItemViewMode .ActionButton.ViewModeEdit
+{
+    display: none;
+}
+
+.EditorRepositoryView > .ViewResults > .ListView .ActionButton.ViewModeEdit.ui-btn
+{
+    margin: 0em;
+}
+
+.EditorRepositoryView > .ViewResults > .ListView:not(.EditModeOn) .TableRepeaterView.CRepeater .EntityLineItem,
+.EditorRepositoryView > .ViewResults > .ListView.EditModeOn .TableRepeaterView.CRepeater .EntityLineItem:not(.EntityLineItemViewMode)
+{
+    cursor: pointer;
+}
+
+.EditorRepositoryView > .ViewResults > .ListView:not(.EditModeOn) .TableRepeaterView.CRepeater .EntityLineItem:hover,
+.EditorRepositoryView > .ViewResults > .ListView.EditModeOn .TableRepeaterView.CRepeater .EntityLineItem:not(.EntityLineItemViewMode):hover
+{
+    opacity: 0.8;
+}
+
+.EditorRepositoryView > .ViewResults > .ListView.EditModeOn .TableRepeaterView.CRepeater tr.TableRowOdd > td,
+.EditorRepositoryView > .ViewResults > .ListView.EditModeOn .TableRepeaterView.CRepeater tr.TableRowEven > td,
+.EditorRepositoryView > .ViewResults > .ListView:not(.EditModeOn) .TableRepeaterView.CRepeater .EntityLineItem:hover > td
+{
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.EditorRepositoryView > .ViewResults > .ListView:not(.EditModeOn) .TableRepeaterView.CRepeater .EntityLineItem > td
+{
+    border-bottom: 1px solid transparent;
+}
+
+.EditorDataAdminListTable.TableRepositoryResource
+{
+    box-shadow: none;
+}
+
+.EditorDataAdminListTable.TableRepositoryResource .TableRepeaterView.CRepeater
+{
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+}
+
+.EditorDataAdminListTable.TableRepositoryResource .TableRepeaterView.CRepeater .TableHeaderRow th
+{
+    min-width: 10em;
+}
+
+.EditorDataAdminListTable.TableRepositoryResource .TableRepeaterView.CRepeater .TableHeaderRow th.CellTools
+{
+    width: 28px;
+    min-width: 28px;
+}
+
+.EditorDataAdminListTable.TableRepositoryResource .TableRepeaterView.CRepeater .TableHeaderRow th > .CRepeaterSort.CRepeaterTooltipOn > .ui-btn-inner
+{
+    text-overflow: unset;
+    overflow: unset;
+}
+
+.EditorDataAdminListTable.TableRepositoryResource .UserFavoriteToggle
+{
+    text-align: center;
+}
+
+.TableRepositoryEdit .FileDetailView
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.ButtonRemoveFile
+{
+    margin-top: 0em;
+    margin-left: 1em;
+}
+
+.TableRepositoryEdit > .TableBlockRow > .TableBlockCell
+{
+    width: calc(100% - 30em - 1em);
+}
+
+.TableRepositoryEdit > .TableBlockRow > .TableBlockCell:first-child
+{
+    width: 10em;
+}
+
+.TableRepositoryEdit > .TableBlockRow > .TableBlockCell.TooltipView
+{
+    width: 20em;
+}
+
+.TableRepositoryEdit.ViewMode > .Heading
+{
+    text-align: right;
+    border-bottom: 2px solid #F0F0F0;
+    margin-bottom: 0.55em;
+    padding-bottom: 2px;
+}
+
+.TableRepositoryEdit.ViewMode > .Heading > .ui-btn
+{
+    margin: 0em;
+}
+
+.TableRepositoryEdit.ViewMode > .TableBlockRow > .TableBlockCell:first-child > .LabelRequired
+{
+    display: none;
+}
+
+.TableRepositoryEdit.ViewMode > .TableBlockRow > .TableBlockCell
+{
+    padding-bottom: 0.25em;
+}
+
+.TableRepositoryEdit:not(.ViewMode) > .TableBlockRow > .TableBlockCell.EditInputCell
+{
+    padding-bottom: 0.5em;
+}
+
+.TableRepositoryEdit.ViewMode > .TableBlockRow > .TableBlockCell.EditorElementPlaceholderOn > .LabelContent,
+.TableRepositoryEdit.ViewMode > .TableBlockRow > .TableBlockCell:not(.EditorElementPlaceholderOn) > .Placeholders
+{
+    display: none;
+}
+
+.TableRepositoryEdit.ViewMode .EditorElementPlaceholderOn > .Placeholders > .Placeholder:first-child
+{
+    margin-top: 0em;
+}
+
+.TableRepositoryEdit.ViewMode > .TableBlockRow > .TableBlockCell > .LabelContent
+{
+    border-bottom: 1px solid #F0F0F0;
+    padding-bottom: 0.5em;
+}
+
+.TableRenderFieldListView > tbody > tr > td > .PropertyView > .ViewSummary > .LabelContent > .LabelLineItem:not(:last-of-type)
+{
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid #FAFAFA;
+    margin-bottom: 0.25em;
+}
+
+.CRepositoryViewUserControl
+{
+}
+
+.CRepositoryViewUserControl .GroupItem:not(:last-of-type)
+{
+    margin-bottom: 1em;
+}
+
+.CRepositoryViewUserControl .GroupItem > .Divider
+{
+    width: 92%;
+    margin-left: 4%;
+    border-top: 3px solid #F0F0F0;
+    border-radius: 1px;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+}
+
+.CRepositoryViewUserControl .GroupItem > .ViewSelections .Title
+{
+    border-bottom: 2px solid #999999;
+    padding-bottom: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+}
+
+.CRepositoryViewUserControl .GroupItem > .ViewSelections .ViewListSelectionItem > .ImageKOL_ProfileIconCell
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.5em;
+}
+
+.CRepositoryViewUserControl .GroupItem > .ViewSelections .ViewListSelectionItem.LogoImageViewOn > .ImageKOL_ProfileIconCell
+{
+    margin-top: 0.35em;
+}
+
+.CRepositoryViewUserControl .GroupItem > .ViewSearch
+{
+    margin-bottom: 0.5em;
+}
+
+.RepositoryResourceWizard.WizardView > .Instructions,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Instructions
+{
+    color: #666666;
+    margin-bottom: 1em;
+}
+
+.RepositoryResourceWizard.WizardView > .Content > .Heading
+{
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.PopupRepositorySearch .PopupContent > .Filter
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-right: 2em;
+}
+
+.PopupRepositorySearch .PopupContent > .Filter,
+.PopupRepositorySearch .PopupContent > .Filter > .Heading, .PopupRepositorySearch .PopupContent > .Filter > .Content
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.PopupRepositorySearch .PopupContent > .Filter > .Heading
+{
+    margin-right: 0.5em;
+    color: #9E9E9E;
+}
+
+.PopupRepositorySearch .PopupContent > .Filter:not(.SizeFull) > .Content
+{
+    width: 12em;
+}
+
+.PopupRepositorySearch .PopupContent > .Filter > .Content > .ui-select > .ui-btn,
+.PopupRepositorySearch .PopupContent > .Filter > .Content > .ui-checkbox > .ui-btn
+{
+    margin: 0em;
+}
+
+/* SECTION START: Repository Resource Input User Control */
+
+.RepositoryResourceInputUserControl .FullScreenFixedViewTransition
+{
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: #FFFFFF;
+    z-index: 999;
+    margin: 0em;
+    padding: 0em;
+}
+
+.FilePreview
+{
+    margin-top: 1em;
+    margin-bottom: 0.25em;
+    text-align: center;
+}
+
+.FilePreview > .Content .Header > .Title
+{
+    color: #333333;
+    font-size: 1.5em;
+    font-weight: lighter;
+}
+
+.FilePreview > .Message
+{
+    color: #666666;
+}
+
+.FilePreview > .Message > .material-icons
+{
+    color: #999999;
+}
+
+.FilePreview > .Message > .material-icons,
+.FilePreview > .Message > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.FilePreview > .Message > .Label
+{
+    margin-top: 4px;
+    margin-left: 4px;
+}
+
+.FilePreview > .Content.ViewModeImage
+{
+    max-width: 50%;
+    display: inline-block;
+}
+
+.FilePreview > .Content.ViewModeFrame
+{
+    width: 100%;
+}
+
+.FilePreview.FullScreenFixedViewTransition > .Content
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    max-width: unset;
+    height: 100%;
+    overflow: auto;
+    text-align: center;
+}
+
+.FilePreview > .Content .Header
+{
+    text-align: right;
+    min-width: 10em;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.EditorNotificationTooltipView .FilePreview > .Content .Header
+{
+    display: none;
+}
+
+.FilePreview:not(.FullScreenFixedViewTransition) > .Content .Divider
+{
+    border-top: 1px solid #F0F0F0;
+}
+
+.FilePreview:not(.FullScreenFixedViewTransition) > .Content .Header > .Title
+{
+    display: none;
+}
+
+.FilePreview.FullScreenFixedViewTransition > .Content .Header > .Title
+{
+    position: absolute;
+    top: 0px;
+    left: 0.5em;
+    width: calc(100% - 6em);
+    text-align: left;
+    overflow: hidden;
+}
+
+.FilePreview > .Content > .Header > .MaterialLink
+{
+    border: 1px solid #E0E0E0;
+    border-bottom-style: none;
+    border-radius: 0em;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    box-shadow: none;
+    margin: 0em;
+    margin-bottom: 1px;
+    text-transform: uppercase;
+}
+
+.FilePreview.FullScreenFixedViewTransition > .Content .Header
+{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 32px;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    border-color: #F0F0F0;
+    border-bottom-width: 2px;
+}
+
+.FilePreview > .Content.ViewModeImage > img
+{
+    width: auto;
+    max-width: 100%;
+    max-height: 300px;
+}
+
+.FilePreview:not(.FullScreenFixedViewTransition) > .Content.ViewModeImage > img
+{
+    cursor: pointer;
+}
+
+.EditorNotificationTooltipView .FilePreview:not(.FullScreenFixedViewTransition) > .Content.ViewModeImage > img
+{
+    cursor: unset;
+}
+
+.FilePreview.FullScreenFixedViewTransition > .Content.ViewModeImage > img
+{
+    height: unset;
+    width: unset;
+    max-height: unset;
+    max-width: 100%;
+    margin-top: calc(33px + 0.5em);
+}
+
+.FilePreview > .Content.ViewModeFrame > iframe
+{
+    width: 100%;
+    height: 20em;
+}
+
+.FilePreview.FullScreenFixedViewTransition > .Content.ViewModeFrame
+{
+    overflow: hidden;
+}
+
+.FilePreview.FullScreenFixedViewTransition > .Content.ViewModeFrame > iframe
+{
+    width: 100%;
+    margin-top: 33px;
+    height: calc(100% - 33px);
+}
+
+.RepositoryResourceInputUserControl > .Header
+{
+    border-bottom: 2px solid #F0F0F0;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.25em;
+    position: relative;
+}
+
+.RepositoryResourceInputUserControl > .Header > .ui-btn
+{
+    margin: 0em;
+}
+
+.RepositoryResourceInputUserControl > .Header > .ui-btn:last-of-type
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.RepositoryResourceInputUserControl > .SectionListView  > .PluginEditorCardView
+{
+    margin-left: 0em;
+    margin-right: 0em;
+    margin-bottom: 1em;
+    position: relative;
+}
+
+.RepositoryResourceInputUserControl > .SectionListView.EditorDraggableContainer.EditorDraggableOn > .EditorDragViewLineItem
+{
+    cursor: move;
+}
+
+.RepositoryResourceViewLineItem.EditorDragViewLineItem:not(.gu-mirror) > .IndicatorDraggable
+{
+    position: absolute;
+    display: inline-block;
+    top: 10px;
+    left: 8px;
+    opacity: 0.65;
+}
+
+.RepositoryResourceViewLineItem.EditorDragViewLineItem.gu-mirror > .IndicatorDraggable
+{
+    display: none;
+}
+
+.RepositoryResourceViewLineItem.EditorDragViewLineItem > .IndicatorDraggable > img
+{
+    width: 16px;
+    height: 16px;
+}
+
+.RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .LinkExternal
+{
+    display: inline-block;
+    width: calc(100% - 3px);
+    vertical-align: top;
+    margin-left: 3px;
+}
+
+.PropertyView:not(.EditModeOn) .RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .LinkExternal
+{
+    width: calc(100% - 3px - 10em);
+}
+
+.EditorNotificationTooltipView .PropertyView:not(.EditModeOn) .RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .LinkExternal
+{
+    width: calc(100% - 3px);
+}
+
+.PropertyView.EditModeOn .RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .LinkExternal
+{
+    width: calc(100% - 3px - 15em);
+}
+
+.PropertyView.EditModeOn .RepositoryResourceInputUserControl > .SectionListView:not(.ViewLegacyStakeholderFiles) > .PluginEditorCardView.EditorDragViewLineItem > .LinkExternal
+{
+    width: calc(100% - 3px - 15em - 16px - 8px);    /* offset by the drag indicator element */
+    margin-left: calc(16px + 8px);
+}
+
+.RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .ActionButtons
+{
+    display: inline-block;
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    text-align: right;
+}
+
+.PropertyView:not(.EditModeOn) .RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .ActionButtons
+{
+    width: 10em;
+}
+
+.PropertyView.EditModeOn .RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .ActionButtons
+{
+    width: 15em;
+}
+
+.PropertyView.EditModeOn .RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .ActionButtons > .ui-btn
+{
+    margin-right: 0em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.RepositoryResourceInputUserControl > .SectionListView > .PluginEditorCardView > .LinkExternal > .LabelFileName,
+.RepositoryResourceViewLineItem > .LinkExternal > .LabelFileName
+{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 20px - 1em);
+    margin-top: 1px;
+}
+
+.gu-mirror.RepositoryResourceViewLineItem 
+{
+    padding: 0.5em;
+}
+
+.RepositoryResourceInputUserControl .EditorViewNoRecords
+{
+    padding-top: 0em;
+    padding-bottom: 0em;
+}
+
+.PropertyView:not(.EditModeOn) .RepositoryResourceInputUserControl .EditorViewNoRecords,
+.PropertyView:not(.EditModeOn) .RepositoryResourceInputUserControl .EditorNoRecordsLabel
+{
+    padding: 0em;
+}
+
+.PropertyView:not(.EditModeOn) .RepositoryResourceInputUserControl .EditorNoRecordsLabel
+{
+    font-size: unset;
+}
+
+/* SECTION END: Repository Resource Input User Control */
+
+.LabelDividerResult
+{
+    border-bottom: 2px solid #F0F0F0;
+    margin-bottom: 0.25em;
+    text-align: right;
+}
+
+.LabelDividerResult > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    padding: 2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    border: 2px solid #F0F0F0;
+    background-color: #FFFFFF;
+    color: #999999;
+    border-radius: 4px;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    border-bottom-style: none;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.LabelDividerResult > .Label > span
+{
+    font-size: 0.8em;
+}
+
+.TooltipView > .IconButton,
+.TooltipView > .Content
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.TooltipView
+{
+    padding-left: 0.25em;
+}
+
+.TooltipView > .IconButton
+{
+    margin: 0em;
+    cursor: default;
+}
+
+.TooltipView > .Content
+{
+    padding-top: 2px;
+    margin-left: 0.5em;
+    width: calc(100% - 0.25em - 24px - 0.5em);
+    color: #666666;
+}
+
+.EditorKOLView:not(.AdminViewMode) .ViewAdminToggle,
+.EditorKOLView:not(.EditorKOLViewNavigationStateOn) > .EditorKOLNavigationOverlay
+{
+    display: none;
+}
+
+.EditorKOLView > .EditorKOLNavigationOverlay
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    z-index: 99;
+    opacity: 1;
+}
+
+.EditorKOLNavigationOverlay > .LabelMessage
+{
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    color: #999999;
+}
+
+.EditorKOLNavigationOverlay > .LabelMessage > .Label
+{
+    font-size: 0.9em;
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+    text-transform: uppercase;
+}
+
+.EditorKOLNavigationOverlay > .EditorFixedViewContent
+{
+    height: calc(100% - 1em - 2px);
+}
+
+.EditorKOLNavigationOverlay > .EditorFixedViewContent > .ActionButton
+{
+    display: none;
+}
+
+.EditorKOLNavigationOverlay > .EditorFixedViewContent > .TableRenderFieldListView
+{
+    filter: blur(1px);
+}
+
+.EditorKOLView > .Header,
+.EditorKOLView.StateExternalModeKOL > .Banner
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 0.25em;
+    padding-top: 0.5em;
+    width: calc(100% - 0.5em);
+    height: 1.5em;
+    overflow: auto;
+}
+
+.EditorKOLView.StateExternalModeKOL > .Banner > .Title
+{
+    width: calc(100% - 8em);
+    overflow: hidden;
+}
+
+.EditorKOLView.StateExternalModeKOL > .Banner > .Title > .Label
+{
+    font-weight: bold;
+    color: #666666;
+}
+
+.EditorKOLView.StateExternalModeKOL > .Banner > .Actions
+{
+    position: absolute;
+    top: 2px;
+    right: 0px;
+}
+
+.EditorKOLView.StateExternalModeKOL > .Banner > .Actions > .ui-btn
+{
+    margin: 0em;
+}
+
+.EditorKOLView.StateExternalModeKOL.StateExternalAddModeOn > .Header
+{
+    display: none;
+}
+
+.EditorKOLView > .Header > .Label,
+.EditorKOLView > .Header > .Divider,
+.EditorKOLView > .Header > .TabItem
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1em;
+}
+
+.EditorKOLView > .Header > .Divider
+{
+    width: 1px;
+    border-right: 2px solid #CCCCCC;
+}
+
+.EditorKOLView > .Header > .Label,
+.EditorKOLView > .Header > .TabItem
+{
+    font-weight: bold;
+    color: #999999;
+}
+
+.EditorKOLView > .Header.HeaderTabsDisabled > .TabItem.LinkClickable,
+.EditorKOLView > .Header.HeaderTabsDisabled > .TabItem.LinkClickable:hover
+{
+    cursor: default;
+    opacity: 1;
+}
+
+.EditorKOLView > .Header.HeaderTabsDisabled
+{
+    opacity: 0.45;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.EditorKOLView > .Content
+{
+    position: absolute;
+    top: 2em;
+    left: 0.25em;
+    padding: 0em;
+    width: calc(100% - 0.5em - 0.25em);
+    height: calc(100% - 2em);
+    overflow: auto;
+}
+
+.EditorCardViewKOL:focus
+{
+    outline: none;
+}
+
+.EditorCardViewKOL.EditorViewDisabled
+{
+    background-color: #FAFAFA;
+    opacity: 0.75;
+    border-color: #F0F0F0;
+}
+
+.EditorCardViewKOL > .ActionButtonResize
+{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+.EditorCardViewKOL > .ActionButtonResizeInitial
+{
+    position: absolute;
+    top: 3px;
+    right: 25px;
+}
+
+.EditorCardViewKOL:not(.CanResizeInitial) > .ActionButtonResizeInitial,
+.EditorCardViewKOL.EditorFixedViewTransitionFullScreen > .ActionButtonResizeInitial
+{
+    display: none;
+}
+
+.EditorCardViewKOL .Filter > .ui-select > .ui-btn,
+.EditorCardViewKOL .Filter > .ui-input-text,
+.EditorCalendar .ui-select > .ui-btn,
+.EditorCalendar .ui-select > .ui-btn > .ui-btn-text
+{
+    background: none;
+    background-color: #FFFFFF;
+    box-shadow: none;
+    border-style: none;
+    border-bottom-style: solid;
+    border-radius: 0em;
+}
+
+.EditorCardViewKOL .Filter > .ui-select .ui-btn-text,
+.EditorCardViewKOL .Filter > .ui-input-text > input,
+.EditorCardViewKOL .Filter > .ui-input-text > input::placeholder
+{
+    text-align: left;
+    color: #999999;
+}
+
+.EditorCardViewKOL .Filter > .ui-input-text
+{
+    padding-left: 0.65em;
+}
+
+.EditorCardViewKOL .Filter
+{
+    margin-bottom: 0.5em;
+}
+
+.EditorCardViewKOL .Filter.FilterEnabled > .ui-select .ui-btn-text
+{
+    color: #1565C0;
+}
+
+.EditorCardViewKOL > .ActionButton
+{
+    position: absolute;
+    top: 0.25em;
+    right: 0.25em;
+    margin: 0em;
+}
+
+.EditorCardViewKOL:not(.StateOnCanDismissAll) > .ActionButton > .ActionButtonStateDismissAll
+{
+    display: none;
+}
+
+.EditorCardViewKOL > .LabelFixedTitle
+{
+    position: absolute;
+    top: 0.25em;
+    left: 1.5em;
+}
+
+.EditorCardViewKOL.LayoutTypeRow > .RC
+{
+    display: inline-block;
+    padding: 0.5em;
+    padding-left: 0em;
+    padding-top: 0em;
+    width: calc(25% - 0.5em - 1px);
+    height: calc(100% - 1em);
+    overflow: auto;
+    border-right: 1px solid #F0F0F0;
+    position: relative;
+}
+
+.EditorKOLView.StateExternalModeKOL.StateExternalAddModeOn > .Content > .LayoutTypeRow > .RC.R1C1
+{
+    display: none;
+}
+
+.EditorKOLView.StateExternalModeKOL.StateExternalAddModeOn > .Content > .LayoutTypeRow > .RC
+{
+    /* for external mode in add view, the first column is hidden and will have only three columns in total */
+    width: calc(33% - 0.5em - 1px);
+}
+
+.EditorCardViewKOL.LayoutTypeRow > .RC > .Content
+{
+    margin-top: 2em;
+    padding-left: 0.5em;
+    width: calc(100% - 0.5em);
+}
+
+.EditorCardViewKOL.LayoutTypeRow > .RC > .ActionButton
+{
+    position: absolute;
+    top: 0em;
+    right: 0.25em;
+    margin: 0em;
+}
+
+.EditorCardViewKOL.LayoutTypeRow > .RC > .ActionButton > .ui-btn
+{
+    margin: 0em;
+    margin-left: 0.25em;
+}
+
+.EditorCardViewKOL.LayoutTypeRow > .RC > .LabelFixedTitle
+{
+    position: absolute;
+    top: 2px;
+    left: 0.5em;
+}
+
+.EditorCardViewKOL.LayoutTypeRow > .R1C1.RC > .LabelFixedTitle
+{
+    left: 0px;
+}
+
+.EditorCardViewKOL.LayoutTypeRow > .R1C1 > .ListView
+{
+    margin-top: 2em;
+}
+
+.LayoutTypeRow:not(.EditorFixedViewTransitionFullScreen):not(.EditorFixedViewTransitionSizeWidthFull) > .RC.R1C1
+{
+    padding-left: 0em;
+    padding-right: 0em;
+    border-style: none;
+    width: 100%;
+}
+
+.EditorCardViewKOL.LayoutTypeRow > .RC:last-child
+{
+    border-right-color: transparent;
+}
+
+.LayoutTypeRow:not(.EditorFixedViewTransitionFullScreen):not(.EditorFixedViewTransitionSizeWidthFull) > .RC:not(.R1C1)
+{
+    display: none;
+}
+
+.DetailsViewEntityKOL
+{
+    margin-left: 0.5em;
+    padding-top: 1.25em;
+}
+
+.EditorImageButton.ImageUserProfile > .ImageIcon
+{
+    background-size: 100% 100%;
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/backgrounds/bg_kol_profile.png');
+}
+
+.DetailsViewEntityKOL .EditorImageButton.ImageUserProfile > .ImageIcon,
+.PreviewImageKOL .EditorImageButton.ImageUserProfile > .ImageIcon
+{
+    width: 52px;
+    height: 52px;
+    border-radius: 26px;
+}
+
+.ImageKOL_ProfileIconCell .EditorImageButton.ImageUserProfile > .ImageIcon
+{
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+}
+
+.DetailsViewEntityKOL .EditorImageButton.ImageUserProfile.LinkClickable
+{
+    position: relative;
+    overflow: hidden;
+}
+
+.DetailsViewEntityKOL .EditorImageButton.ImageUserProfile:not(.LinkClickable) > .LabelEdit
+{
+    display: none;
+}
+
+.DetailsViewEntityKOL .EditorImageButton.ImageUserProfile > .LabelEdit
+{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    background-color: rgba(255,255,255,0.7);
+    font-size: 0.75em;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000000;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    border-top: 1px solid #FFFFFF;
+}
+
+.ProfileListItemKOL .EditorImageButton.ImageUserProfile > .ImageIcon,
+.CEditorListBoxControl.StateIsPopupMode > .Content > .EntityLineItem > .ViewDetailField > .Icon > .EditorImageButton.ImageUserProfile > .ImageIcon
+{
+    width: 25px;
+    height: 25px;
+    border-radius: 12.5px;
+}
+
+.ProfileListItemKOL > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 25px - 5px - 3px);
+    margin-left: 3px;
+    padding-top: 3px;
+}
+
+.EditorImageButton.ImageComments > .ImageIcon
+{
+    width: 32px;
+    height: 24px;
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_comments.png');
+}
+
+.EditorImageButton.ImageRatingStar > .ImageIcon
+{
+    width: 1em;
+    height: 1em;
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>button/rating/star-filled.svg');
+}
+
+.EditorImageButton.ImageExpandLight > .ImageIcon,
+.EditorImageButton.ImageRestoreLight > .ImageIcon,
+.EditorImageButton.ImageResizeInitial > .ImageIcon
+{
+    width: 15px;
+    height: 15px;
+}
+
+.EditorImageButton.ImageExpandLight > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_expand_light.png');
+}
+
+.EditorImageButton.ImageResizeInitial > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_resize_initial.svg');
+}
+
+.EditorImageButton.ImageRestoreLight > .ImageIcon
+{
+    background-image: url('<SITE_URL><IMAGE_GLOBAL_PATH>plugins/editor/buttons/btn_restore_light.png');
+}
+
+.DetailsViewEntityKOL .LabelName
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 0.5em;
+    margin-top: 10px;
+    width: calc(100% - 55px - 0.5em);
+}
+
+.ViewSection
+{
+    margin-top: 1em;
+    width: calc(100% - 1em);
+    padding: 0.5em;
+    padding-top: 0em;
+}
+
+.ViewSection.FillWidth
+{
+    padding-right: 0em;
+    width: calc(100% - 0.5em);
+}
+
+.ViewSection > .Header > .EditorImageButton,
+.ViewSection > .Header > .Title
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ViewSection > .Header > .Title
+{
+    margin-left: 0.25em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #424242;
+}
+
+.ViewSection > .Header > .Title > .LabelCount,
+.CRepositoryViewUserControl .ViewSelections > .Title > .LabelCount
+{
+    color: #000000;
+}
+
+.PropertyView
+{
+    border-bottom: 1px solid #F0F0F0;
+    padding-bottom: 4px;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn.GridLayoutColumn_2 > .TableRow .PropertyView
+{
+    border-bottom-style: none;
+}
+
+.TableRenderFieldListView.EditorElementPlaceholderOn > .TableRow .PropertyView
+{
+    display: none;
+}
+
+.Label.WordBreak,
+.LabelContent .WordBreak,
+.LabelComment .WordBreak,
+.RatingDetail .WordBreak
+{
+    word-break: break-word;
+}
+
+.PropertyView > .ViewSummary > .LabelContent > .LinkClickable,
+.CRepositoryViewUserControl .GroupItem > .ViewSelections .ViewListSelectionItem > .Label
+{
+    color: #1565C0;
+}
+
+.EditorFixedViewPopup.EmbeddedViewMode .PropertyView > .ViewSummary > .LabelContent > .LinkClickable,
+.EditorFixedViewPopup.EmbeddedViewMode .PropertyView > .ViewSummary > .LabelContent > .LinkClickable:hover
+{
+    color: inherit;
+    cursor: default;
+    opacity: 1;
+}
+
+.PropertyView > .ViewSummary > .LabelContent > .LinkClickable
+{
+    margin-bottom: 0.5em;
+}
+
+.PropertyView > .ViewSummary > .LabelContent > .LinkClickable:last-of-type
+{
+    margin-bottom: 0em;
+}
+
+.PropertyView > .ViewInput > .Title
+{
+    font-size: 1.1em;
+    padding-bottom: 0.2em;
+    margin-bottom: 0.2em;
+    border-bottom: 2px solid #CCCCCC;
+}
+
+.PropertyView .ui-input-text,
+.SearchListViewEditor .ui-input-text,
+.TableRenderFieldListView > .TableRow > .RC2 > .PropertyView .ui-input-text
+{
+    margin: 0em;
+    background: none;
+    background-color: #FFFFFF;
+    box-shadow: none;
+    border-color: #E0E0E0;
+    border-radius: 2px;
+}
+
+.PropertyView .InputDatePicker a.ui-btn
+{
+    border-radius: 0em;
+}
+
+.PropertyView .InputDatePicker a.ui-btn.ui-mini > .ui-btn-inner
+{
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.PropertyView:not(.EditModeOn) .ToggleView.ViewInput,
+.PropertyView.EditModeOn .ToggleView.ViewSummary,
+.SearchListViewEditor:not(.EditModeOn) .ToggleView.ViewInput,
+.SearchListViewEditor.EditModeOn .ToggleView.ViewSummary
+{
+    display: none;
+}
+
+.TableMinimalList
+{
+    box-shadow: none;
+    border-style: none;
+}
+
+.TableMinimalList .CRepeater .TableHeaderRow
+{
+    display: none;
+}
+
+.TableMinimalList .TableRepeaterView.CRepeater tr.TableRowEven,
+.TableMinimalList .TableRepeaterView.CRepeater tr.TableRowOdd
+{
+    background-color: transparent;
+}
+
+.TableMinimalList .TableRepeaterView.CRepeater tr.TableRowOdd > td,
+.TableMinimalList .TableRepeaterView.CRepeater tr.TableRowEven > td
+{
+    padding: 0em;
+    border-style: none;
+}
+
+.TableMinimalList .EntityLineItem.Selected > .Label
+{
+    background-color: #009688;
+    color: #FFFFFF;
+}
+
+.EditorDataAdminListTable.EditorDataAdminListTableTheme .EntityLineItem > .ImageToggleIconCell,
+.EditorDataAdminListTable.EditorDataAdminListTableTheme .EntityLineItem > .ImageDownloadCell,
+.EditorDataAdminListTable.EditorDataAdminListTableTheme .EntityLineItem > .ImageKOL_ProfileIconCell,
+.EditorDataAdminListTable.EditorDataAdminListTableTheme .EntityLineItem > .ImageTooltipCell
+{
+    text-align: center;
+    width: 24px;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.EditorDataAdminListTable.EditorDataAdminListTableTheme.TableSearchableTooltipModeOn .EntityLineItem > .ImageToggleIconCell > .EditorImageButton.ImageToggleSelection,
+.EditorDataAdminListTable.EditorDataAdminListTableTheme.TableSearchableTooltipModeOn .EntityLineItem > td > .ContentCell
+{
+    margin-top: 2px;
+}
+
+.EditorDataAdminListTable.EditorDataAdminListTableTheme .EntityLineItem > .ImageTooltipCell > .ui-btn
+{
+    margin: 0em;
+}
+
+.EditorDataAdminListTable.EditorDataAdminListTableTheme .EntityLineItem > .ViewDetailCell > .ui-btn
+{
+    margin: 0em;
+}
+
+.EditorDataAdminListTable.EditorDataAdminListTableTheme .EntityLineItem > .PriorityColumnContentCell
+{
+    width: 20%;
+}
+
+.TableMinimalList .EntityLineItem
+{
+    margin-bottom: 1px;
+}
+
+.TableMinimalList .EntityLineItem:not(.LinkDisabled),
+.EditorDataAdminListTableTheme .EntityLineItem:not(.LinkDisabled)
+{
+    cursor: pointer;
+}
+
+.EditorDataAdminListTableTheme.TableRenderModeHighlightStates .EntityLineItem.LinkDisabled
+{
+    color: #BDBDBD;
+}
+
+.TableMinimalList .EntityLineItem > .Label
+{
+    display: inline-block;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 0.5em;
+    width: calc(100% - 0.5em - 24px - 2px);
+    vertical-align: top;
+}
+
+.TableMinimalList .EntityLineItem > .ui-btn
+{
+    margin: 0em;
+    margin-left: 2px;
+}
+
+.TableMinimalList .EntityLineItem.ViewActionStateOn > .Label
+{
+    width: calc(100% - 0.5em - 24px - 2px - 2.5em);
+}
+
+.TableMinimalList .EntityLineItem.ViewActionStateOn > .ui-btn
+{
+    margin-top: 4px;
+    width: 3.5em;
+    vertical-align: top;
+}
+
+.PaginationView.ViewMinimal
+{
+    position: static;
+    text-align: center;
+    margin-top: 0.25em;
+}
+
+.TableRenderFieldListView
+{
+    width: 100%;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow,
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRowDivider
+{
+    display: block;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRowDivider
+{
+    margin: 0.5em;
+    border-top: 1px solid #F0F0F0;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRowDivider:last-of-type
+{
+    border-top-style: none;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC1,
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC2
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC2 > .PropertyNote
+{
+    margin-top: 0em;
+    padding-top: 0em;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC2 > .PropertyNote > .Label > span
+{
+    font-size: 0.9em;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow:not(:last-of-type)
+{
+    margin-bottom: 0.5em;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn.GridLayoutColumn_2.StateHasDividerOn > .TableRow
+{
+    margin-bottom: 0em;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn.GridLayoutColumn_2 > .TableRow > .RC1
+{
+    text-align: right;
+    padding-right: 0.75em;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn.GridLayoutColumn_2 > .TableRow
+{
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: 1em;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn.GridLayoutColumn_2 > .TableRow:not(.ModeExpanded)
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;    
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn.GridLayoutColumn_2 > .TableRow.ModeExpanded
+{
+    width: 98%;
+}
+
+.EditorNotificationTooltipView .TableRenderFieldListView
+{
+    color: #666666;
+}
+
+.TableRenderFieldListView > tbody > tr > td.Divider > div
+{
+    width: 70%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 15%;
+    border-bottom: 2px solid #F0F0F0;
+}
+
+.TableRenderFieldListView > tbody > tr > td.Heading,
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC1
+{
+    width: 8em;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn.GridLayoutColumn_2 > .TableRow > .RC1
+{
+    width: 10em;
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC2
+{
+    width: calc(100% - 8em);
+}
+
+.TableRenderFieldListView.StateLayoutFreeFlowOn.GridLayoutColumn_2 > .TableRow > .RC2
+{
+    width: calc(100% - 10em - 0.75em);
+}
+
+.EditorNotificationTooltipView .TableRenderFieldListView > tbody > tr > td.Heading
+{
+    width: unset;
+    padding-right: 1em;
+}
+
+.EditorFixedViewPopup .TableRenderFieldListView > tbody > tr > td.Heading
+{
+    width: 15%;
+}
+
+.TableRenderFieldListView > tbody > tr > td.Heading > .Label,
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC1 > .Label
+{
+    text-shadow: 1px 0px #E0E0E0;
+}
+
+.EditorFixedViewPopup .TableRenderFieldListView > tbody > tr > td.Heading > .Label
+{
+    color: #000000;
+}
+
+.TableRenderFieldListView > tbody > tr > td:not(.Heading):not(.Divider)
+{
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.TableRenderFieldListView > tbody > tr:last-of-type > td:not(.Heading):not(.Divider)
+{
+    border-bottom-style: none;
+}
+
+.TableRenderFieldListView > tbody > tr > td > .PropertyView
+{
+    padding: 0em;
+    border-style: none;
+}
+
+.TableRenderFieldListView > tbody > tr > td.Heading > .Label,
+.TableRenderFieldListView > tbody > tr > td > .PropertyView > .ViewSummary,
+.TableRenderFieldListView > tbody > tr > td > .PropertyView > input,
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC1 > .Label,
+.TableRenderFieldListView.StateLayoutFreeFlowOn > .TableRow > .RC2 > .PropertyView > .ViewSummary
+{
+    font-size: 0.9em;
+}
+
+.TableRenderFieldListView > tbody > tr > td > .PropertyView > .ViewSummary
+{
+    padding-bottom: 0.25em;
+}
+
+.EditorNotificationTooltipView
+{
+    color: #333333;
+}
+
+.EditorNotificationTooltipView.EditorElementPlaceholderOn
+{
+    min-width: 100px;
+}
+
+.EditorNotificationTooltipView .Placeholders > .Placeholder
+{
+    height: 6px;
+}
+
+.EditorNotificationTooltipView > .Title
+{
+    padding-right: 3px;
+    padding-left: 3px;
+    width: calc(100% - 6px);
+    margin-top: 0.25em;
+    margin-bottom: 0.5em;
+}
+
+.EditorNotificationTooltipView > .Title > .Label
+{
+    font-size: 1.5em;
+}
+
+.LabelRequired
+{
+    font-weight: bold;
+    color: #F44336;
+    text-shadow: none;
+}
+
+.LinkExternal,
+.LinkExternal:visited
+{
+    color: #2196F3;
+    text-decoration: none;
+    padding-bottom: 1px;
+    border-bottom: 1px solid #2196F3;
+}
+
+.LinkExternal.LinkExternalStateNoLink,
+.LinkExternal.LinkExternalStateNoLink:visited
+{
+    color: inherit;
+    cursor: default;
+}
+
+.LinkExternal.DisableLinkStyle,
+.LinkFileDownload
+{
+    text-decoration: none;
+    border-bottom-style: none;
+}
+
+.LinkFileDownload > .EditorImageButton,
+.LinkFileDownload > .LabelFileName
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.LinkExternal > .LabelFileName
+{
+    margin-left: 0.25em;
+}
+
+.SearchListViewEditor > .R1C1,
+.SearchListViewEditor > .R1C2
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.SearchListViewEditor > .R1C1 > .ui-input-text,
+.SearchListViewEditor > .R1C1 > .SearchableView > .ui-input-text,
+.SearchListViewEditor > .R1C2 > .ui-select
+{
+    margin: 0em;
+}
+
+.SearchListViewEditor > .R1C2
+{
+    width: 6em;
+}
+
+.SearchListViewEditor > .R1C1
+{
+    width: calc(100% - 6em - 1.5em);
+    margin-right: 1em;
+}
+
+.SearchListViewEditor > .ActionButton
+{
+    padding-top: 0.25em;
+    text-align: right;
+}
+
+.SearchListViewEditor > .ActionButton > .ui-btn
+{
+    margin-right: 0em;
+}
+
+.SearchListViewEditor > .ListView
+{
+    margin-top: 0.5em;
+}
+
+.ViewInput > .ListBoxPopup
+{
+    text-align: right;
+}
+
+.SearchListViewEditor > .PropertyView
+{
+    margin-top: 1em;
+    border-style: none;
+}
+
+.SearchListViewEditor > .PropertyView:first-of-type
+{
+    margin-top: 0em;
+}
+
+.ViewInput > .ListBoxPopup > .ListBoxSelections
+{
+    text-align: left;
+}
+
+.SearchListViewEditor .ViewInput > .ListBoxPopup > .ui-mini.ui-btn-icon-left .ui-btn-inner
+{
+    padding-right: 2px;
+}
+
+.ListView .BadgeListItemEntity > .BadgeIcon,
+.ListView .BadgeListItemEntity > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ListView .BadgeListItemEntity > .BadgeIcon
+{
+    width: 1em;
+    height: 1em;
+    background-color: #666666;
+    color: #FFFFFF;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #D0D0D0;
+    position: relative;
+    overflow: hidden;
+}
+
+.ListView .BadgeListItemEntity > .BadgeIcon > .Label
+{
+    position: absolute;
+    font-size: 0.65em;
+    width: 100%;
+    text-align: center;
+    top: 0.15em;
+}
+
+.ListView .BadgeListItemEntity > .Label
+{
+    width: calc(100% - 1em - 0.5em);
+}
+
+.ListViewPopupSelection
+{
+    margin-bottom: 0.25em;
+}
+
+.ListViewPopupSelection > .ui-btn-icon-left .ui-btn-inner
+{
+    text-align: left;
+}
+
+.ListView .CalendarDetail
+{
+    padding-top: 0.25em;
+    padding-bottom: 0em;
+    color: #666666;
+}
+
+.ListView .CalendarDetail > .Header
+{
+    text-align: right;
+}
+
+.ListView .CalendarDetail > .Title
+{
+    color: #000000;
+}
+
+.ListView .CalendarDetail > .Description
+{
+    background-color: #F4F4F4;
+    word-break: break-word;
+}
+
+.ListView .CalendarDetail > .Title,
+.ListView .CalendarDetail > .Label
+{
+    padding: 0.5em;
+}
+
+.ListView .CalendarDetail > .Title
+{
+    padding-top: 0em;
+}
+
+.ListView .CalendarDetail > .Label
+{
+    font-size: 0.9em;
+}
+
+.ListView .CalendarDetail > .Label:not(.Description)
+{
+    padding-top: 0em;
+    padding-bottom: 0.25em;
+}
+
+.CListViewToggles > .OptionItem
+{
+    cursor: default;
+}
+
+.CListViewToggles:not(.EditableStateOff) > .OptionItem
+{
+    cursor: pointer;
+}
+
+.CListViewToggles > .OptionItem:not(:last-child)
+{
+    margin-bottom: 0.5em;
+}
+
+.CListViewToggles > .OptionItem > .Title
+{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 25px - 0.5em);
+    margin-left: 0.5em;
+    padding-top: 1px;
+}
+
+.CListViewToggles:not(.EditableStateOff) > .OptionItem:hover > .Title
+{
+    opacity: 0.75;
+}
+
+.CListViewToggles > .OptionItem.OptionItemTooltipModeOn > .EditorImageButton.ImageToggleSelection,
+.CListViewToggles > .OptionItem.OptionItemTooltipModeOn > .Title
+{
+    margin-top: 2px;
+}
+
+.CListViewToggles > .OptionItem.OptionItemTooltipModeOn > .ui-btn
+{
+    margin: 0em;
+}
+
+.CListViewToggles > .OptionItem.OptionItemTooltipModeOn > .Title
+{
+    width: calc(100% - 25px - 24px - 0.5em);
+}
+
+.CListViewToggles > .OptionItem > .Title > .Label
+{
+    font-size: 0.95em;
+    cursor: inherit;
+}
+
+.CListViewToggles.EditableStateOff
+{
+    opacity: 0.3;
+}
+
+.EditorCalendar > .Header
+{
+    text-align: right;
+    padding-right: 0.5em;
+    margin-bottom: 0.25em;
+}
+
+.EditorCalendar > .Header > .ui-btn
+{
+    margin: 0em;
+}
+
+.EditorCalendar > .Content
+{
+    text-align: center;
+}
+
+.EditorFixedViewTransitionFullScreen > .EditorCalendar > .Content
+{
+    text-align: left;
+}
+
+.EditorCalendar > .Content > .DetailMonth
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    text-align: left;
+}
+
+.EditorFixedViewTransitionFullScreen .EditorCalendar > .Content > .DetailMonth
+{
+    margin-right: 2em;
+}
+
+.EditorCalendar > .Content > .DetailMonth > .Title > .Label
+{
+    font-size: 1.1em;
+}
+
+.EditorCalendar > .Content > .DetailMonth > .Heading
+{
+    color: #000000;
+    margin-top: 0.5em;
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView > .Label
+{
+    font-size: 0.9em;
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetailPlaceholder
+{
+    color: #CCCCCC;
+    opacity: 0.65;
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail > .Label,
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetailPlaceholder > .Label
+{
+    display: inline-block;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+    padding: 0.25em;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail > .Label > span,
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetailPlaceholder > .Label > span
+{
+    font-size: 0.85em;
+    position: absolute;
+    left: 0px;
+    text-align: center;
+    width: calc(100% - 0.1em);
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail.HighlightOn > .Label
+{
+    color: #666666;
+    border-color: #CCCCCC;
+    background-color: #CCCCCC;
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail.HighlightOn > .Label
+{
+    cursor: pointer;
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail.HighlightOn > .Label:hover
+{
+    transition: none;
+    opacity: 0.45;
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail.HighlightOn.HighlightPrimary > .Label
+{
+    color: #FFFFFF;
+    border-color: #CCCCCC;
+    background-color: #009688;
+}
+
+.EditorCalendar > .Content > .DetailMonth .CellView.DayDetail.Today:not(.HighlightOn) > .Label
+{
+    color: #FFFFFF;
+    border-color: #CCCCCC;
+    background-color: #0D47A1;
+}
+
+.EditorCalendar > .Content > .DetailMonth > .MonthDaysView
+{
+    color: #424242;
+}
+
+.EditorCalendar .CellView
+{
+    vertical-align: top;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+}
+
+.EditorCalendar .CellView:not(.EditorElementHidden)
+{
+    display: inline-block;
+}
+
+.EditorCalendar > .Content > .DetailMonth > .MonthDaysView > .Divider
+{
+    display: block;
+}
+
+.EditorCardViewKOL > .ChartContainer
+{
+    width: calc(100% - 1em);
+    height: calc(100% - 4em);
+}
+
+.KOL_ChartView > .Header > .ui-btn
+{
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+}
+
+.KOL_ChartView > .Header > .ui-btn:not(.LinkDisabled)
+{
+    background: #E0E0E0;
+}
+
+.EditorEditProfilePictureKOL > .Instructions
+{
+    font-size: 0.95em;
+    color: #666666;
+}
+
+.EditorEditProfilePictureKOL > .Instructions > p:first-child
+{
+    margin-top: 0em;
+    padding-top: 0em;
+}
+
+.EditorEditProfilePictureKOL > .Content > .PreviewImageKOL
+{
+    margin-top: 1em;
+    padding-bottom: 0.5em;
+}
+
+.EditorEditProfilePictureKOL > .Content > .PreviewImageKOL > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.5em;
+    font-weight: bold;
+    color: #666666;
+}
+
+.CommentsView:not(.EditModeOn) .CommentDetail > .ui-btn
+{
+    display: none;
+}
+
+.CommentsView.EditModeOn .CommentDetail > .ui-btn
+{
+    margin: 0em;
+}
+
+.CommentsView > .Header,
+.RatingsView > .Header
+{
+    position: relative;
+    height: 2em;
+}
+
+.CommentsView > .Header > .Title,
+.RatingsView > .Header > .Title
+{
+    padding-top: 4px;
+}
+
+.CommentsView > .Header > .ui-btn
+{
+    position: absolute;
+    top: 0px;
+    right: 3px;
+    margin: 0em;
+    vertical-align: top;
+}
+
+.RatingsView > .Content > .RatingGroup.Disabled
+{
+    opacity: 0.55;
+}
+
+.RatingsView > .Content > .RatingGroup:not(:last-of-type) 
+{
+    margin-bottom: 0.75em;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C1,
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C1
+{
+    width: 8.5em;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2
+{
+    width: calc(100% - 8.5em - 0.5em);
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2 > .ViewMyUserRating
+{
+    margin-top: 2px;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2 > .CRating
+{
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    border-top: 2px dotted #F0F0F0;
+    text-align: center;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2 > .ViewMyUserRating > .Label,
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2 > .ViewMyUserRating > .LabelUserRating,
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2 > .ViewMyUserRating > a.LinkClickable
+{
+    color: #757575;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.9em;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2 > .ViewMyUserRating > .LabelUserRating
+{
+    width: 1.5em;
+    text-align: center;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C2 > .ViewMyUserRating > .EditLabel
+{
+    margin-left: 0.5em;
+    color: #666666;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    padding-bottom: 1px;
+    border-bottom: 1px solid #CCCCCC;
+    vertical-align: top;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C1 > .CRating
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.RatingsView > .Content > .RatingGroup > .Title > .R1C1 > .Label
+{
+    color: #9E9E9E;
+    width: 2em;
+    text-align: center;
+    font-size: 0.8em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.RatingsView > .Content > .RatingGroup > .Details > .ui-btn
+{
+    margin: 0em;
+    margin-top: 0.25em;
+}
+
+.RatingsView > .Content > .RatingGroup > .Details > .ui-btn > .ui-btn-inner
+{
+    text-align: left;
+    padding-left: 0px;
+}
+
+.RatingsView > .Content > .RatingGroup > .Details > .RatingBreakdown,
+.RatingsView > .Content > .RatingGroup > .Details > .RatingBreakdown > .ListView
+{
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.RatingsView > .Content > .RatingGroup > .Details > .RatingBreakdown
+{
+    text-align: center;
+}
+
+.RatingsView > .Content > .RatingGroup > .Details > .RatingBreakdown > .ChartView
+{
+    display: inline-block;
+}
+
+.RatingsView > .Content > .RatingGroup > .Details > .RatingBreakdown > .ListView
+{
+    text-align: left;
+}
+
+.RatingsView > .Content > .RatingGroup > .Details > .RatingBreakdown > .ListView .CRepeaterNoRecords
+{
+    font-size: 0.9em;
+    color: #999999;
+}
+
+.RatingsView > .Content > .RatingGroup:not(:last-of-type) > .Divider
+{
+    border-top: 2px solid #F0F0F0;
+    margin-top: 0.25em;
+}
+
+.CommentsView > .Header > .ui-btn > .ui-btn-inner
+{
+    padding-right: 0em;
+}
+
+.PopupContentCommentEdit > .PropertyView
+{
+    border-style: none;
+}
+
+.PopupContentCommentEdit > .PropertyView > .ui-input-text
+{
+    height: 10em;
+}
+
+.PopupContentCommentEdit > .Footer
+{
+    text-align: right;
+}
+
+.PopupContentCommentEdit > .Footer > .ui-btn:last-of-type
+{
+    margin-right: 0em;
+}
+
+.CommentDetail, .RatingDetail
+{
+    color: #666666;
+    margin-bottom: 1.5em;
+}
+
+.RatingDetail
+{
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.CommentDetail > .LabelDisplayName,
+.CommentDetail > .LabelPostedOn,
+.RatingDetail > .LabelDisplayName,
+.RatingDetail > .LabelPostedOn
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.CommentDetail > .LabelDisplayName,
+.RatingDetail > .LabelDisplayName
+{
+    color: #333333;
+    width: calc(100% - 6.8em);
+}
+
+.CommentDetail > .LabelPostedOn,
+.RatingDetail > .LabelPostedOn
+{
+    color: #999999;
+    text-align: right;
+    width: 6.5em;
+}
+
+.RatingDetail > .LabelDisplayName
+{
+    color: #999999;
+}
+
+.CommentDetail > .LabelPostedOn > span,
+.RatingDetail > .LabelDisplayName > span,
+.RatingDetail > .LabelPostedOn > span
+{
+    font-size: 0.9em;
+}
+
+.RatingDetail > .LabelDisplayName > .LabelUsername
+{
+    margin-bottom: 0.5em;
+    font-size: 0.75em;
+}
+
+.CommentsView.EditModeOn .CommentDetail > .LabelDisplayName,
+.CommentsView.EditModeOn .CommentDetail > .LabelPostedOn
+{
+    padding-top: 2px;
+}
+
+.CommentsView.EditModeOn .CommentDetail > .LabelDisplayName
+{
+    width: calc(100% - 6.8em - 24px - 5px);
+}
+
+.CommentsView.EditModeOn .CommentDetail > .ui-btn.LinkDisabled
+{
+    opacity: 0.2;
+}
+
+.CommentDetail > .LabelComment
+{
+    padding-top: 0.55em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.CommentDetail > .LabelComment > div
+{
+    font-size: 0.95em;
+}
+
+.EditorDisclaimerFileAccess
+{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: calc(100% - 5px);
+    border-top: 5px solid #CCCCCC;
+    background-color: rgba(255,255,255,0.55);
+}
+
+.EditorDisclaimerFileAccess > .Content
+{
+    background-color: #FFFFFF;
+    color: #333333;
+    margin-left: 10%;
+    margin-top: 5%;
+    width: calc(80% - 2em);
+    padding: 1em;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0px 1px 2px 0px #CCCCCC;
+    border-radius: 0.25em;
+}
+
+.EditorDisclaimerFileAccess > .Content > .Title
+{
+    font-size: 1.25em;
+}
+
+.EditorDisclaimerFileAccess > .Content > .Disclaimer
+{
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    margin-bottom: 0.5em;
+    border-top: 1px solid #F0F0F0;
+}
+
+.EditorDisclaimerFileAccess > .Content > .Footer
+{
+    text-align: right;
+}
+
+.EditorDisclaimerFileAccess > .Content > .Footer > .ui-btn
+{
+    margin-right: 1em;
+    text-decoration: none;
+}
+
+.EditorDisclaimerFileAccess > .Content > .Footer > .ui-btn.ui-focus, .EditorDisclaimerFileAccess > .Content > .Footer > .ui-btn:focus
+{
+    box-shadow: none;
+}
+
+/* SECTION START: Notifications */
+
+.EditorNotifications
+{
+    text-align: left;
+    text-shadow: none;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.EditorNotifications.ViewModeFixed
+{
+    display: block;
+    background-color: #FFFFFF;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    z-index: 9998;  /* z-index is higher than the overlay but less than messages container */
+}
+
+.EditorNotifications.ViewModeFixed
+{
+    margin: 0em;
+    padding: 0em;
+}
+
+.EditorNotifications:not(.ViewModeFixed) .ViewFixedModeOn
+{
+    display: none;
+}
+
+.EditorNotifications.ViewModeFixed > .PluginEditorCardView
+{
+    border-style: none;
+    box-shadow: none;
+    border-radius: 0em;
+}
+
+.EditorNotifications.ViewModeFixed .ButtonDismiss
+{
+    margin-left: 2px;
+    margin-right: calc(0.75em - 2px);
+}
+
+.EditorNotifications > .Badge
+{
+    margin-right: 0.25em;
+}
+
+.EditorNotifications > .Badge > .material-icons
+{
+    font-size: 32px;
+}
+
+.EditorNotifications > .Badge,
+.EditorNotifications > .Badge > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorNotifications > .Badge > .Label
+{
+    margin-left: 2px;
+    background-color: #2196F3;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    overflow: hidden;
+    color: #FFFFFF;
+    position: relative;
+}
+
+.EditorNotifications > .Badge:not(.ModeNoRecords) > .Label
+{
+    background-color: #F76E17;
+}
+
+.EditorNotifications > .Badge > .Label > span
+{
+    position: absolute;
+    font-size: 10px;
+    text-align: center;
+    left: 0px;
+    top: 2px;
+    width: 100%;
+    text-shadow: none;
+}
+
+.EditorNotifications > .Badge > .Label > span.LabelSizeSmall
+{
+    font-size: 8.5px;
+    top: 3px;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .Header
+{
+    padding: 0.5em;
+    padding-left: 1em;
+    border-bottom: 2px solid #F0F0F0;
+    color: #5F5F62;
+    position: relative;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .Header > .Title
+{
+    width: calc(100% - 5em);
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .Header > .Title > .Label
+{
+    font-size: 1.5em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .Header > .Actions
+{
+    display: inline-block;
+    position: absolute;
+    right: calc(1em + 2px);
+    top: 0.5em;
+}
+
+.ViewModeFixed.EditorNotifications > .PluginEditorCardView.CardModeInline > .Header > .Actions
+{
+    right: 5px;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity
+{
+    color: #999999;
+    padding: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #F0F0F0;
+    background-color: rgba(0,0,0,0.01);
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings
+{
+    text-align: right;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Label,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter:not(.FilterLayoutFull) > .Content
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Label
+{
+    color: #666666;
+    margin-right: 0.25em;
+    margin-top: 2px;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter.FilterLayoutFull > .Label
+{
+    display: none;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter:not(.FilterLayoutFull),
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Divider
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Divider
+{
+    width: 1px;
+    background-color: #666666;
+    height: calc(2em - 6px);
+    line-height: 1em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter:not(.FilterLayoutFull),
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Divider,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .LinkClickable.material-icons
+{
+    margin-top: 6px;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .LinkClickable.material-icons
+{
+    margin-left: 0.25em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings .ui-select
+{
+    display: inline-block;
+    vertical-align: top;
+    margin: 0em;
+    width: 8em;
+    margin-right: 0.5em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings .ui-select > .ui-btn.ui-focus
+{
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Content select > optgroup
+{
+    font-weight: normal;
+    color: #333333;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Content .FlipSwitchInline .ui-slider
+{
+    margin: 0em;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Content .FlipSwitchInline div.ui-slider-switch.ui-mini
+{
+    width: 4.5em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Content .FlipSwitchInline div.ui-slider-switch.ui-mini,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Content .FlipSwitchInline .ui-slider .ui-btn-corner-all
+{
+    border-radius: 0.25em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Content .FlipSwitchInline .ui-slider .ui-slider-label
+{
+    background: #666666;
+    text-shadow: none;
+    color: #FFFFFF;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity
+{
+    color: #333333;
+    background-color: #FFFFFF;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity .ListTile > .Content > .Title > .LinkExternal
+{
+    font-size: 0.9em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Instructions > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 4px;
+    width: calc(100% - 24px - 1em);
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .SearchableView
+{
+    margin-top: 0.55em;
+    margin-bottom: 0.65em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Title
+{
+    margin-bottom: 0.25em;
+    position: relative;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Title > .Label > span
+{
+    font-size: 1.2em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Title > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 12em - 0.5em);
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Title > .Actions
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+    width: 12em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Title > .Actions > .ui-btn
+{
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-right: 0em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Content
+{
+    margin-top: 0.5em;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Content .PropertyView > .ViewInput > .ui-select
+{
+    width: 40%;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .Content .PropertyView > .ViewInput > .ui-select .ui-disabled
+{
+    filter: grayscale(100%);
+    opacity: 0.65;
+}
+
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewEditEntity > .PaginationView
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+    text-align: center;
+}
+
+.EditorNotifications .ListView .CRepeaterFooterContainer
+{
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.EditorNotifications .ListView .EditorDataAdminListTable .CRepeaterFooterContainer > .ui-btn
+{
+    background: none;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+}
+
+.EditorViewNoRecords,
+.EditorNotifications .ListView .CRepeaterNoRecords,
+.EditorNotifications .ViewEditEntity > .Content > .LayoutGrid > .CRepeaterNoRecords
+{
+    color: #607d8b;
+    padding: 0.5em;
+}
+
+.EditorViewNoRecords > .Label,
+.EditorNotifications .ListView .CRepeaterNoRecords > .Label,
+.EditorNotifications .ViewEditEntity > .Content > .LayoutGrid > .CRepeaterNoRecords > .Label
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 0.5em;
+    margin-top: 4px;
+}
+
+.EditorNotifications .ListView .EditorDataAdminListTable .CRepeaterFooterContainer > .ui-btn > .ui-btn-inner > .ui-icon,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings .ui-select > .ui-btn > .ui-btn-inner > .ui-icon,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .ViewSettings > .Filter > .Content .FlipSwitchInline .ui-slider .ui-slider-label.ui-btn-active
+{
+    background-color: #2196F3;
+}
+
+.EditorNotifications .ListView .EditorDataAdminListTable .CRepeaterFooterContainer > .ui-btn.ui-focus
+{
+    box-shadow: none;
+}
+
+.EditorNotifications .ListView .NotificationItem
+{
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-bottom: 1px solid #F0F0F0;
+    vertical-align: top;
+}
+
+.EditorNotifications .ListView .NotificationItem.ListItemOdd
+{
+    background-color: #F5F5F3;
+}
+
+.EditorNotifications .ListView .NotificationItem.Disabled,
+.EditorNotifications .ListView .NotificationItem.StateFocus
+{
+    filter: blur(1px) grayscale(50%);
+    background-color: #E3F2FD;
+    border-bottom: 1px solid #2196F3;
+}
+
+.EditorNotifications .ListView .NotificationItem.StateFocus
+{
+    background-color: #FFFFFF;
+    border-color: #F76E17;
+    filter: unset;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Icon
+{
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid #F0F0F0;
+    background-color: #2196F3;
+    display: inline-block;
+    vertical-align: top;
+    color: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+}
+
+.EditorNotifications .ListView .NotificationItem.StateOff > .Icon
+{
+    background-color: #F76E17;
+}
+
+.EditorNotifications .ListView .NotificationItem.StateFocus > .Icon
+{
+    background-color: #333333;
+}
+
+.EditorNotifications .ListView .NotificationItem.NotificationViewedOn > .Icon
+{
+    background-color: #666666;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Icon > .Label
+{
+    position: absolute;
+    text-align: center;
+    font-size: 0.8em;
+    top: 0.35em;
+    left: 0em;
+    width: 100%;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Content
+{
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 0.5em;
+}
+
+/* notification (user mode) */
+.EditorNotifications .ListView .NotificationItem > .Content
+{
+    width: calc(100% - 0.75em - 26px - 7em - 24px - 2px - 24px - 5px - 0.5em);
+}
+
+/* notification (admin mode) */
+.EditorNotifications.ViewModeAdmin .ListView .NotificationItem > .Content
+{
+    width: calc(100% - 0.75em - 26px - 7em - 24px - 2px - 80px - 5px - 0.5em);
+}
+
+.EditorNotifications .ListView .NotificationItem > .Content > .Heading > div,
+.EditorNotifications .ListView .NotificationItem > .LabelDate,
+.EditorNotifications .ListView .NotificationItem > .Actions
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Content > .Heading
+{
+    color: #666666;
+    font-weight: bold;
+}
+
+.EditorNotifications .ListView .NotificationItem.StateFocus > .Content > .Heading
+{
+    color: #000000;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Content > .Heading > .Label,
+.EditorNotifications .ListView .NotificationItem > .LabelDate
+{
+    padding-top: 2px;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Content > .Title
+{
+    margin-top: 0.25em;
+    padding-left: 6px;
+    color: #757575;
+}
+
+.EditorNotifications .ListView .NotificationItem.StateFocus > .Content > .Title
+{
+    color: #000000;
+}
+
+.EditorNotifications .ListView .NotificationItem > .LabelDate
+{
+    color: #9E9E9E;
+    width: calc(7em + 24px + 2px);
+    text-align: left;
+}
+
+.EditorNotifications .ListView .NotificationItem.NotificationPriorityOn:not(.StateFocus) > .Content > .Heading,
+.EditorNotifications .ListView .NotificationItem.NotificationPriorityOn:not(.StateFocus) > .LabelDate
+{
+    color: #F44336;
+}
+
+.EditorNotifications .ListView .NotificationItem > .LabelDate > .material-icons,
+.EditorNotifications .ListView .NotificationItem > .LabelDate > span
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.EditorNotifications .ListView .NotificationItem > .LabelDate > span
+{
+    margin-left: 2px;
+    padding-top: 4px;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Actions
+{
+    width: calc(24px + 5px);
+    text-align: right;
+}
+
+.EditorNotifications.ViewModeAdmin .ListView .NotificationItem > .Actions
+{
+    width: calc(80px + 5px);
+}
+
+.EditorNotifications .ListView .NotificationItem > .Actions,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .Header > .Actions
+{
+    color: #F76E17;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Actions .LinkClickable.LinkDisabled.material-icons,
+.EditorNotifications > .PluginEditorCardView.CardModeInline > .Header > .Actions .LinkClickable.LinkDisabled.material-icons,
+.EditorNotifications .ListView .NotificationItem > .Actions .LinkClickable.ActionThemeUndo.material-icons
+{
+    color: #666666;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Actions .LinkDisabled.material-icons
+{
+    /* Note: the color is transparent to ensure the layout is rendered for the icon but not visible to user */
+    color: transparent;
+    cursor: default;
+}
+
+.EditorNotifications .ListView .NotificationItem.NotificationViewedOn > .Actions .LinkClickable.LinkDisabled.material-icons
+{
+    color: #999999;
+}
+
+.EditorNotifications .material-icons.StateOn
+{
+    color: #2196F3;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Actions > .LinkClickable:not(:last-of-type),
+.EditorNotifications .ListView .NotificationItem > .Actions > .LinkDisabled:not(:last-of-type)
+{
+    margin-right: 5px;
+}
+
+.EditorNotifications .ListView .NotificationItem > .Actions > .LinkClickable:nth-of-type(3n)
+{
+    margin-right: 0px;
+}
+
+/* SECTION END: Notifications */

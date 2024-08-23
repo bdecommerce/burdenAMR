@@ -1,0 +1,1467 @@
+﻿<script type="text/javascript">
+    
+    var m_temp = (function () {
+
+        var DEFAULT_EDIT_POPUP_RATIO = null;
+
+        function getElementDetail(obj, options) {
+            var _ret = {
+                "Type": "unknown",
+                "GetValue": function (propConfig) {
+                    return this.RawElement.val();
+                },
+                "SetValue": function (val) {
+                },
+                "Element": null,
+                "RawElement": null
+            };
+
+            _ret.Element = $(obj);
+            _ret.RawElement = _ret.Element;
+
+            if (_ret.Element.is("[" + util_renderAttribute("flip_switch") + "]")) {
+                
+                _ret.Type = "switch";
+                _ret.RawElement = _ret.Element.find("select[data-attr-widget='flip_switch']");
+
+                _ret.SetValue = function (val) {
+                    val = util_forceBool(val, false);
+                    this.RawElement.val(val ? 1 : 0).trigger("change");
+                };
+
+                _ret.GetValue = function (propConfig) {
+                    return (util_forceInt(this.RawElement.val(), 0) == 1);
+                };
+            }
+            else if (_ret.Element.hasClass("ui-select")) {
+
+                _ret.Type = "dropdown";
+                _ret.RawElement = _ret.Element.find("select");
+
+                _ret.GetValue = function (propConfig) {
+                    var _val = this.RawElement.val();
+                    var _dropdownConfig = (propConfig ? propConfig["DropdownConfiguration"] : null);
+
+                    if (_dropdownConfig && _dropdownConfig["IsNullable"]){
+                        _val = util_forceInt(_val, enCE.None);
+
+                        if (_val == enCE.None){
+                            _val = null;
+                        }
+                    }
+                    else if (!_dropdownConfig || util_forceBool(_dropdownConfig["IsForceInt"], true)) {
+                        _val = util_forceInt(_val);
+                    }
+
+                    return _val;
+                };
+
+                _ret.SetValue = function (val) {
+                    $mobileUtil.SetDropdownListValue(this.RawElement, val);
+                };
+            }
+            else {
+                console.log("unknown :: element found - getElementDetail");
+            }
+
+            return _ret;
+        }
+
+        function getRoleEntityTemplateController() {
+
+            var _retEntityCtrl = {
+
+                "Init": function (opts) {
+
+                    var _instance = this;
+
+                    var _fnLoadItem = function (callback) {
+
+                        GlobalService.ClassificationPlatformRoleGetByPrimaryKey({ "RoleID": EditID(), "DeepLoad": true }, function (item) {
+
+                            EditItem = item;
+
+                            if (callback) {
+                                callback();
+                            }
+
+                        });
+
+                    };  //end: _fnLoadItem
+
+                    _fnLoadItem(function () {
+                        if (_instance.HasProjectControllerEvent("Init")) {
+                            _instance.ProjectController.Init(opts);
+                        }
+                        else if (opts["Callback"]) {
+                            opts.Callback();
+                        }
+                    });
+                },
+
+                "OnBindComplete": function (opts) {
+                    var _renderOpts = opts.RenderOptions;
+
+                    var $ddlClassification = _renderOpts.GetFieldElement(enColClassificationPlatformRoleProperty.ClassificationID);
+                    var $ddlPlatform = _renderOpts.GetFieldElement(enColClassificationPlatformRoleProperty.PlatformID);
+                    var $divRoleComponents = _renderOpts.GetFieldElement(enColClassificationPlatformRoleExtProperty.RoleComponents);
+
+                    $ddlClassification.selectmenu("disable");
+                    $ddlPlatform.selectmenu("disable");
+
+                    var _pluginInstance = new CPluginEditor();
+
+                    var _fnBindDDL = function (opts, bindCallback) {
+
+                        _pluginInstance.GetData({ "Type": opts.DataType, "Filters": opts["Filters"] }, function (result) {
+                            var _list = (result.Data ? result.Data.List : null);
+                            var _enabledState = true;
+
+                            var _propDisplayName = opts["PropDisplayName"];
+                            var _propName = opts["PropName"];
+                            var _propValue = opts["PropValue"];
+                            var _propDDL = opts.Prop;
+
+                            var $ddl = $(opts.DDL);
+
+                            _list = (_list || []);
+
+                            var _fnFilterList = $ddl.data("FilterList");
+
+                            if (_fnFilterList && util_isFunction(_fnFilterList)) {
+                                _list = _fnFilterList(_list);
+                            }
+
+                            if (_list.length == 0 ||
+                                (_propDDL == enColClassificationPlatformRoleProperty.PlatformID &&
+                                 (!opts["Filters"] || (util_forceInt(opts.Filters["ClassificationID"], enCE.None) == enCE.None))
+                                )
+                               ) {
+                                _list = []; //force empty list since no classification is selected (required)
+                                _enabledState = false;
+                                EditItem[_propDDL] = enCE.None;
+                            }
+
+                            //configure proper display names (default to use Name if not available)
+                            if (_propDisplayName) {
+                                for (var c = 0; c < _list.length; c++) {
+                                    var _item = _list[c];
+                                    var _displayName = util_forceString(_item[_propDisplayName]);
+
+                                    if (_displayName == "") {
+                                        _displayName = _item[_propName];
+                                    }
+
+                                    _item[_propName] = _displayName;
+                                }
+                            }
+
+                            util_dataBindDDL($ddl, _list, _propName, _propValue, util_forceInt(EditItem[_propDDL], enCE.None), true, enCE.None, "");
+
+                            $ddl.selectmenu(_enabledState ? "enable" : "disable");
+
+                            if (bindCallback) {
+                                bindCallback();
+                            }
+                        });
+
+                    };  //end: _fnBindDDL
+
+                    var _arr = [];
+
+                    _controller.PluginInstance = _pluginInstance;
+                    _controller.DOM.Container.data("plugin-instance", _controller.PluginInstance); //associate the plugin instance to the container element data
+
+                    //configure the classification filter to only include valid items (i.e. that can be managed)
+                    $ddlClassification.data("FilterList", function (list) {
+
+                        list = (list || []);
+
+                        var _temp = [];
+
+                        for (var c = 0; c < list.length; c++) {
+                            var _classification = list[c];
+                            var _valid = true;
+
+                            var _classificationOpts = _pluginInstance.Utils.GetDefaultOptions({
+                                "Type": "Classification", "StrJSON": _classification[enColClassificationProperty.OptionJSON]
+                            });
+
+                            if (_classificationOpts && _classificationOpts["UserHomeView"] &&
+                                _classificationOpts.UserHomeView["IsUnmanaged"]) {
+                                _valid = false;
+                            }
+
+                            if (_valid) {
+                                _temp.push(_classification);
+                            }
+                        }
+
+                        return _temp;
+                    });
+
+                    _arr.push({
+                        "DDL": $ddlClassification,
+                        "DataType": "ClassificationList", "Prop": enColClassificationPlatformRoleProperty.ClassificationID,
+                        "PropDisplayName": enColClassificationProperty.DisplayName, "PropName": enColClassificationProperty.Name,
+                        "PropValue": enColClassificationProperty.ClassificationID
+                    });
+
+                    _arr.push({
+                        "DDL": $ddlPlatform,
+                        "DataType": "ClassificationPlatformList", "Prop": enColClassificationPlatformRoleProperty.PlatformID,
+                        "PropName": enColClassificationPlatformProperty.PlatformIDName, "PropValue": enColClassificationPlatformProperty.PlatformID,
+                        "PopulateFilters": [{ n: "ClassificationID", p: enColClassificationPlatformRoleProperty.ClassificationID }]
+                    });
+
+                    var _fn = function (arr) {
+
+                        if (arr.length > 0) {
+                            var _bindOpts = arr.shift();
+                            var $ddl = $(_bindOpts.DDL);
+
+                            $ddl.off("change.bind");
+                            $ddl.on("change.bind", function (e, args) {
+
+                                args = util_extend({ "IsRefresh": false, "Callback": null }, args);
+
+                                if (args["IsRefresh"]) {
+
+                                    if (_bindOpts["PopulateFilters"]) {
+                                        var _arrFilterProp = _bindOpts.PopulateFilters;
+
+                                        _bindOpts["Filters"] = {};
+
+                                        for (var f = 0; f < _arrFilterProp.length; f++) {
+                                            var _filterDetail = _arrFilterProp[f];
+                                            var $ddlFilter = _renderOpts.GetFieldElement(_filterDetail.p);
+
+                                            _bindOpts.Filters[_filterDetail.n] = util_forceInt($ddlFilter.val(), enCE.None);
+                                        }
+                                    }
+
+                                    _fnBindDDL(_bindOpts, args["Callback"]);
+                                }
+                                else {
+
+                                    switch ($ddl.attr("data-attr-field")) {
+
+                                        case enColClassificationPlatformRoleProperty.ClassificationID:
+                                            $ddlPlatform.trigger("change.bind", { "IsRefresh": true });
+                                            break;
+                                    }
+
+                                    $divRoleComponents.trigger("events.bind");
+                                }
+                            });
+
+                            $ddl.trigger("change.bind", {
+                                "IsRefresh": true,
+                                "Callback": function () {
+                                    _fn(arr);
+                                }
+                            });
+                        }
+                        else {
+
+                            $divRoleComponents.off("events.bind");
+                            $divRoleComponents.on("events.bind", function (e, args) {
+                                args = util_extend({ "Callback": null }, args);
+
+                                _retEntityCtrl.RenderRoleComponents({
+                                    "Container": $divRoleComponents,
+                                    "ClassificationID": util_forceInt($ddlClassification.val(), enCE.None),
+                                    "PlatformID": util_forceInt($ddlPlatform.val(), enCE.None),
+                                    "Callback": args.Callback
+                                });
+                            });
+
+                            $divRoleComponents.off("events.populate");
+                            $divRoleComponents.on("events.populate", function (e, args) {
+                                args = util_extend({ "Callback": null, "CurrentClassificationID": enCE.None, "CurrentPlatformID": enCE.None }, args);
+
+                                var _src = $divRoleComponents.data("SourceList");
+                                var _roleComponentList = [];
+
+                                //find the active/current components inputs details view
+                                var $current = $divRoleComponents.find("[" + util_htmlAttribute("data-attr-role-classification-id", args.CurrentClassificationID) + "]" +
+                                                                       "[" + util_htmlAttribute("data-attr-role-platform-id", args.CurrentPlatformID) + "]");
+                                var $children = $current.find("[data-attr-component-id]");
+
+                                $.each($children, function () {
+                                    var $compElement = $(this);
+                                    var _componentID = util_forceInt($compElement.attr("data-attr-component-id"), enCE.None);
+
+                                    //check if a source item exists and reuse it, if available
+                                    var _roleComponent = util_arrFilter(_src, enColClassificationPlatformRoleComponentProperty.ComponentID, _componentID, true);
+
+                                    if (_roleComponent.length == 1) {
+                                        _roleComponent = _roleComponent[0];
+                                    }
+                                    else {
+                                        _roleComponent = new CEClassificationPlatformRoleComponent();
+                                    }
+
+                                    _retEntityCtrl.PopulateRoleComponentFromElement({ "Element": $compElement, "ComponentID": _componentID, "Data": _roleComponent });
+
+                                    _roleComponentList.push(_roleComponent);
+                                });
+
+                                if (args.Callback) {
+                                    args.Callback(_roleComponentList);
+                                }
+
+                            }); //end: events.populate
+
+                            $divRoleComponents.trigger("events.bind");
+                        }
+
+                    };  //end: _fn
+
+                    //save a cloned copy of the source data item (for updates)
+                    var _roleComponents = [];
+                    var _srcRoleComponents = (EditItem && EditItem[enColClassificationPlatformRoleExtProperty.RoleComponents] ?
+                                              EditItem[enColClassificationPlatformRoleExtProperty.RoleComponents] : []);
+
+                    for (var i = 0; i < _srcRoleComponents.length; i++) {
+                        _roleComponents.push(util_extend({}, _srcRoleComponents[i]));
+                    }
+
+                    $divRoleComponents.data("SourceList", _roleComponents);
+
+                    _fn(_arr);
+                },
+
+                "OnSave": function (opts) {
+
+                    var _saveCallback = function (disableCallback) {
+
+                        if (!disableCallback && opts["Callback"]) {
+                            opts.Callback();
+                        }
+                    };
+
+                    if (opts["Valid"]) {
+
+                        _retEntityCtrl.PopulateExtFields({
+                            "SaveOptions": opts,
+                            "Callback": function (success) {
+
+                                if (!success) {
+                                    _saveCallback(true);
+                                    return;
+                                }
+
+                                GlobalService.ClassificationPlatformRoleSave({ "_unbox": false, "Item": EditItem, "DeepSave": true }, global_extEntitySave(function (saveItem) {
+                                    EditItem = saveItem;
+
+                                    var _saveMsg = util_forceString(_controller.Parameters["SaveMessageSuccess"]);
+
+                                    if (_saveMsg != "") {
+                                        AddMessage(_saveMsg);
+                                    }
+
+                                    _saveCallback();
+                                }));
+
+                            }
+                        });
+                    }
+                    else {
+                        _saveCallback();
+                    }
+                },
+
+                "GetRoleComponentInputHTML": function (opts) {
+                    var _html = "";
+
+                    opts = util_extend({ "Item": null, "Index": -1, "Configuration": null, "FilterClassificationPlatform": null }, opts);
+
+                    var _classPlatformComp = (opts.Item || {});
+                    var _renderConfiguration = opts.Configuration;
+
+                    if (_renderConfiguration) {
+
+                        var _title = _controller.PluginInstance.Utils.ForceEntityDisplayName({ "Item": _classPlatformComp, "Type": "ClassificationPlatformComponent" });
+
+                        _html += "<div class='CEditorAdminRoleComponent' " +
+                                 util_htmlAttribute("data-attr-component-id", _classPlatformComp[enColClassificationPlatformComponentProperty.ComponentID]) + ">";
+
+                        _html += "  <div class='Title'>" + util_htmlEncode(_title) + "</div>" +
+                                 "      <div class='Content'>";
+
+                        for (var p = 0; p < _renderConfiguration.length; p++) {
+                            var _config = _renderConfiguration[p];
+                            var _isRenderHTML = true;
+
+                            if (_config["IsValidRender"]) {
+                                _isRenderHTML = _config.IsValidRender({
+                                    "Configuration": _config, "Data": _classPlatformComp, "FilterClassificationPlatform": opts["FilterClassificationPlatform"]
+                                });
+                            }
+
+                            if (_isRenderHTML) {
+                                var _prop = util_forceString(_config["Property"]);
+
+                                _html += "<div class='PropertyLineItem' " + util_htmlAttribute("data-attr-component-prop-item", _prop) + ">" +
+                                         "  <div class='ColumnHeading'>" + util_htmlEncode(_config["Label"]) + "</div>" +
+                                         "  <div class='ColumnContent'>" + util_forceString(_config["InputHTML"]) + "</div>" +
+                                         "</div>";
+                            }
+                        }
+
+                        _html += "  </div>" +
+                                 "</div>";
+                    }
+
+                    return _html;
+                },
+
+                "BindRoleComponentInputs": function (opts) {
+
+                    opts = util_extend({ "Parent": null, "Data": null, "Callback": null, "List": null }, opts);
+
+                    var _index = util_forceInt(opts["Index"], 0);
+                    var $list = $(opts.List);
+
+                    if (_index < $list.length) {
+
+                        var $element = $($list[_index]);
+                        var $container = $element.closest("[data-attr-component-id]");
+                        var _classRoleComponentItem = null;
+                        var _componentID = util_forceInt($container.attr("data-attr-component-id"), enCE.None);
+                        var $content = $element.find(".ColumnContent");
+                        var $input = $content.find("[data-attr-component-prop-input]");
+
+                        var _roleComponent = util_arrFilter(opts.Data, enColClassificationPlatformRoleComponentProperty.ComponentID, _componentID, true);
+
+                        if (_roleComponent.length == 1) {
+                            _roleComponent = _roleComponent[0];
+                        }
+                        else {
+                            _roleComponent = new CEClassificationPlatformRoleComponent();
+                        }
+
+                        if ($input.length == 0) {
+                            $input = $($content.children().first());
+                        }
+
+                        var _detail = getElementDetail($input);
+
+                        var _prop = $element.attr("data-attr-component-prop-item");
+
+                        var _fn = function () {
+
+                            //recursive call
+                            opts["Index"] = _index + 1;
+                            _retEntityCtrl.BindRoleComponentInputs(opts);
+                        };
+
+                        if (_prop) {
+                            var _configurations = _controller.Parameters["RowConfigurationRoleComponents"];
+                            var _propConfig = util_arrFilter(_configurations, "Property", _prop, true);
+
+                            if (_propConfig.length == 1) {
+                                _propConfig = _propConfig[0];
+                            }
+
+                            if (!_propConfig) {
+                                _fn();
+                                return;
+                            }
+
+                            var _fnLoadPropData = _propConfig["LoadData"];
+                            var _fnSetInputValue = function () {
+
+                                if (_propConfig["SetInputValue"]) {
+                                    _propConfig.SetInputValue({ "Element": $input, "ElementDetail": _detail, "Data": _roleComponent, "ComponentID": _componentID, "Callback": _fn });
+                                }
+                                else {
+                                    var _val = _roleComponent[_prop];
+
+                                    //check if the property name is an extended property list that requires traversal on object level properties
+                                    if (_prop.indexOf(".") >= 0) {
+                                        var _arrProps = _prop.split(".");
+                                        var _current = _roleComponent;
+
+                                        _val = undefined;
+
+                                        var _validTraversal = false;
+
+                                        for (var ep = 0; ep < _arrProps.length && _current; ep++) {
+                                            var _extProp = _arrProps[ep];
+
+                                            _current = _current[_extProp];
+
+                                            //first property level (i.e. root parent) is not available, so check if an instance can be created and associated to the object
+                                            if (ep == 0 && !_current && _propConfig["RootPropertyPrototype"]) {
+
+                                                _current = new _propConfig.RootPropertyPrototype();
+                                                _roleComponent[_extProp] = _current;    //associate it to the main item to be persisted, if possible
+                                            }
+
+                                            _validTraversal = (ep == _arrProps.length - 1);
+                                        }
+
+                                        if (_validTraversal) {
+                                            _val = _current;
+                                        }
+                                        else {
+                                            _val = _propConfig["DefaultValue"];
+                                        }
+                                    }
+
+                                    switch (_detail.Type) {
+
+                                        case "switch":
+                                            _detail.SetValue(_val);
+                                            break;
+
+                                        case "dropdown":
+
+                                            if (_propConfig["DropdownConfiguration"]) {
+                                                var _ddlConfig = _propConfig.DropdownConfiguration;
+
+                                                util_dataBindDDL(_detail.RawElement, _ddlConfig["List"], _ddlConfig["Text"], _ddlConfig["Value"], _val,
+                                                                 util_forceBool(_ddlConfig["IncludeDefault"], true), _ddlConfig["DefaultValue"],
+                                                                 util_forceString(_ddlConfig["DefaultText"], ""));
+                                            }
+                                            else {
+                                                _detail.SetValue(_val);
+                                            }
+
+                                            break;
+                                    }
+
+                                    _fn();
+                                }
+
+                            };  //end: _fnSetInputValue
+
+                            if (_fnLoadPropData) {
+                                _fnLoadPropData({ "Config": _propConfig, "Callback": _fnSetInputValue });
+                            }
+                            else {
+                                _fnSetInputValue();
+                            }
+                        }
+                        else {
+                            _fn();
+                        }
+
+                    }
+                    else if (opts.Callback) {
+                        opts.Callback();
+                    }
+                },
+
+                "RenderRoleComponents": function (opts) {
+
+                    opts = util_extend({ "Container": null, "ClassificationID": enCE.None, "PlatformID": enCE.None, "Callback": null }, opts);
+
+                    var _callback = function () {
+                        if (opts.Callback) {
+                            opts.Callback();
+                        }
+                    };
+
+                    var $container = $(opts.Container);
+                    var _classificationID = opts.ClassificationID;
+                    var _platformID = opts.PlatformID;
+
+                    //check if the view already exists
+                    var $element = $container.find("[" + util_htmlAttribute("data-attr-role-classification-id", _classificationID) + "]" +
+                                                   "[" + util_htmlAttribute("data-attr-role-platform-id", +_platformID) + "]");
+
+                    var $current = $container.find("[data-attr-role-classification-id][data-attr-role-platform-id]:visible")
+                                             .not($element);
+
+                    var _fn = function () {
+
+                        $current.toggle("height").promise()
+                                .done(function () {
+
+                                    $element.hide();
+                                    $element.toggle("height");
+                                    _callback();
+                                });
+
+                    };
+
+                    if ($element.length == 1) {
+                        _fn();
+                    }
+                    else {
+
+                        //view does not exist, so load the data and render the view
+                        var _fnGetClassificationPlatformData = function (dataCallback) {
+
+                            if (_classificationID != enCE.None && _platformID != enCE.None) {
+
+                                _controller.PluginInstance.GetData({
+                                    "Type": "ClassificationPlatformList", "Filters": {
+                                        "ClassificationID": _classificationID, "PlatformID": _platformID, "PageSize": 1, "PageNum": 1
+                                    }
+                                }, function (result) {
+                                    dataCallback(result.Data ? result.Data.List : null);
+                                });
+                            }
+                            else {
+                                dataCallback(null);
+                            }
+
+                        };  //end: _fnGetClassificationPlatformData
+
+                        _fnGetClassificationPlatformData(function (classPlatformItem) {
+
+                            classPlatformItem = (classPlatformItem && classPlatformItem.length ?
+                                                 classPlatformItem[0] : null);
+
+                            classPlatformItem = (classPlatformItem || {});
+
+                            var _filterClassPlatformID = util_forceInt(classPlatformItem[enColClassificationPlatformProperty.ID], enCE.None);
+
+                            var _fnGetClassificationPlatformCompData = function (dataCallback) {
+
+                                if (_filterClassPlatformID == enCE.None) {
+                                    dataCallback(null);
+                                }
+                                else {
+                                    _controller.PluginInstance.GetData({
+                                        "Type": "ClassificationPlatformComponentList",
+                                        "Filters": { "ClassificationPlatformID": _filterClassPlatformID, "SortColumn": enColClassificationPlatformComponent.ComponentDisplayOrder }
+                                    }, function (result) {
+                                        dataCallback(classPlatformItem, result.Data ? result.Data.List : null);
+                                    });
+                                }
+
+                            };  //end: _fnGetClassificationPlatformCompData
+
+                            _fnGetClassificationPlatformCompData(function (classPlatformDetailItem, list) {
+
+                                var _html = "";
+                                var _classPlatformCompList = (list || []);
+
+                                var _itemConfiguration = _controller.Parameters["RowConfigurationRoleComponents"];
+
+                                for (var i = 0; i < _classPlatformCompList.length; i++) {
+                                    var _classPlatformComp = _classPlatformCompList[i];
+
+                                    _html += _retEntityCtrl.GetRoleComponentInputHTML({
+                                        "Item": _classPlatformComp, "Index": i, "Configuration": _itemConfiguration,
+                                        "FilterClassificationPlatform": classPlatformDetailItem
+                                    });
+                                }
+
+                                if (_classPlatformCompList.length == 0) {
+                                    _html += "<div class='NoRecordsMessage'>" + util_htmlEncode("There are no items available for edit.") + "</div>";
+                                }
+
+                                $element = $("<div class='CEditorAdminRoleComponentsView' />");
+
+                                $element.attr({ "data-attr-role-classification-id": _classificationID, "data-attr-role-platform-id": _platformID });
+                                $element.html(_html);
+
+                                $element.hide();
+                                $container.append($element);
+
+                                $mobileUtil.refresh($element);
+
+                                _fn();
+
+                                _retEntityCtrl.BindRoleComponentInputs({
+                                    "Parent": $container,
+                                    "Data": $container.data("SourceList"),
+                                    "List": $element.find("[data-attr-component-prop-item]")
+                                });
+
+                            }); //end classification platform component list
+
+                        }); //end: classifiction platform item
+
+                    }
+
+                },
+
+                "PopulateRoleComponentFromElement": function (opts) {
+                    opts = util_extend({ "Element": null, "ComponentID": enCE.None, "Data": {} }, opts);
+
+                    var _item = (opts.Data || {});
+                    var $element = $(opts.Element);
+
+                    _item[enColClassificationPlatformRoleComponentProperty.ComponentID] = opts.ComponentID;
+
+                    var _configurations = _controller.Parameters["RowConfigurationRoleComponents"];
+
+                    $.each($element.find("[data-attr-component-prop-item]"), function () {
+                        var $propElement = $(this);
+                        var _prop = util_forceString($propElement.attr("data-attr-component-prop-item"), "");
+
+                        if (_prop != "") {
+                            var $content = $propElement.find(".ColumnContent");
+                            var $input = $propElement.find("[data-attr-component-prop-input]");
+
+                            if ($input.length == 0) {
+                                $input = $($content.children().first());
+                            }
+
+                            var _detail = getElementDetail($input);
+                            var _propConfig = util_arrFilter(_configurations, "Property", _prop, true);
+
+                            if (_propConfig.length == 1) {
+                                _propConfig = _propConfig[0];
+                            }
+                            else {
+                                _propConfig = null;
+                            }
+
+                            var _val = _detail.GetValue(_propConfig);
+
+                            //check if the value has to be set to extended properties on object level
+                            if (_prop.indexOf(".") >= 0) {
+
+                                var _arrProps = _prop.split(".");
+
+                                var _rootProp = _arrProps[0];
+                                var _childItem = _item[_rootProp];
+
+                                //first property level (i.e. root parent) is not available, so check if an instance can be created and associated to the object
+                                if (!_childItem && _propConfig["RootPropertyPrototype"]) {
+
+                                    _childItem = new _propConfig.RootPropertyPrototype();
+                                    _item[_rootProp] = _childItem;    //associate it to the main item to be persisted
+                                }
+
+                                //offset by 1 as start index since the root property has been handled
+                                for (var ep = 1; ep < _arrProps.length; ep++) {
+                                    var _extProp = _arrProps[ep];
+
+                                    if (ep == _arrProps.length - 1) {
+
+                                        //last property has been reached so set the property value
+                                        _childItem[_extProp] = _val;
+                                    }
+                                    else {
+                                        _childItem = _childItem[_extProp];
+                                    }
+                                }
+                            }
+                            else {
+                                _item[_prop] = _val;
+                            }
+                        }
+                    });
+
+                    return _item;
+                },
+
+                "PopulateExtFields": function (opts) {
+                    opts = util_extend({ "SaveOptions": null, "Callback": null }, opts);
+
+                    var _callback = function () {
+                        if (opts.Callback) {
+                            opts.Callback(true);
+                        }
+                    };
+
+                    var _saveOpts = opts.SaveOptions;
+
+                    //populate the role components if applicable
+                    var $divRoleComponents = _saveOpts.RenderOptions.GetFieldElement(enColClassificationPlatformRoleExtProperty.RoleComponents);
+
+                    if ($divRoleComponents.length) {
+
+                        $divRoleComponents.trigger("events.populate", {
+                            "CurrentClassificationID": EditItem[enColClassificationPlatformRoleProperty.ClassificationID],
+                            "CurrentPlatformID": EditItem[enColClassificationPlatformRoleProperty.PlatformID],
+                            "Callback": function (list) {
+
+                                EditItem[enColClassificationPlatformRoleExtProperty.RoleComponents] = (list || []);
+                                _callback();
+                            }
+                        });
+                    }
+                    else {
+                        _callback();
+                    }
+                }
+
+            };
+
+            return _retEntityCtrl;
+
+        }   //end: getRoleEntityTemplateController
+
+        function getPlatformRequestRoleEntityTemplateController() {
+
+            var _retEntityCtrl = {
+
+                "Init": function (opts) {
+
+                    var _instance = this;
+
+                    var _fnLoadItem = function (callback) {
+
+                        var _platformID = util_forceInt(global_activePageQueryStr("EditPlatformID"), enCE.None);
+                        var _roleID = util_forceInt(global_activePageQueryStr("EditRoleID"), enCE.None);
+
+                        GlobalService.PlatformDefaultRequestRoleGetByPrimaryKey({ "PlatformID": _platformID, "RoleID": _roleID, "DeepLoad": true }, function (item) {
+
+                            EditItem = item;
+
+                            var _editPlatformID = util_forceInt(EditItem[enColPlatformDefaultRequestRoleProperty.PlatformID], enCE.None);
+
+                            //overwrite the PlatformIDName with the proper display name prior to render
+                            var _pluginInstance = new CPluginEditor();
+
+                            _controller.PluginInstance = _pluginInstance;
+                            _controller.DOM.Container.data("plugin-instance", _controller.PluginInstance); //associate the plugin instance to the container element data
+
+                            if (_editPlatformID != enCE.None) {
+                                EditItem[enColPlatformDefaultRequestRoleProperty.PlatformIDName] = _pluginInstance.Utils.ForceEntityDisplayName({
+                                    "Type": "PlatformDefaultRequestRole", "Item": EditItem
+                                });
+
+                                if (callback) {
+                                    callback();
+                                }
+                            }
+                            else {
+
+                                EditItem[enColPlatformDefaultRequestRoleProperty.PlatformID] = _platformID;
+
+                                GlobalService.PlatformGetByPrimaryKey({ "PlatformID": _platformID }, function (platform) {
+
+                                    EditItem[enColPlatformDefaultRequestRoleProperty.PlatformIDName] = _pluginInstance.Utils.ForceEntityDisplayName({
+                                        "Type": "Platform", "Item": platform
+                                    });
+
+                                    if (callback) {
+                                        callback();
+                                    }
+                                });
+                            }
+
+                        });
+
+                    };  //end: _fnLoadItem
+
+                    _fnLoadItem(function () {
+                        if (_instance.HasProjectControllerEvent("Init")) {
+                            _instance.ProjectController.Init(opts);
+                        }
+                        else if (opts["Callback"]) {
+                            opts.Callback();
+                        }
+                    });
+                },
+
+                "OnBindComplete": function (opts) {
+                    var _renderOpts = opts.RenderOptions;
+
+                    var $ddlRole = _renderOpts.GetFieldElement(enColPlatformDefaultRequestRoleProperty.RoleID);
+
+                    $ddlRole.selectmenu("disable");
+
+                    _controller.PluginInstance.GetData({
+                        "Type": "ClassificationPlatformRoleList", "Filters": { "PlatformID": util_forceInt(EditItem[enColPlatformDefaultRequestRoleProperty.PlatformID], enCE.None) }
+                    }, function (result) {
+                        var _list = (result.Data ? result.Data.List : null);
+
+                        util_dataBindDDL($ddlRole, _list, enColClassificationPlatformRoleProperty.Name, enColClassificationPlatformRoleProperty.RoleID,
+                                         util_forceInt(EditItem[enColPlatformDefaultRequestRoleProperty.RoleID], enCE.None), true, enCE.None, "");
+
+                        $ddlRole.selectmenu("enable");
+                    });
+                },
+
+                "OnSave": function (opts) {
+
+                    var _saveCallback = function (disableCallback) {
+
+                        if (!disableCallback && opts["Callback"]) {
+                            opts.Callback();
+                        }
+                    };
+
+                    if (opts["Valid"]) {
+
+                        GlobalService.PlatformDefaultRequestRoleSave({ "_unbox": false, "Item": EditItem, "DeepSave": true }, global_extEntitySave(function (saveItem) {
+                            EditItem = saveItem;
+
+                            var _saveMsg = util_forceString(_controller.Parameters["SaveMessageSuccess"]);
+
+                            if (_saveMsg != "") {
+                                AddMessage(_saveMsg);
+                            }
+
+                            _saveCallback();
+                        }));
+                    }
+                    else {
+                        _saveCallback();
+                    }
+                }
+
+            };
+
+            return _retEntityCtrl;
+
+        }   //end: getPlatformRequestRoleEntityTemplateController
+
+        function getRepeaterHTML(options) {
+
+            var _html = "";
+
+            options = util_extend({
+                "TableCss": "",
+                "ListRenderer": {
+                    "EditTemplateParams": "",
+                    "AddButtonTitle": "",
+                    "AddItemTitle": "",
+                    "SortEnum": "",
+                    "DefaultSortEnum": "",
+                    "SortOrderGroup": "",
+                    "Columns": null
+                }
+            }, options);
+
+            var _arr = [{ p: "HasAddNewButton", IsDisableText: true, v: true }, { p: "HasDeleteItem", IsDisableText: true, v: true },
+                        { p: "EditPopupRatio", IsDisableText: true, v: DEFAULT_EDIT_POPUP_RATIO },
+                        { p: "AddButtonTitle", v: "Add New..." }, { p: "AddItemTitle", v: "Add Item" },
+                        { p: "Columns", IsArray: true }, { p: "EditTemplateParams", v: "" }, { p: "SortOrderGroup" }, { p: "DefaultSortEnum" }
+            ];
+
+            for (var i = 0; i < _arr.length; i++) {
+                var _item = _arr[i];
+                var _propName = _item.p;
+                var _value = options.ListRenderer[_propName];
+
+                if (!_item["IsArray"]) {
+                    _value = util_forceString(_value);
+
+                    if (_value == "") {
+                        _value = _controller.Parameters[_propName];
+
+                        if (!_item["IsDisableText"]) {
+                            _value = util_forceString(_value);
+
+                            if (_value == "") {
+                                _value = _item["v"];
+                            }
+                        }
+                        else if (util_isNullOrUndefined(_value)) {
+                            _value = _item["v"];
+                        }
+                    }
+                }
+                else {
+
+                    var _temp = [];
+
+                    if (!_value) {
+                        _value = _controller.Parameters[_propName];
+                    }
+
+                    if (_value) {
+                        for (var v = 0; v < _value.length; v++) {
+                            var _arrItem = util_extend({}, _value[v]);
+
+                            _temp.push(_arrItem);
+                        }
+                    }
+
+                    _value = _temp;
+                }
+
+                options.ListRenderer[_propName] = _value;
+            }
+
+            _controller["TemplateParams"] = options.ListRenderer.EditTemplateParams;
+
+            _html += "<div id='divAdminList' " + util_renderAttribute("data_admin_list") + " class='" + options.TableCss + "'>";   //open tag #1
+
+            var _editPopupRatio = options.ListRenderer["EditPopupRatio"];
+
+            if (!_editPopupRatio) {
+                _editPopupRatio = DEFAULT_EDIT_POPUP_RATIO;
+            }
+
+            _html += "<div data-attr-data-template='setting' data-attr-add-new-module-id='enCEModule.GlobalDynamicTemplate' " +
+                     "data-attr-add-new-module-view-type='enCEModuleViewType.AdminEdit' " +
+                     util_htmlAttribute("data-attr-toggle-add-new-link", options.ListRenderer.HasAddNewButton ? enCETriState.Yes : enCETriState.No) + " " +
+                     "data-attr-add-new-module-params=\"" + options.ListRenderer.EditTemplateParams + "\" " +
+                     "data-attr-add-new-popup-title=\"" + util_jsEncode(options.ListRenderer.AddItemTitle) + "\" " +
+                     "data-attr-add-new-caption=\"" + util_jsEncode(options.ListRenderer.AddButtonTitle) + "\" " +
+                     util_htmlAttribute("data-attr-add-new-dialog-is-no-conflict", enCETriState.Yes) + " " +
+                     util_htmlAttribute("data-attr-allow-event-propagation", enCETriState.Yes) + " " +
+                     util_htmlAttribute("data-attr-popup-open-param-MaxWidthRatio", _editPopupRatio) +
+                     ">";  //open tag #2
+
+            _html += "<div data-attr-data-template-id='tblAdminList' data-attr-data-template-renderer='repeater'>"; //open tag #3
+
+            _html += "<div data-attr-repeater-ext='fn' " + util_htmlAttribute("data-attr-is-element-data-functions", enCETriState.Yes) + " />";
+
+            _html += "<div data-attr-repeater-ext='config' " + util_htmlAttribute("allow-delete", options.ListRenderer.HasDeleteItem) + " />";
+
+            _html += "<div data-cattr-type='setting' sort-enum='" + options.ListRenderer.SortEnum + "' default-sort='" + options.ListRenderer.DefaultSortEnum +
+                     "' is-footer-default-paging='1'" +
+                     (options.ListRenderer.SortOrderGroup ? " " + util_htmlAttribute("sort-order-group", options.ListRenderer.SortOrderGroup) : "") +
+                     "/>";
+
+            _html += "<div data-cattr-type='header'>";  //open tag #4
+
+            if (options.ListRenderer.HasDeleteItem) {
+                _html += "<div data-cattr-type='item' no-link='1' css-class='TableEntityDeleteHeader'>%%TEMPLATE_CONTENT_DELETE%%</div>";
+            }
+
+            _controller["HasDeleteField"] = options.ListRenderer.HasDeleteItem;
+            _controller["Columns"] = options.ListRenderer.Columns;
+
+            if (options.ListRenderer.Columns != null) {
+                for (var c = 0; c < options.ListRenderer.Columns.length; c++) {
+                    var _column = options.ListRenderer.Columns[c];
+                    var _colRenderOptions = (_column["RenderOptions"] ? _column.RenderOptions : {});
+
+                    _html += "<div data-cattr-type='item' " + util_htmlAttribute("sort-column", _column["SortEnum"]) +
+                             (_colRenderOptions["IsNoLink"] ? " no-link='1'" : "") +
+                             ">" +
+                             (util_forceBool(_column["IsHTML"], false) ? _column.Content : util_htmlEncode(_column.Content)) +
+                             "</div>";
+                }
+            }
+
+            _html += "</div>";  //close tag #4
+
+            _html += "</div>";  //close tag #3
+
+            _html += "</div>";  //close tag #2
+
+            _html += "<div data-attr-data-template='content'></div>";
+
+            _html += "</div>";  //close tag #1
+
+            return _html;
+
+        }   //end: getRepeaterHTML
+
+        var _controller = {};
+
+        _controller["DOM"] = {
+            "Container": null
+        };
+
+        _controller["PropertyEntityIdentifier"] = null;
+        _controller["IsCompositeEntityIdentifier"] = false;
+        _controller["HasDeleteField"] = true;
+
+        _controller["Parameters"] = MODULE_MANAGER.Current.Parameters;
+        _controller["PluginInstance"] = null;
+        _controller["OnDeleteRequest"] = null;
+
+        _controller["Bind"] = function (options, callback) {
+
+            options = util_extend({ "Element": null }, options);
+
+            var $element = $(options["Element"]);
+
+            var _editTemplateController = null;
+
+            _controller.DOM.Container = $element;
+
+            var _html = "";
+          
+            $element.data(ELEMENT_DOM_DATA_VIEW_CONTROLLER, _controller);
+            $element.attr(DATA_ATTR_IS_VIEW_CONTROLLER, enCETriState.Yes);
+
+            $element.off("events.controller_reload");
+            $element.on("events.controller_reload", function (e, args) {
+                _controller.Reload(args);
+            });
+
+            switch (_controller.Parameters["ViewMode"]) {
+
+                case "AdminRoleList":
+
+                    _editTemplateController = getRoleEntityTemplateController();
+
+                    _controller.PropertyEntityIdentifier = enColClassificationPlatformRoleProperty.RoleID;
+
+                    _controller.Events.GetList = function (element, sortSetting, callback) {
+                        sortSetting.PageNo = util_forceValidPageNum(sortSetting.PageNo, 1);
+
+                        if (!sortSetting["SortColumn"]) {
+                            sortSetting["SortColumn"] = enColClassificationPlatformRole.Name;
+                        }
+
+                        GlobalService.ClassificationPlatformRoleGetByForeignKey({
+                            "SortColumn": sortSetting.SortColumn, "SortAscending": sortSetting.SortASC,
+                            "PageNum": sortSetting.PageNo, "PageSize": sortSetting.PageSize
+                        }, function (data) {
+                            callback(data);
+                        });
+                    };
+
+                    _controller["OnDeleteRequest"] = function (opts) {
+
+                        opts = util_extend({ "ListIDs": [], "Selections": null, "Callback": null }, opts);
+
+                        var _list = [];
+                        var _itemIDs = (opts["ListIDs"] || []);
+
+                        //populate the list using the current state of the items
+                        var $dataAdminList = $(_controller.DOM.Container).find("#divAdminList[" + util_renderAttribute("data_admin_list") + "]");
+                        var _sourceList = ($dataAdminList.data("BindDataSource"));
+
+                        if (_sourceList) {
+                            _sourceList = (_sourceList["List"] || []);
+                        }
+
+                        for (var i = 0; i < _itemIDs.length; i++) {
+                            var _searchID = _itemIDs[i];
+                            var _search = util_arrFilter(_sourceList, _controller.PropertyEntityIdentifier, _searchID, true);
+
+                            if (_search.length == 1) {
+                                _list.push(_search[0]);
+                            }
+                        }
+
+                        GlobalService.ClassificationPlatformRoleDelete({ "_unbox": false, "List": _list }, global_extEntitySave(function () {
+                            if (opts["Callback"]) {
+                                opts.Callback();
+                            }
+                        }, function () {
+                            $dataAdminList.trigger("events.prompt_refresh");
+                        }));
+                    };
+
+                    _html += getRepeaterHTML({ "TableCss": "EditorDataAdminListTable EditorDataAdminListTableTheme ProjectTableStyleA" });
+
+                    break;  //end: AdminRoleList
+
+                case "AdminDefaultRoleList":
+
+                    _editTemplateController = getPlatformRequestRoleEntityTemplateController();
+
+                    _controller.PropertyEntityIdentifier = [enColPlatformDefaultRequestRoleProperty.PlatformID, enColPlatformDefaultRequestRoleProperty.RoleID];
+                    _controller.IsCompositeEntityIdentifier = true;
+
+                    _controller.Parameters["GetEditItemExtAttributeStr"] = function (opts) {
+                        var _platformRequestRole = opts.Item;
+                        var _qs = "&EditPlatformID=" + _platformRequestRole[enColPlatformDefaultRequestRoleProperty.PlatformID];
+
+                        _qs += "&EditRoleID=" + _platformRequestRole[enColPlatformDefaultRequestRoleProperty.RoleID];
+
+                        return util_htmlAttribute("data-param-ExtQS", _qs);
+                    };
+
+                    _controller.Parameters["_tempEditorPluginInstance"] = new CPluginEditor();
+
+                    _controller.Events.GetList = function (element, sortSetting, callback) {
+
+                        var _pluginInstance = _controller.Parameters["_tempEditorPluginInstance"];
+
+                        var _fnInitData = function (loadCallback) {
+
+                            if ($element.data("is-init-default-role-list")) {
+                                loadCallback();
+                            }
+                            else {
+                                _pluginInstance.GetData({ "Type": "PlatformList" }, function (result) {
+
+                                    var _platforms = (result && result.Success && result.Data ? result.Data.List : null);
+                                    var _lookup = {};
+
+                                    _platforms = (_platforms || []);
+
+                                    for (var c = 0; c < _platforms.length; c++) {
+                                        var _platform = _platforms[c];
+                                        var _platformID = _platform[enColPlatformProperty.PlatformID];
+                                        var _platformOpts = _pluginInstance.Utils.GetDefaultOptions({
+                                            "Type": "Platform", "StrJSON": _platform[enColPlatformProperty.OptionJSON]
+                                        });
+
+                                        _lookup[_platformID] = true;
+
+                                        if (_platformOpts && _platformOpts["UserHomeView"] && _platformOpts.UserHomeView["IsUnmanaged"]) {
+                                            _lookup[_platformID] = false;
+                                        }
+                                    }
+
+                                    $element.data("is-init-default-role-list", true)
+                                            .data("PlatformRenderLookup", _lookup);
+
+                                    loadCallback();
+                                });
+                            }
+                        };
+
+                        sortSetting.PageNo = util_forceValidPageNum(sortSetting.PageNo, 1);
+
+                        if (!sortSetting["SortColumn"]) {
+                            sortSetting["SortColumn"] = enColPlatformDefaultRequestRole.PlatformIDName;
+                        }
+
+                        var _fnWebMethod = GlobalService.PlatformDefaultRequestRoleGetByForeignKey;
+
+                        if (_controller.Parameters["OverrideListWebMethod"]) {
+                            _fnWebMethod = _controller.Parameters.OverrideListWebMethod;
+                        }
+
+                        _fnWebMethod({
+                            "SortColumn": sortSetting.SortColumn, "SortAscending": sortSetting.SortASC,
+                            "PageNum": sortSetting.PageNo, "PageSize": sortSetting.PageSize
+                        }, function (data) {
+
+                            var _platformReqRoles = (data && data.List ? data.List : null);
+
+                            _platformReqRoles = (_platformReqRoles || []);
+
+                            //overwrite the PlatformIDName with the proper display name prior to render
+                            for (var i = 0; i < _platformReqRoles.length; i++) {
+                                var _platformReqRole = _platformReqRoles[i];
+
+                                _platformReqRole[enColPlatformDefaultRequestRoleProperty.PlatformIDName] = _pluginInstance.Utils.ForceEntityDisplayName({
+                                    "Type": "PlatformDefaultRequestRole", "Item": _platformReqRole
+                                });
+                            }
+
+                            _fnInitData(function () {
+                                callback(data);
+                            });
+                        });
+                    };
+
+                    _html += getRepeaterHTML({ "TableCss": "EditorDataAdminListTable EditorDataAdminListTableTheme ProjectTableStyleA" });
+
+                    break;  //end: AdminDefaultRoleList
+            }
+
+            _editTemplateController = util_extend({
+
+                //associate the project specific controller based on parameters (will be called indirectly)
+                "ProjectController": _controller.Parameters["EditTemplateController"],
+                "HasProjectControllerEvent": function (eventName) {
+                    return (this.ProjectController && this.ProjectController[eventName]);
+                }
+            }, _editTemplateController);
+
+            $element.slideUp("normal", function () {
+
+                $element.html(_html);
+
+                //associate the controller for the template related edit view on the data admin list element
+                $element.find("[" + util_renderAttribute("data_admin_list") + "]")
+                        .attr("data-attr-has-edit-template-controller", enCETriState.Yes)
+                        .data(ELEMENT_DOM_DATA_MODULE_PARAMS, { "TemplateController": _editTemplateController })
+                        .data("RepeaterFunctions", {
+                            "Field": _controller.Events.GetItemField,
+                            "GetData": _controller.Events.GetList,
+                            "DeleteItems": _controller.Events.DeleteItems,
+                            "DeleteConfirmMessage": _controller.Events.DeleteConfirmMessage,
+                            "BindComplete": _controller.Events.BindComplete
+                        });
+
+                $mobileUtil.refresh($element);
+
+                renderer_event_data_admin_list_repeater_bind("tblAdminList");
+
+                $element.slideDown("normal");
+
+                if (callback) {
+                    callback();
+                }
+            });
+        };
+
+        _controller["Reload"] = function (options) {
+
+            //refresh the admin list
+            renderer_event_data_admin_list_repeater_bind("tblAdminList");
+        };
+
+        _controller["Events"] = {
+
+            //start: repeater functions
+
+            "GetList": function (element, sortSetting, callback) {
+
+                //stub method as it will be overridden on bind of the view
+                if (callback) {
+                    callback(null);
+                }                
+            },
+
+            "DeleteItems": function (cbList, onDeleteCallback) {
+
+                var $list = $(cbList);
+                var _arrIDs = [];
+
+                $.each($list, function () {
+                    _arrIDs.push(util_forceInt($(this).val(), enCE.None));
+                });
+
+                if (_controller["OnDeleteRequest"]) {
+                    _controller.OnDeleteRequest({ "Selections": $list, "ListIDs": _arrIDs, "Callback": onDeleteCallback });
+                }
+                else if (onDeleteCallback) {
+                    onDeleteCallback();
+                }
+            },
+
+            "DeleteConfirmMessage": function (deleteCallback, opts) {
+                
+                var _title = util_forceString(_controller.Parameters["DeleteConfirmTitle"]);
+                var _msg = util_forceString(_controller.Parameters["DeleteConfirmMessage"]);
+
+                if (_title == "") {
+                    _title = MSG_CONFIG.ListDeleteTitle;
+                }
+
+                if (_msg == "") {
+                    _msg = MSG_CONFIG.ListDeleteConfirmMsg;
+                }
+
+                dialog_confirmYesNo(_title, _msg, function () {
+                    if (deleteCallback) {
+                        deleteCallback();
+                    }
+                }, null, util_forceBool(_controller.Parameters["DeleteConfirmMessageIsHTML"], false));
+            },
+
+            "GetItemField": function (tokenKey, item) {
+                var _ret = "";
+
+                switch (tokenKey) {
+
+                    case "%%TEMPLATE_DELETE_ITEM_VALUE%%":
+
+                        if (_controller.IsCompositeEntityIdentifier) {
+                            var _props = _controller.PropertyEntityIdentifier;
+
+                            for (var p = 0; p < _props.length; p++) {
+                                var _propIdentifier = _props[p];
+
+                                _ret += (p > 0 ? "|" : "") + item[_propIdentifier];
+                            }
+                        }
+                        else {
+                            _ret = item[_controller.PropertyEntityIdentifier];
+                        }
+
+                        break;
+
+                    case "%%TEMPLATE_CELL_CONTENT_0%%":
+                    default:
+                    
+                        var _cellIndex = -1;
+
+                        var _str = util_replaceAll(tokenKey, "%", "");
+                        var _found = _str.lastIndexOf("_");
+
+                        var _type = _str.substr(0, _found);
+                        var _isContentCell = (_type === "TEMPLATE_CELL_CONTENT");
+
+                        _cellIndex = util_forceInt(_str.substr(_found + 1), _cellIndex);
+
+                        if (_isContentCell && _cellIndex == 0 && _controller.HasDeleteField) {
+
+                            //exit the switch statement since the delete toggle is included and the current token is related to the delete cell
+                            break;
+                        }
+                        else if (_controller.HasDeleteField) {
+                            _cellIndex -= 1;    //offset by one for the delete column
+                        }
+                        
+                        if (_isContentCell) {
+                            var _columnConfig = _controller.Columns[_cellIndex];
+
+                            if (_columnConfig) {
+                                var _columnRenderOpts = _columnConfig["RenderOptions"];
+
+                                if (_columnConfig["Property"]) {
+                                    _ret = util_htmlEncode(item[_columnConfig.Property]);
+                                }
+                                else if (_columnRenderOpts && _columnRenderOpts["IsEditCell"]) {
+                                    var _entityID = item[_controller.PropertyEntityIdentifier];
+                                    var _editPopupRatio = _controller.Parameters["EditPopupRatio"];
+
+                                    if (!_editPopupRatio) {
+                                        _editPopupRatio = DEFAULT_EDIT_POPUP_RATIO;
+                                    }
+
+                                    var _fnEditLinkExtAttrs = _controller.Parameters["GetEditItemExtAttributeStr"];
+                                    var _editExtAttrs = (_fnEditLinkExtAttrs ? _fnEditLinkExtAttrs.apply(this, [{ "EntityID": _entityID, "Item": item }]) : "");
+
+                                    var _canRender = true;
+
+                                    if (_columnRenderOpts["CanRender"] && util_isFunction(_columnRenderOpts.CanRender)) {
+                                        _canRender = _columnRenderOpts.CanRender({
+                                            "Container": _controller.DOM.Container,
+                                            "Item": item, "EntityID": _entityID, "Column": _columnConfig
+                                        });
+                                    }
+
+                                    if (_canRender) {
+                                        _ret = "<a data-role='button' data-mini='true' data-corners='false' style='margin: 0em;' " +
+                                               util_renderAttribute("module_navigation") + " " +
+                                               util_htmlAttribute(DATA_ATTR_MODULE_PARAMS_DOM_SELECTOR,
+                                                                  "[" + util_htmlAttribute("data-attr-has-edit-template-controller", enCETriState.Yes) + "]", null, true) + " " +
+                                               util_htmlAttribute("data-param-ModuleID", enCEModule.GlobalDynamicTemplate) + " " +
+                                               util_htmlAttribute("data-param-ModuleViewType", enCEModuleViewType.AdminEdit) + " " +
+                                               util_htmlAttribute("data-param-TemplateParams", _controller["TemplateParams"]) + " " +
+                                               util_htmlAttribute("data-param-EditID", _entityID) + " " +
+                                               util_htmlAttribute("data-attr-dialog-title", _controller.Parameters["EditItemTitle"], null, true) + " " +
+                                               util_htmlAttribute(DATA_ATTR_DIALOG_IS_NO_CONFLICT_VIEW, enCETriState.Yes) + " " +
+                                               util_htmlAttribute("data-attr-popup-open-param-MaxWidthRatio", _editPopupRatio) +
+                                               (_editExtAttrs != "" ? " " + _editExtAttrs : "") +
+                                               ">" +
+                                               util_htmlEncode("Edit") +
+                                               "</a>";
+                                    }
+                                    else {
+                                        _ret = "&nbsp;";
+                                    }
+                                }
+                            }
+                        }
+                        else if (_controller.HasDeleteField && tokenKey == "%%TEMPLATE_CELL_ATTRIBUTE_0%%") {
+                            _ret = "style='width: 2em;'";
+                        }
+
+                        break;
+
+                }
+
+                return _ret;
+            },
+
+            "BindComplete": function (opts) {
+                opts = util_extend({ "Data": null, "Element": null }, opts);
+
+                var $parent = $(opts.Element).closest("[" + util_renderAttribute("data_admin_list") + "]");
+                
+                $parent.data("BindDataSource", opts.Data);  //persist the current list data to the parent element (in case required for delete)
+            }
+
+            //end: repeater functions
+        };
+
+        return _controller;
+
+    })();
+    
+    function BindPage() {
+        m_temp.Bind({ "Element": $mobileUtil.GetElementByID("divEditorView") }, function () {
+        });
+    }
+
+</script>
+
+<div %%DATA_ATTRIBUTE_RENDER%%="script">
+    BindPage();
+</div>
+
+<div id="divEditorView">
+    <div class="IndicatorSmall" />
+</div>

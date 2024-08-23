@@ -1,0 +1,656 @@
+﻿<script type="text/javascript" language="javascript">
+    var m_localScenario = null;
+    var m_userScenarios = [];
+
+    function BindPage() {
+        $mobileUtil.SetSubFooterView({ PopupFooterViewMode: enCPopupFooterViewMode.Close });
+
+        bindEventHandlers();
+
+        bindShareTypes(function () {
+
+            loadCurrentScenario(function () {
+                loadUserScenarios(function () {
+
+                });
+            });
+
+        });
+
+        if (global_userIsAdminRoleBase()) {
+            $mobileUtil.GetElementByID("clOverrideDefault").show();
+        }
+    }
+
+    function bindEventHandlers() {
+        js_bindClick($mobileUtil.GetElementByID("clSaveCurrent"), function () {
+            scenarioSave();
+            return false;
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clSaveAs"), function () {
+            scenarioSaveAs();
+            return false;
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clLoadScenario"), function () {
+            loadScenario();
+            return false;
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clDeleteScenario"), function () {
+            deleteScenario();
+            return false;
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clSetDefault"), function () {
+            setDefaultScenario();
+            return false;
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clOverrideDefault"), function () {
+            saveAsDefault();
+            return false;
+        });
+
+        var _ddlShareType = $mobileUtil.GetElementByID("ddlShareType");
+
+        _ddlShareType.unbind("change.save");
+        _ddlShareType.bind("change.save", function () {
+            var _scenarioID = util_forceInt($mobileUtil.GetElementByID("ddlScenarios").val(), enCE.None);
+
+            if (_scenarioID != enCE.None) {
+                var _scenario = util_arrFilter(m_userScenarios, enColModelReferenceScenarioProperty.ScenarioID, _scenarioID, true);
+
+                if (_scenario.length == 1) {
+                    _scenario = _scenario[0];
+
+                    _scenario[enColModelReferenceScenarioProperty.ShareTypeID] = util_forceInt($(this).val());
+
+                    model_scenarioSave(null, _scenario, false, false, function () {
+                        loadUserScenarios(function () {
+                            AddMessage("Scenario has been updated.");
+                        });
+                    });
+                }
+            }
+        });
+    }
+
+    function bindShareTypes(callback) {
+        var _callback = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        model_getShareTypes(null, function (list) {
+            if (util_isNullOrUndefined(list)) {
+                list = [];
+            }
+
+            var _ddl = $mobileUtil.GetElementByID("ddlShareType");
+
+            util_dataBindDDL(_ddl, list, enColShareTypeProperty.Name, enColShareTypeProperty.ShareTypeID, util_forceInt(_ddl.val(), enCE.None), false);
+
+            _callback();
+        });
+    }
+
+    function scenarioSave() {
+        var _tbScenarioCurrent = $mobileUtil.GetElementByID("tbScenarioCurrent");
+        var _scenarioID = util_forceInt(_tbScenarioCurrent.attr("data-attr-scenario-id"), enCE.None);
+
+        if (_scenarioID != enCE.None) {
+            var _scenarioName = util_trim(_tbScenarioCurrent.val());
+
+            _tbScenarioCurrent.val(_scenarioName);
+
+            ClearMessages();
+
+            var _nameMsg = validateScenarioName(_scenarioName);
+
+            if (_nameMsg != null) {
+                AddUserError(_nameMsg);
+            }
+
+            if (MessageCount() == 0) {
+
+                model_scenarioGetByID(_scenarioID, true, function (scenarioItem) {
+                    var _scenario = scenarioItem;
+
+                    if (util_isNullOrUndefined(_scenario)) {
+                        _scenario = {};
+                        _scenario[enColModelReferenceScenarioProperty.IsCurrent] = false;
+                        _scenario[enColModelReferenceScenarioProperty.ShareTypeID] = enCEShareType.User;
+                    }
+
+                    //configure scenario details
+                    _scenario[enColModelReferenceScenarioProperty.Name] = _scenarioName;
+                    _scenario[enColModelReferenceScenarioProperty.UserID] = global_AuthUserID();
+
+                    model_scenarioSave(null, _scenario, true, true, function (savedScenario) {
+                        loadCurrentScenario(function () {
+                            loadUserScenarios(function () {
+                                AddMessage("Scenario has been saved.");
+                            });
+                        });
+                    });
+
+                });
+            }
+        }
+    }
+
+    function scenarioSaveAs() {
+        var _tbScenarioNew = $mobileUtil.GetElementByID("tbScenarioNew");
+        var _scenarioName = util_trim(_tbScenarioNew.val());
+
+        _tbScenarioNew.val(_scenarioName);
+
+        ClearMessages();
+
+        var _nameMsg = validateScenarioName(_scenarioName);
+
+        if (_nameMsg != null) {
+            AddUserError(_nameMsg);
+        }
+
+        if (MessageCount() == 0) {
+
+            //save a new scenario
+            var _scenario = {};
+
+            _scenario[enColModelReferenceScenarioProperty.Name] = _scenarioName;
+            _scenario[enColModelReferenceScenarioProperty.IsCurrent] = false;
+            _scenario[enColModelReferenceScenarioProperty.UserID] = global_AuthUserID();
+            _scenario[enColModelReferenceScenarioProperty.ShareTypeID] = enCEShareType.User;
+
+            model_scenarioSave(null, _scenario, true, true, function (scenarioItem) {
+
+                _tbScenarioNew.val("");
+
+                loadCurrentScenario(function () {
+                    loadUserScenarios();
+                });
+            });
+        }
+    }
+
+    function validateScenarioName(name) {
+        var _ret = null;
+        name = util_trim(name);
+
+        if (name == "") {
+            _ret = "Scenario name is required.";
+        }
+
+        return _ret;
+    }
+
+    function loadScenario() {
+        var _scenarioID = util_forceInt($mobileUtil.GetElementByID("ddlScenarios").val(), enCE.None);
+
+        if (_scenarioID != enCE.None) {
+
+            dialog_confirmYesNo("Load Scenario", "Are you sure you want to load the selected scenario?", function () {
+
+                model_scenarioLoad(null, _scenarioID, function () {
+                    loadCurrentScenario(function () {
+                        AddMessage("The scenario has been loaded.");
+                    });
+                }, function () {
+                    loadCurrentScenario(function () {
+                        loadUserScenarios(function () {
+                            AddUserError("The specified scenario no longer exists. Please select another scenario.");
+                        });
+                    });
+                });
+
+            });
+        }
+    }
+
+    function deleteScenario() {
+        var _scenarioID = util_forceInt($mobileUtil.GetElementByID("ddlScenarios").val(), enCE.None);
+
+        if (_scenarioID != enCE.None) {
+            var _isCurrentScenario = false;
+
+            var _fnBind = function () {
+
+                if (_isCurrentScenario) {
+                    loadCurrentScenario(function () {
+                        loadUserScenarios(function () {
+                            AddMessage("The scenario has been deleted.");
+                        });
+                    });
+                }
+                else {
+                    loadUserScenarios(function () {
+                        AddMessage("The scenario has been deleted.");
+                    });
+                }
+            };
+
+            dialog_confirmYesNo("Delete Scenario", "Are you sure you want to remove the selected scenario?", function () {
+
+                model_scenarioGetByID(_scenarioID, true, function (scenario) {
+                    if (util_isNullOrUndefined(scenario)) {
+                        scenario = {};
+                    }
+
+                    _isCurrentScenario = util_forceBool(scenario[enColModelReferenceScenarioProperty.IsCurrent], false);
+
+                    if (util_forceInt(scenario[enColModelReferenceScenarioProperty.ScenarioID], enCE.None) == enCE.None) {
+                        _fnBind();
+                    }
+                    else {
+
+                        //delete the scenario
+                        model_scenarioDelete(scenario, function () {
+                            _fnBind();
+                        });
+                    }
+                });
+            });
+        }
+    }
+
+    function setDefaultScenario() {
+        var _scenarioID = util_forceInt($mobileUtil.GetElementByID("ddlScenarios").val(), enCE.None);
+
+        if (_scenarioID != enCE.None) {
+            var _scenario = util_arrFilter(m_userScenarios, enColModelReferenceScenarioProperty.ScenarioID, _scenarioID, true);
+
+            if (_scenario.length == 1) {
+                _scenario = _scenario[0];
+
+                var _isDefault = _scenario[enColModelReferenceScenarioProperty.IsDefault];
+
+                var _msg = "";
+
+                if (_isDefault) {
+                    _msg = "Are you sure you want clear the selected scenario as the Default (Note: the scenario will not be deleted)?";
+                }
+                else {
+                    _msg = "Are you sure you want to set the current scenario as the Default?";
+                }
+
+                dialog_confirmYesNo((_isDefault ? "Clear" : "Set") + " Scenario", _msg, function () {
+
+                    var _fnRefresh = function (msg, isError) {
+                        msg = util_forceString(msg, "");
+                        isError = util_forceBool(isError, false);
+
+                        loadCurrentScenario(function () {
+                            loadUserScenarios(function () {
+
+                                if (isError) {
+                                    AddUserError(msg);
+                                }
+                                else {
+                                    AddMessage(msg);
+                                }
+                            });
+                        });
+                    };
+
+                    if (_isDefault) {
+
+                        _scenario[enColModelReferenceScenarioProperty.IsDefault] = false;   //clear the default scenario flag
+
+                        model_scenarioSave(null, _scenario, false, false, function () {
+                            _fnRefresh("The scenario has been removed as the Default scenario.");
+                        });
+                    }
+                    else {
+
+                        model_scenarioSetDefault(null, _scenarioID, function () {
+                            _fnRefresh("The scenario has been set as the default.");
+
+                        }, function () {
+                            _fnRefresh("The specified scenario no longer exists. Please select another scenario.", true);
+                        });
+
+                    }
+
+                });
+            }
+        }
+    }
+
+    function saveAsDefault() {
+        var _tbScenarioNew = $mobileUtil.GetElementByID("tbScenarioNew");
+
+        var _fnOverrideDefault = function (scenario) {
+            model_scenarioOverrideDefault(null, scenario, false, function () {
+                _tbScenarioNew.val("");
+                loadUserScenarios(function () {
+                    AddMessage("The scenario has been saved as the Default.");
+                });
+            });
+        };
+
+        dialog_confirmYesNo("Save as Default Scenario", "Are you sure you want to save the current scenario as the Default?", function () {
+            model_scenarioGetDefault(null, function (defaultScenario) {
+                var _scenarioName = util_trim(_tbScenarioNew.val());
+
+                ClearMessages();
+
+                if (util_isNullOrUndefined(defaultScenario) || util_forceInt(defaultScenario[enColModelReferenceScenarioProperty.ScenarioID], enCE.None) == enCE.None) {
+
+                    if (util_isNullOrUndefined(defaultScenario)) {
+                        defaultScenario = {};
+                    }
+
+                    var _err = validateScenarioName(_scenarioName);
+
+                    if (_err != null) {
+                        AddUserError(_err);
+                    }
+                }
+
+                if (MessageCount() == 0) {
+
+                    if (_scenarioName != "") {
+                        defaultScenario[enColModelReferenceScenarioProperty.Name] = _scenarioName;
+                    }
+
+                    _fnOverrideDefault(defaultScenario);
+                }
+            });
+        });        
+    }
+
+    function loadCurrentScenario(callback) {
+        var _tbScenarioCurrent = $mobileUtil.GetElementByID("tbScenarioCurrent");
+
+        var _callback = function () {
+            if (callback) {
+                callback();
+            }
+
+            if (util_forceInt(_tbScenarioCurrent.attr("data-attr-scenario-id"), enCE.None) == enCE.None) {
+                _tbScenarioCurrent.val("");
+                toggleInputText(_tbScenarioCurrent, false);
+            }
+            else {
+                toggleInputText(_tbScenarioCurrent, true);
+            }
+        };
+
+        model_scenarioGetCurrent(null, false, function (currentScenario) {
+            if (util_isNullOrUndefined(currentScenario)) {
+                currentScenario = {};
+            }
+
+            var _scenarioID = util_forceInt(currentScenario[enColModelReferenceScenarioProperty.ScenarioID], enCE.None);
+
+            if (_scenarioID != enCE.None) {
+                _tbScenarioCurrent.val(util_forceString(currentScenario[enColModelReferenceScenarioProperty.Name], ""))
+                                  .attr("data-attr-scenario-id", _scenarioID);
+
+                _callback();
+            }
+            else {
+                _tbScenarioCurrent.removeAttr("data-attr-scenario-id");
+                _callback();
+            }
+        });        
+    }
+
+    function loadUserScenarios(callback) {
+        var _callback = function () {
+
+            if (callback) {
+                callback();
+            }
+        };
+
+        var _fnBindDDL = function (list) {
+            if (util_isNullOrUndefined(list)) {
+                list = [];
+            }
+
+            m_userScenarios = list;
+
+            var _ddl = $mobileUtil.GetElementByID("ddlScenarios");
+
+            var _arr = [];
+
+            _arr.push({ "Name": "Default Scenarios", "Items": [] });
+            _arr.push({ "Name": "User Scenarios", "Items": [] });
+
+            $.each(m_userScenarios, function (indx, item) {
+                var _groupIndx = -1;
+
+                if (isReadOnlyScenario(item)) {
+                    _groupIndx = 0;
+                }
+                else {
+                    _groupIndx = 1;
+                }
+
+                var _group = _arr[_groupIndx];
+                var _temp = _group.Items;
+
+                _temp.push(item);
+            });
+
+            util_dataBindDDL(_ddl, _arr, enColModelReferenceScenarioProperty.Name, enColModelReferenceScenarioProperty.ScenarioID, util_forceInt(_ddl.val(), enCE.None),
+                             null, null, null, true);
+
+            _ddl.unbind("change.def");
+            _ddl.bind("change.def", function () {
+                var _val = util_forceInt($(this).val(), enCE.None);
+
+                refreshScenarioDefaultView(_val);
+            });
+
+            refreshScenarioDefaultView(_ddl.val());
+
+            _callback();
+        };
+
+        var _userID = global_AuthUserID();
+
+        if (_userID == enCE.None) {
+            _fnBindDDL(null);
+        }
+        else {
+            model_scenarioUserList(null, null, null, null, null, function (userScenarios) {
+                _fnBindDDL(userScenarios);
+            });
+        }
+    }
+
+    function refreshScenarioDefaultView(scenarioID) {
+        scenarioID = util_forceInt(scenarioID, enCE.None);
+
+        var _isAdmin = (global_userIsAdminRoleBase());
+        var _isDefault = false;
+        var _isReadOnlyScenario = false;
+        var _scenarioUserID = enCE.None;
+
+        var _clDeleteScenario = $mobileUtil.GetElementByID("clDeleteScenario");
+        var _clSetDefault = $mobileUtil.GetElementByID("clSetDefault");
+        var _trShareTypes = $mobileUtil.Find("[data-attr-row-share='1']");
+
+        var _lblContributedBy = _trShareTypes.find("#lblContributedBy");
+
+        _lblContributedBy.val("");
+
+        if (scenarioID == enCE.None) {
+            _clSetDefault.fadeOut();
+            _trShareTypes.hide();
+        }
+        else {
+            var _scenario = util_arrFilter(m_userScenarios, enColModelReferenceScenarioProperty.ScenarioID, scenarioID, true);
+
+            if (_scenario.length == 1) {
+                _scenario = _scenario[0];
+
+                _isDefault = _scenario[enColModelReferenceScenarioProperty.IsDefault];
+                _isReadOnlyScenario = isReadOnlyScenario(_scenario);
+
+                _scenarioUserID = _scenario[enColModelReferenceScenarioProperty.UserID];
+
+                _lblContributedBy.text(util_forceString(_scenario[enColModelReferenceScenarioProperty.UserDisplayName]));
+
+                if (_isAdmin) {
+
+                    if (_isDefault) {
+                        _trShareTypes.hide();
+                    }
+                    else if (!_trShareTypes.is(":visible")) {
+                        _trShareTypes.show();
+                    }
+                }
+
+                $mobileUtil.SetDropdownListValue($mobileUtil.GetElementByID("ddlShareType"), _scenario[enColModelReferenceScenarioProperty.ShareTypeID]);
+            }
+
+            if (_isAdmin) {
+                $mobileUtil.ButtonSetText("clSetDefault", _isDefault ? "Clear Default" : "Set as Default");
+
+                if (!_clSetDefault.is(":visible")) {
+                    _clSetDefault.fadeIn();
+                }
+            }
+        }
+
+        var _showDeleteButton = false;
+
+        if (scenarioID == enCE.None) {
+            _showDeleteButton = false;
+        }
+        else if (_isReadOnlyScenario) {
+
+            //show delete button only if the current read only scenario belongs to the user
+            _showDeleteButton = (_scenarioUserID == global_AuthUserID());
+        }
+        else if ((_isDefault && _isAdmin) || !_isDefault) {
+
+            //show delete button since it is either the default scenario being viewed (with current user an Administrator) OR it is a standard user scenario
+            _showDeleteButton = true;
+        }
+        else if (_isDefault && !_isAdmin) {
+
+            //hide the delete button since it is a default scenairo and the current user is not an Administrator
+            _showDeleteButton = false;
+        }
+
+        if (_showDeleteButton) {
+            if (!_clDeleteScenario.is(":visible")) {
+                _clDeleteScenario.show();
+            }
+        } else {
+            _clDeleteScenario.hide();
+        }
+
+    }
+
+    function isReadOnlyScenario(scenario) {
+        var _ret = false;
+
+        if (scenario[enColModelReferenceScenarioProperty.IsDefault] == true || scenario[enColModelReferenceScenarioProperty.ShareTypeID] == enCEShareType.Global) {
+            _ret = true;
+        }
+
+        return _ret;
+    }
+
+    function toggleInputText(obj, isEnabled) {
+        isEnabled = util_forceBool(isEnabled, true);
+
+        try {
+            var _element = $(obj);
+
+            if (isEnabled) {
+                _element.removeAttr("disabled");
+            }
+            else {
+                _element.attr("disabled", "disabled");
+            }
+
+            _element.textinput(isEnabled ? "enable" : "disable");
+        } catch (e) {
+        }
+    }
+</script>
+
+<div %%DATA_ATTRIBUTE_RENDER%%="script">
+    BindPage();
+</div>
+
+<table class="ScenarioTableAdminEdit" border="0" cellpadding="0" cellspacing="0">
+
+    <!--Current Scenario-->
+    <tr>
+        <td class="DividerGroupLabel" colspan="2">Current Scenario</td>
+    </tr>
+
+    <tr>
+        <td valign="top" class="ScenarioFieldLabel"><div>Scenario name:</div></td>
+        <td valign="top" align="left" class="ScenarioFieldContent">
+            <input id="tbScenarioCurrent" type="text" data-mini="true" maxlength="100" />
+            <div class="ButtonContainerRight">
+                <a id="clSaveCurrent" data-role="button" data-inline="true" data-mini="true">Save</a>
+            </div>
+        </td>
+    </tr>
+
+    <!--Save current scenario as-->
+    <tr>
+        <td class="DividerGroupLabel" colspan="2">Save current scenario as:</td>
+    </tr>
+
+    <tr>
+        <td valign="top" class="ScenarioFieldLabel"><div>Scenario name:</div></td>
+        <td valign="top" align="left" class="ScenarioFieldContent">
+            <input id="tbScenarioNew" type="text" data-mini="true" maxlength="100" />
+            <div class="ButtonContainerRight">
+                <a id="clOverrideDefault" data-role="button" data-inline="true" data-mini="true" style="display: none;">Save as Default</a>
+                <a id="clSaveAs" data-role="button" data-inline="true" data-mini="true">Save As</a>
+            </div>
+        </td>
+    </tr>
+
+    <!--Load Scenario-->
+    <tr>
+        <td class="DividerGroupLabel" colspan="2">Load a saved scenario:</td>
+    </tr>
+
+    <tr>
+        <td valign="top" class="ScenarioFieldLabel"><div>Scenario:</div></td>
+        <td valign="top" align="left" class="ScenarioFieldContent">
+            <select id="ddlScenarios" data-mini="true" data-corners="false" />            
+        </td>
+    </tr>
+
+    <tr data-attr-row-share="1" style="display: none;">
+        <td valign="top" class="ScenarioFieldLabel"><div>Share Type:</div></td>
+        <td valign="top" align="left" class="ScenarioFieldContent">
+            <select id="ddlShareType" data-mini="true" data-corners="false" />            
+        </td>        
+    </tr>
+
+    <tr data-attr-row-share="1" style="display: none;">
+        <td valign="top" class="ScenarioFieldLabel"><div>Contributed By:</div></td>
+        <td valign="middle" align="left" class="ScenarioFieldContent">
+            <div id="lblContributedBy" style="margin-top: 0.5em; font-size: 0.95em; color: #333333;"></div>
+        </td>        
+    </tr>
+
+    <tr>
+        <td valign="top" class="ScenarioFieldLabel">&nbsp;</td>
+        <td valign="top" align="left" class="ScenarioFieldContent">
+            <div class="ButtonContainerRight ButtonContainerLast">
+                <a id="clSetDefault" data-role="button" data-inline="true" data-mini="true" style="display: none;">Set Default</a>
+                <a id="clLoadScenario" data-role="button" data-inline="true" data-mini="true">Load</a>
+                <a id="clDeleteScenario" data-role="button" data-inline="true" data-mini="true">Delete</a>
+            </div>
+        </td>
+    </tr>
+</table>

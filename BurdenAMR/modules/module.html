@@ -1,0 +1,353 @@
+﻿<!doctype html>
+<html ##MANIFEST_START##manifest="DYNAMIC_10.appcache"##MANIFEST_END##>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1" />	
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+
+    <!--<meta http-equiv="X-UA-Compatible" content="chrome=1" />--> <!--Google Chrome Frame plugin for IE 8 or lower-->
+    <link rel="shortcut icon" href="../<IMAGE_SKIN_PATH><ICONS_FOLDER>favicon.ico?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="../<IMAGE_SKIN_PATH><ICONS_FOLDER>Icon.png?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../<IMAGE_SKIN_PATH><ICONS_FOLDER>Icon.png?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="apple-touch-icon" sizes="114x114" href="../<IMAGE_SKIN_PATH><ICONS_FOLDER>Icon@2x.png?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" language="javascript" src="../javascript/general/es5-shim.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+        /*
+          !important - IE 9 has issues when the application is used as part of an iframe in which the activeElement for the document is not configured correctly during the 
+                       initial iframe load. This in turn causes an exception to be thrown by jQuery v1.9.1 when attempting to focus (or triggered focus on an element) such 
+                       as during the jQuery Mobile change page cycle.
+                       The following ensures that in the event the activeElement for the document cannot be accessed (or not initialized properly) that we force focus
+                       on the document element itself to resolve the activeElement to a valid state.
+        */
+        try {
+	        document.activeElement;
+        } catch ( error ) {
+	        document.documentElement.focus();
+        }
+    </script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery-1.9.1.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/json2.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.noty.packaged.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.noty.default-theme.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/spectrum.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/modernizr.custom.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <TOKEN_GLOBAL_COMPATIBILITY_SCRIPT>  <!--Token placeholder to include global specific JavaScript files related to compatibility fixes-->    
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.mobile-1.3.1.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.mobile.simpledialog2.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery-ui-1.10.4.custom.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.debounce-1.0.5.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery-sortable-lite.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.sortable.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/tinycolor.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/printThis.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/date-format.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/moment.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/FWDUltimate3DCarousel.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    
+    <TOKEN_GLOBAL_SCRIPT>  <!--Token placeholder to include global specific JavaScript files (as defined by project handler instance)-->    
+
+    <!--NOTE: the following causes issues with standard jQuery Mobile widgets related to sliders (as such do not use unless standard sliders are not needed).-->
+    <!--<script type="text/javascript" language="javascript" src="../javascript/general/jquery.knob.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/verticalSlider.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>-->
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.url.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.cookie.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.blockUI.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>    
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.rateit.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/colorpicker.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/global/constants.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="DYNAMIC_22.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&lang=<LANG_VERSION>"></script>    <!--Generated Entities JS (preprocess) -->
+    <script type="text/javascript" language="javascript" src="../javascript/global/util.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/global/cache.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/global/external.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/global/model.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&lang=<LANG_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="DYNAMIC_20.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&lang=<LANG_VERSION>"></script>    <!--Generated Entities JS-->
+    <script type="text/javascript" language="javascript" src="DYNAMIC_30.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>    <!--Generated WebService definitions JS-->
+    <script type="text/javascript" language="javascript" src="DYNAMIC_40.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&uid=<USER_CACHE_VERSION>&lang=<LANG_VERSION>"></script>    <!--Generated user cache data JS-->
+    
+    <script type="text/javascript" language="javascript" src="../javascript/global/module.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <TOKEN_PRIVATE_SCRIPT>  <!--Token placeholder to include project specific script files (as defined in resources folder)-->
+
+    <script type="text/javascript" language="javascript" src="../javascript/global/global.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&lang=<LANG_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/global/usercontrols.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/global/renderer.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <TOKEN_PLUGINS_SCRIPT>   <!--Token placeholder to include all active plugins' script files-->
+
+    <script type="text/javascript" language="javascript" src="../javascript/private/<PROJECT_NO>/private.js?rn=Project&v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <link rel="Stylesheet" type="text/css" href="../style/general/jquery.mobile-1.3.1.min.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/general/jquery.mobile.simpledialog.min.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/general/jquery-ui-1.10.4.custom.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/general/verticalSlider.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/general/noty-buttons.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />    
+    <link rel="Stylesheet" type="text/css" href="../style/general/spectrum.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />      
+    <link rel="Stylesheet" type="text/css" href="../style/general/rateit.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />    
+    <link rel="Stylesheet" type="text/css" href="../style/general/colorpicker.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />  
+
+    <TOKEN_GLOBAL_STYLE>  <!--Token placeholder to include global specific stylesheet files (as defined by project handler instance)-->    
+
+    <TOKEN_PRIVATE_STYLE>  <!--Token placeholder to include project specific stylesheet files (as defined in resources folder)-->
+
+    <TOKEN_PLUGINS_STYLE>   <!--Token placeholder to include all active plugins' stylesheet files-->
+
+    <link rel="Stylesheet" type="text/css" href="../style/global/global.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/skin/<SKIN_NAME>/private.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    
+
+    <!-- NOTE: conditional IE statements are not supported in IE 10+ -->
+    <!--[if IE 8]>
+    <script type="text/javascript" language="javascript">
+        $(function(){
+            $browserUtil.IsIE8 = true;
+        });
+    </script>
+    <![endif]-->
+
+     <!--[if IE]>
+    <script type="text/javascript" language="javascript">
+        $(function(){
+            $browserUtil.IsIE = true;
+        });
+    </script>
+    <![endif]-->
+
+    <!--[if lt IE 8]>
+    <script type="text/javascript" language="javascript">
+        $(function(){
+            $browserUtil.IsUnsupportedIE = true;
+        });
+    </script>
+    <![endif]-->
+
+    <script type="text/javascript">
+
+        $(function(){
+            try {
+                var _userAgent = window.navigator.userAgent;
+                var BROWSER_EDGE = "Edge/";
+
+                var _arr = ["MSIE ", "Trident/", BROWSER_EDGE];
+
+                for (var i = 0; i < _arr.length && !$browserUtil.IsIE; i++) {
+                    var _search = _arr[i];
+                    var _index = _userAgent.indexOf(_search);
+
+                    $browserUtil.IsIE = (_index >= 0);
+
+                    if (_search == BROWSER_EDGE) {
+                        $browserUtil.IsEdge = (_index >= 0);
+                    }
+                }
+                
+            } catch (e) {
+            }            
+        });
+
+    </script>
+
+</head>
+<body id="rootModuleBody">
+    
+    <script type="text/javascript" language="javascript">        
+        function validateURL() {
+            var _url = window.location.href;
+            var _arrInvalidQS = ["ui-state=dialog", "#pageOnlineModel", "#pageMain"];
+            var _hasInvalidQS = false;
+
+            for (var i = 0; i < _arrInvalidQS.length; i++) {
+                if (_url.indexOf(_arrInvalidQS[i]) >= 0) {
+                    _hasInvalidQS = true;
+                    break;
+                }
+            }
+
+            if (_hasInvalidQS) {
+                window.location.href = util_getDefaultModuleURL();
+            }
+            else {
+                if (<TOKEN_SITE_CONFIG_IS_PROMPT_ON_EXIT> === true) {
+
+                    window.addEventListener("beforeunload", function (e) {
+
+                        if ($("body").hasClass("OnUnloadDisablePrompt") == false) {
+
+                            var _message = util_forceString("<TOKEN_SITE_CONFIG_PROMPT_ON_EXIT_MESSAGE>", "");
+
+                            if (_message == "") {
+                                _message = "Do you want to leave the " + "<APP_NAME_JS>" + "?" + "\n\n" +
+                                           "Please use the buttons on the page to navigate within the tool.";
+                            }
+
+                            try {
+                                e.returnValue = _message;   // Gecko, Trident, Chrome 34+
+                            } catch (ex) {
+                            }
+
+                            return _message;    // Gecko, WebKit, Chrome <34
+                        }
+                    });
+                }
+            }
+        }
+
+        validateURL();
+
+        $(function () {
+            cache_init(function() {
+
+                var _optionsInit = {
+                    "IsDisplayUnsupportedBrowserMessage": <TOKEN_SITE_CONFIG_IS_DISPLAY_UNSUPPORTED_BROWSER_MESSAGE>,
+                    "CanDisableAccess": <TOKEN_SITE_CONFIG_CAN_DISABLE_ACCESS_UNSUPPORTED_BROWSER>,
+                };
+
+                global_eventPageInit(_optionsInit, function () {
+                    var _fn = function () {
+
+                        var _fnLoadView = function() {
+                            module_load(<TOKEN_MODULE_ID>, <TOKEN_MODULE_VIEW_TYPE>, <TOKEN_MODULE_CTRL_NAME>);
+                        };
+
+                        //check if manifest cache is enabled and an offline manager is available (in which case create new instance and wait for callback)
+                        if (CACHE_MANAGER && CACHE_MANAGER["ToggleCache"] && util_isDefined("PRIVATE_OFFLINE_MANAGER")) {
+
+                            try {
+                                PRIVATE_OFFLINE_MANAGER = new COfflineDatabase({ "Callback": _fnLoadView });
+                            } catch (e) {
+                                util_logError(e);
+                                _fnLoadView();
+                            }
+                        }
+                        else {
+                            _fnLoadView();
+                        }
+                    };
+
+                    util_isOnline(function(isOnline){
+
+                        if (isOnline) {
+
+                            GlobalService.GetAppVersion(function (data) {
+                                var _version = data;
+
+                                GlobalService.GetProjectCacheVersion(function (pcData) {
+                                    var _projectCacheVersion = pcData;
+
+                                    var _qsVersionKey = "v";
+                                    var _qsProjectCacheVersionKey = "pc";
+
+                                    var _fnGetValueQS = function (key) {
+                                        var _ret = util_forceString(util_queryString(key));
+
+                                        if (_ret == "") {
+                                            _ret = util_forceString(util_queryStringFragment(key));
+                                        }
+
+                                        return _ret;
+                                    }
+
+                                    var _qsAppVersion = _fnGetValueQS(_qsVersionKey);
+                                    var _qsProjectCacheVersion = _fnGetValueQS(_qsProjectCacheVersionKey);                            
+
+                                    if (_qsAppVersion != _version || _qsProjectCacheVersion != _projectCacheVersion) {
+                                        var _redirectURL = util_constructURL([_qsVersionKey, _qsProjectCacheVersionKey], null);
+                                        var _delimiter = "?";
+
+                                        if (_redirectURL.indexOf("#") >= 0) {
+                                            _delimiter = "#";
+                                        }
+
+                                        _redirectURL = util_appendQS(_redirectURL, _qsProjectCacheVersionKey, _projectCacheVersion, true, _delimiter);
+                                        _redirectURL = util_appendQS(_redirectURL, _qsVersionKey, _version, true, _delimiter);
+
+                                        //as redirect is to be performed, ensure the unload prompt is not enabled
+                                        $("body").addClass("OnUnloadDisablePrompt");
+
+                                        window.location.href = util_resolveAbsoluteURL(_redirectURL);
+
+                                        if (_delimiter == "#") {
+                                            window.location.reload();
+                                        }
+                                    }
+                                    else {
+                                        _fn();
+                                    }
+                                });
+                            });
+                        }
+                        else {
+                            _fn();
+                        }
+
+                    });
+                });
+
+            });
+        });
+    </script>
+
+    <TOKEN_MAIN_PAGE_LAYOUT>
+
+    <!--Online model page view-->
+    <div data-role="page" id="pageOnlineModel" class="MainViewPage">
+        <div data-role="header"></div>
+        <div data-role="content" style="overflow: visible;">
+            <div class="DisableUserSelectable LoadingLauncherView">
+                <div class="ProgressBar">
+                    <div class="ModeIndeterminate"></div>
+                </div>
+                <div class="Title"><APP_NAME_HTML></div>
+            </div>
+        </div>
+        <div data-role="footer"></div>
+
+        <!--Popup view-->
+        <div data-cattr-popup-container="1" data-role="popup" class="PopupContainer">        
+        </div>
+        <div id="divPopupSimpleDialogContainer"></div>
+    </div>
+
+    <!--Dialog page view-->
+    <div id="DialogPage" data-role="page" data-close-btn="right">
+        <div data-role="header">
+	        <h1 class="DialogTitle">&nbsp;</h1>
+            <span data-attr-template="sub_header"></span>
+        </div>
+
+        <div data-role="content">
+            <br /><br />
+        </div>
+
+        <div data-role="footer">
+            &nbsp;
+        </div>
+    </div>
+
+    <div id="clScrollBackTop" class="ScrollTopContainer">
+        <span class='ScrollTopIcon'></span>        
+    </div>
+    
+    <div id="divPageOverlay" class="PageOverlayContainer"></div>
+</body>
+</html>

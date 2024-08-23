@@ -1,0 +1,29 @@
+<!doctype html>
+<html ng-app="demoApp">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" language="javascript" src="<SITE_URL>javascript/global/constants.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="<SITE_URL>javascript/global/util.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" src="assets/javascript/util.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION"></script>
+
+    <!--[if lte IE 8]><script type="text/javascript" language="javascript" src="<SITE_URL>javascript/general/excanvas.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script><![endif]-->
+    <script type="text/javascript" language="javascript" src="<SITE_URL>javascript/general/html2canvas.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    
+    <link rel="Stylesheet" type="text/css" href="<SITE_URL>style/skin/<SKIN_NAME>/private.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+
+    <link rel="stylesheet" href="assets/style/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style/gantt.css" />
+    <title>Gantt Chart</title>
+</head>
+
+    <body style="padding: 10px; display:inline-block;">
+        <div id="divGanttContainer" ng-controller="ctrl" style='display:inline-block;'></div>
+        <script type="text/javascript" src="assets/javascript/angular.js"></script>
+        <script type="text/javascript" src="assets/javascript/loader.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+        <script type="text/javascript" src="assets/javascript/angular-gantt.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    </body>
+</html>

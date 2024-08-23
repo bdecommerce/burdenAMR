@@ -1,0 +1,135 @@
+﻿<script type="text/javascript">
+    var CSS_MODEL_BODY_CLASS = "ViewOnlineModel";
+
+    function resizeWindow() {
+        var _modelSettings = module_getSetting(enCEModule.GlobalOnlineModel);
+        var _heightOffset = util_forceInt(_modelSettings.FrameHeightOffset, 0);
+        var _height = 0;
+        var _frame = $mobileUtil.GetElementByID("ifmModel");
+
+        var _dimension = $mobileUtil.GetWindowDimensions();
+
+        //_height = Math.max($(window).height() - $mobileUtil.Header().height() + $mobileUtil.Footer().height() + _heightOffset, 400);
+        _height = Math.max(_dimension.Height - ($mobileUtil.Header().outerHeight() + $mobileUtil.Footer().outerHeight() + _heightOffset), 0);
+
+        _frame.height(_height);
+        
+        _frame.attr("width", "100%");
+        _frame.attr("height", _height);
+    }
+
+    function BindModelView() {
+        var _modelSettings = module_getSetting(enCEModule.GlobalOnlineModel);
+        var _frame = $mobileUtil.GetElementByID("ifmModel");
+        var _modelID = util_forceString(util_queryStringFragment("ModelID"));   //use query string model ID value
+
+        if (_modelID == "") {
+            _modelID = util_forceString(_modelSettings.ModelIDStr, ""); //fallback to default model ID text version value (ModelIDStr; as per online model module settings)
+        }
+
+        if (_modelID == "") {
+
+            //backward compatibility support to use default model ID numeric version value (ModelID; as per online model module settings)
+
+            _modelID = util_forceInt(_modelSettings.ModelID, enCE.None);
+
+            if (_modelID == enCE.None) {
+                _modelID = null;
+            }
+        }
+        
+        bindEventHandlersOnlineModel();
+
+        if (util_forceString(_modelID) == "") {
+            _frame.hide();
+            AddError("No online model has been configured for the module settings. Model ID: " + _modelID);
+        }
+        else {
+            var _heightOffset = util_forceInt(_modelSettings.FrameHeightOffset, 0);
+            var _height = Math.max($(window).height() - $mobileUtil.Header().height() + $mobileUtil.Footer().height() + _heightOffset, 400);
+
+            _frame.height(_height);
+
+            $("body").addClass(CSS_MODEL_BODY_CLASS);
+
+            _frame.attr("width", "100%");
+            _frame.attr("height", _height);
+
+            GlobalService.OnlineModelViewFormatURL(ext_requestSuccessCritical(function (data) {
+                var _url = "";
+
+                _url = data;
+
+                //replace online model main page URL with model ID token
+                _url = util_replaceAll(_url, "QS_TOKEN_MODEL_ID", _modelID);
+
+                //util_log("BindModelView :: online model URL - '" + _url);
+
+                setTimeout(function () {
+                    blockUI();
+
+                    _frame.load(function () {
+                        $(window).scrollTop(0);
+                        frameLoadComplete();
+                    });
+
+                    _frame.attr("src", _url);
+
+                    resizeWindow();
+                }, 0);
+            }, false));            
+        }
+    }
+
+    $(window).resize(function () {
+        resizeWindow();
+    });
+
+    function bindEventHandlersOnlineModel() {
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageUnload, null, function () {
+        
+            $("body").removeClass(CSS_MODEL_BODY_CLASS);
+            //CSS_MODEL_BODY_CLASS = null;
+        });
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageLoad, null, function () {
+            
+            $("body").addClass(CSS_MODEL_BODY_CLASS);
+            //CSS_MODEL_BODY_CLASS = null;
+        });
+    }
+
+    function frameLoadComplete() {
+        unblockUI();
+
+        //configure the metadata properties for current module view on the active page
+        var _activePage = $mobileUtil.ActivePage();
+
+        _activePage.attr("data-cattr-page-module-id", util_forceInt(MODULE_MANAGER.Current.ModuleID));
+        _activePage.attr("data-cattr-page-module-ctrl-name", util_forceString(MODULE_MANAGER.Current.ControlName));
+
+        resizeWindow();
+    }
+
+    //START: Online model related methods (child frame will invoke these methods)
+
+    function refreshFrameURL(url) {
+
+        try {
+            window.location.reload();
+        } catch (e) {
+            GoToLogin();
+        }
+
+        return false;
+    }
+
+    //END: Online model related methods
+
+</script>
+
+<div data-attr-render="script">
+    BindModelView();
+</div>
+
+<iframe id="ifmModel" scrolling="yes" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+<iframe id="ifmModelExportContainer" frameborder="0" scrolling="no" width="0" height="0" style="display: none;"></iframe>

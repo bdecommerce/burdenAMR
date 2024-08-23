@@ -1,0 +1,292 @@
+﻿<script type="text/javascript" language="javascript">
+    function PageLoad() {
+        BindPage();
+    }
+
+    function BindPage() {
+        $mobileUtil.SetSubFooterView({ PopupFooterViewMode: enCPopupFooterViewMode.SaveCancel });
+
+        bindEventHandlers();
+        bindRoleList();
+    }
+
+    function bindEventHandlers() {
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.SubFooterClick, null, function (obj, btnID) {
+            switch (btnID) {
+                case BUTTON_CONFIG.Save.ID:
+                    saveItem();
+                    break;
+            }
+
+            return false;
+        });
+    }
+
+    function bindRoleList() {
+        var _callback = ext_requestSuccessCritical(function (data) {
+
+            //bind the role dropdownlist
+            util_dataBindDDL($mobileUtil.GetElementByID("ddlRole"), data.List, enColRoleProperty.Name, enColRoleProperty.RoleID);
+
+            //load the current edit item (use deep load)
+            GlobalService.UserGetByPrimaryKey(EditID(), true, ext_requestSuccessCritical(function (editData) {
+                EditItem = util_forceObject(editData, {});
+
+                var _temp = {};
+
+                //!important - if the webmethod returns a non-null object, it is important that the properties are copied over excluding the "__type".
+                //             This is important as the save method expects a different type of CEUserJSON which differs from the base class returned of CEUser
+                for (var _prop in EditItem) {
+                    if (_prop != "__type") {
+                        _temp[_prop] = EditItem[_prop];
+                    }
+                }
+
+                EditItem = _temp;
+
+                //AKV TODO: check if the user is a system admin and the can edit it (disable system admin user management for non-system admins)
+                if (EditItem && util_forceInt(EditItem[enColUserProperty.UserID]) != EditID()) {
+                    AddError(DEFAULT_DATA_ITEM_INVALID);
+                    $mobileUtil.ToggleViewState(null, false);   //disable all input fields
+                }
+
+                bindItem();
+            }));
+        });
+
+        GlobalService.RoleGetByForeignKey(true, enColRole.Name, true, enCEPaging.NoPaging, enCEPaging.NoPaging, _callback);
+    }
+
+    function populateItem(callback) {
+
+        //Note: set the username and the e-mail to be the same
+        var _inputs = [{ Field: enColUserProperty.FirstName, ID: "tbFirstName" }, { Field: enColUserProperty.LastName, ID: "tbLastName" },
+                       { Field: enColUserProperty.Username, ID: "tbUsername" }, { Field: enColUserProperty.Email, ID: "tbUsername" },    
+                       { Field: enColUserProperty.IsLocked, ID: "fpIsActive"}];
+
+        for (var i = 0; i < _inputs.length; i++) {
+            var _item = _inputs[i];
+            var _element = $mobileUtil.GetElementByID(_item.ID);
+
+            var _value = _element.val();
+
+            switch (_item.Field) {
+                case enColUserProperty.IsLocked:
+
+                    //note: must invert the value since it is displayed with an inverted meaning ("Active User?" vs. "Is Locked")
+                    _value = !util_forceBoolFromTriState(_value, false);
+                    break;
+
+                default:
+                    _value = util_trim(_value);
+                    break;
+            }
+
+            EditItem[_item.Field] = _value;
+        }
+
+        var _fnSetUserRole = function (userRoles) {
+            var _selectedRoleID = util_forceInt($mobileUtil.GetElementValue("ddlRole"));
+
+            var _arrFiltered = util_arrFilter(userRoles, enColUserRoleProperty.RoleID, _selectedRoleID);    //filter the user roles for this user for the selected role ID
+
+            if (_arrFiltered.length == 0) {
+                _arrFiltered.push({});
+            }
+
+            var _userRole = _arrFiltered[0];
+
+            _userRole[enColUserRoleProperty.RoleID] = _selectedRoleID;
+            _userRole[enColUserRoleProperty.UserID] = EditID();
+
+            EditItem[enColUserExtProperty.UserRoles] = [_userRole];
+
+            //execute the callback since the item has been populated
+            if (callback) {
+                callback();
+            }
+        };
+
+        //populate the user role
+        if (IsEditAddNew()) {
+
+            //if it is a new item then add the user role and process the callback
+            _fnSetUserRole(null);
+        }
+        else {
+
+            //it is an existing item so retrieve the user roles for the user and update it
+            GlobalService.UserRoleGetByForeignKey(EditID(), enCE.None, enCETriState.No, enColUserRole.Default, true, enCEPaging.NoPaging, enCEPaging.NoPaging,
+                                                           ext_requestSuccessCritical(function (data) {
+                                                               _fnSetUserRole(data.List);
+                                                           }));
+        }
+    }
+
+    function saveItem() {
+        var _fnCallback = function () {
+
+            var _password = $mobileUtil.GetElementValue("tbPassword");
+            var _confirmPassword = $mobileUtil.GetElementValue("tbConfirmPassword");
+
+            ClearMessages();
+
+            //validate the item
+            if (util_forceString(EditItem[enColUserProperty.FirstName]) == "") {
+                AddError("First Name is required.");
+            }
+
+            if (util_forceString(EditItem[enColUserProperty.LastName]) == "") {
+                AddError("Last Name is required.");
+            }
+
+            if (util_forceString(EditItem[enColUserProperty.Email]) == "") {
+                AddError("E-mail is required.");
+            }
+
+            //password
+            var _isAddNew = IsEditAddNew();
+
+            if ((_isAddNew && (_password == "" || _confirmPassword == "")) ||
+            (!_isAddNew && (_password != _confirmPassword) && (_password == "" || _confirmPassword == ""))) {
+                AddError("The password and confirm password are required.");
+            }
+            else if ((_password != _confirmPassword) &&
+                 (_isAddNew || (!_isAddNew && _password != "" && _password != _confirmPassword))
+                ) {
+                AddError("The password and the confirm password must match.");
+            }
+
+            //verify a valid user role is specified
+            var _userRoles = EditItem[enColUserExtProperty.UserRoles];
+
+            if (!util_isNullOrUndefined(_userRoles) && _userRoles.length == 1 &&
+               (util_forceInt((_userRoles[0])[enColUserRoleProperty.RoleID], enCE.None) != enCE.None)) {
+
+                //valid user role specified, do nothing
+            } else {
+                AddError("User Access Level is required.");
+            }
+
+            if (MessageCount() == 0) {
+                var _callback = ext_requestSuccess(function (serviceRet) {
+                    if (global_serviceIsValidationError(serviceRet)) {
+                        global_serviceProcessValidationError(serviceRet);
+                    }
+                    else {
+                        AddMessage("Successfully saved.");
+                        $mobileUtil.CloseDialog(enCPageRefreshMode.View);
+                    }
+                }, false);  //disable wrapper request execute
+
+                var _validationSetting = null;
+                var _validatePassword = true;
+
+                //if it is not a new user, then check if the password is to not be validated (if not specified)
+                if (!IsEditAddNew() && (_password == "" && _confirmPassword == "")) {
+                    _validatePassword = false;
+                }
+
+                _validationSetting = getSaveUserValidationSetting(_validatePassword, _password, _confirmPassword, false);
+
+                //do not check current password (when setting the password for edit user mode)
+                GlobalService.UserSave(EditItem, _validationSetting, true, _callback); //use deep save
+            }
+        };
+
+
+        //populate the item and then execute callback upon its completion
+        populateItem(_fnCallback);
+    }
+
+    function getSaveUserValidationSetting(validatePassword, password, confirmPassword, checkCurrentPassword) {
+        var _ret = {};
+
+        _ret[enColCUserValidationSettingProperty.IsValidatePassword] = util_forceBool(validatePassword, true);
+        _ret[enColCUserValidationSettingProperty.Password] = util_forceString(password, "");
+        _ret[enColCUserValidationSettingProperty.ConfirmPassword] = util_forceString(confirmPassword, "");
+        _ret[enColCUserValidationSettingProperty.IsCheckCurrentPassword] = util_forceBool(checkCurrentPassword, false);
+        _ret[enColCUserValidationSettingProperty.CurrentPassword] = null;   //do not specify this field as it will be populated by the web method's validation process
+
+        return _ret;
+    }
+
+    function bindItem() {
+        var _values = {
+            "ddlRole": enCE.None,   //default value (user role value set below)
+            "tbFirstName": EditItem[enColUserProperty.FirstName],
+            "tbLastName": EditItem[enColUserProperty.LastName],
+            "tbUsername": EditItem[enColUserProperty.Username],
+            "fpIsActive": ((util_forceBool(EditItem[enColUserProperty.IsLocked]) == false) ? enCETriState.Yes : enCETriState.No)
+        };
+
+        var _userRoles = EditItem[enColUserExtProperty.UserRoles];
+
+        if (_userRoles && _userRoles.length > 0) {
+            _values["ddlRole"] = (_userRoles[0])[enColUserRoleProperty.RoleID];
+        }
+
+        for (var _key in _values) {
+            $mobileUtil.SetElementValue(_key, util_forceString(_values[_key]));
+        }
+    }
+
+</script>
+
+<div data-attr-render="script">
+    PageLoad();
+</div>
+
+<div data-role="content">
+    <div>
+        <ul data-role="listview">
+
+            <!--User Details-->
+            <li data-role="list-divider">Details</li>
+
+            <li>
+
+                <div data-role="fieldcontain">
+                    <label for="tbFirstName">First Name:</label>
+                    <input id="tbFirstName" type="text" data-mini="true" maxlength="30" />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="tbLastName">Last Name:</label>
+                    <input id="tbLastName" type="text" data-mini="true" maxlength="30" />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="tbUsername">E-mail:</label>
+                    <input id="tbUsername" type="text" data-mini="true" maxlength="40" autocomplete="off" />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="tbPassword">Password:</label>
+                    <input id="tbPassword" class="InputFieldWide" type="password" maxlength="15" data-mini="true" autocomplete="off" />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="tbConfirmPassword">Confirm Password:</label>
+                    <input id="tbConfirmPassword" class="InputFieldWide" type="password" maxlength="15" data-mini="true" autocomplete="off" />
+                </div>
+                
+                <div data-role="fieldcontain">
+                    <label for="fpIsActive">Active User?</label>
+                    <span id="fpIsActive" data-attr-render="flip_switch" data-mini="true"></span>
+                </div>
+            </li>
+
+            <li data-role="list-divider">User Role</li>
+
+            <li>
+                <div data-role="fieldcontain">
+                    <label for="ddlRole">User Access Level:</label>
+                    <select id="ddlRole" data-mini="true"></select>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+
+</div>

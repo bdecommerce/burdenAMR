@@ -1,0 +1,852 @@
+﻿.CDossierPresentationNavigation
+{
+    background-color: #333333;
+}
+
+.CDossierHomeSectionNavItem
+{
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    color: #FFFFFF;
+    font-size: 1.1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    cursor: pointer;
+    margin-right: 0.1em;
+    border-top: 0.4em solid transparent;
+}
+
+.CDossierHomeSectionNavItem:hover,
+.CDossierHomeSectionActiveNavItem, .CDossierHomeSectionActiveNavItem:hover
+{
+    color: #7C7C7C;
+    background-color: #FAFAF8;
+    border-top: 10px solid #FAFAF8;
+    border-top-left-radius: 0.4em;
+    border-top-right-radius: 0.4em;
+    cursor: pointer;
+}
+
+.CDossierHomeSectionFirstNavItem
+{
+}
+
+.CDossierHomeSectionLastNavItem
+{
+    border-right-style: none;
+}
+
+.CDossierHomeSectionActiveNavItem, .CDossierHomeSectionActiveNavItem:hover
+{
+    cursor: default;
+    font-weight: bold;
+}
+
+.CDossierPresentationSubsectionContent
+{
+    position: relative;
+    padding: 2em;
+    padding-top: 0.5em;
+}
+
+.CDossierSubsectionHeader
+{
+}
+
+.CDossierSubsectionTitleContainer
+{
+    margin-bottom: 0.25em;
+}
+
+.CDossierSubsectionTitle, .CDossierSubsectionTitleLabel
+{
+    font-size: 1.8em;
+    color: #333333;
+    border-bottom: 1px solid #C9C9C7;
+    padding-bottom: 0.25em;    
+}
+
+.CDossierSubsectionTitleTools
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.CDossierSubsectionExportContainer
+{
+}
+
+.CDossierSubsectionContent
+{
+}
+
+.CDossierValueMessageContainer
+{
+    position: relative;
+}
+
+.CDossierValueMessageHeadingContainer
+{
+    margin-right: 3.5em;
+    min-height: 3.25em;
+}
+
+.CDossierValueMessageBadgeContainer
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;    
+    height: 100%;
+    text-align: right;
+}
+
+.CDossierValueMessageBadge, .CDossierValueMessageBadgeDivider
+{
+    height: 3em;
+}
+
+.CDossierValueMessageBadgeDivider
+{
+    width: 1px;
+    background: #C1C1C1;
+    margin-left: 0.75em;
+    margin-right: 1em;
+}
+
+.CDossierValueMessageBadge
+{
+    width: 3em;
+    background-size: cover;
+    margin-right: 0.25em
+}
+
+.CDossierValueMessageBadge:after
+{
+    
+}
+
+.CDossierSubsectionLinkBreadcrumbContainer
+{
+    text-align: left;
+    margin-bottom: 0.5em;
+}
+
+.CDossierSubsectionLinkBreadcrumbItem
+{
+    width: 1.25em;
+    height: 1.25em;
+    border: 0.1em solid #CCCCCC;
+    background-color: #FFFFFF;
+    color: #183C8D;
+    font-weight: bold;
+    text-align: center;
+    margin-right: 0.75em;
+    border-radius: 1em;
+    padding: 0.1em;
+    cursor: pointer;
+    
+    -webkit-box-shadow: 0.1em 0.1em 0.1em 0em #CCCCCC;
+    -moz-box-shadow: 0.1em 0.1em 0.1em 0em #CCCCCC;
+    box-shadow: 0.1em 0.1em 0.1em 0em #CCCCCC;
+}
+
+.CDossierSubsectionLinkBreadcrumbItem:hover
+{
+    background-color: #F0F0F0;
+}
+
+.CDossierSubsectionLinkBreadcrumbItemDisabled, .CDossierSubsectionLinkBreadcrumbItemDisabled:hover
+{
+    cursor: default;
+    background-color: #183C8D;
+    color: #FFFFFF;    
+    border-color: #CCCCCC;
+}
+
+.CDossierPopupIconLegendGroupHeading
+{
+    font-size: 1.25em;
+    color: #707070;
+    padding: 0.25em;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+    background-color: #F3F3E9;
+    text-transform: uppercase;
+    
+    padding-top: 1.25em;
+    padding-left: 1.25em;
+}
+
+.CDossierPopupIconLegendItemIcon
+{
+    width: 4em;
+    padding-left: 1.25em;
+}
+
+.CDossierPopupIconLegendItemLabel
+{
+    padding-left: 0.5em;
+}
+
+.CDossierPopupIconLegendItemIcon, .CDossierPopupIconLegendItemLabel
+{
+    padding-top: 0.25em;
+    padding-bottom: 0.5em;
+}
+
+.CDossierPopupIconLegendFilterItem
+{
+    cursor: pointer;
+}
+
+.CDossierPopupIconLegendFilterItem:hover
+{
+    background-color: #666666;
+    text-shadow: none;
+    color: #FFFFFF;
+}
+
+.CDossierPopupIconLegendFilterItemSelected, .CDossierPopupIconLegendFilterItemSelected:hover
+{
+    cursor: default;
+    background-color: inherit;
+    color: #333333;
+    background-color: #CCFFCC;
+}
+
+.CDossierSubsectionViewContentSubHeading
+{
+    color: #606060;
+    font-weight: bold;
+}
+
+.CDossierSupportEvidenceList
+{
+    position: relative;
+    display: block;
+    height: 2em;
+    cursor: pointer;
+    border: 0.1em solid #CCCCCC;
+    border-radius: 0.25em;
+}
+
+.CDossierSupportEvidenceList:hover
+{
+    background-color: #E0E0E0;
+    color: #333333;    
+}
+
+.CDossierSupportEvidenceCellR1C1
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding-left: 0.25em;
+    margin-right: 2em;
+}
+
+.CDossierSupportEvidenceCellR1C2
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 2em;
+}
+
+.CDossierPresentationNavigationList
+{
+    padding-bottom: 1.5em;
+}
+
+.CDossierPresentationNavigationDetailsContainer
+{
+    padding-left: 1em;
+}
+
+.CDossierPresentationNavigationDetailItem
+{
+    cursor: pointer;
+}
+
+.CDossierPresentationNavigationDetailItemLevel_1
+{
+    margin-left: 1em;
+}
+
+.CDossierPresentationNavigationDetailItemLevel_2 
+{
+    margin-left: 2em;
+}
+
+.CDossierPlaceholderTokenLink
+{
+}
+
+.CDossierAdminPlaceholderTable
+{    
+}
+
+.CDossierAdminPlaceholderTable .TableRowEven
+{
+    background-color: #FAFAFA;
+}
+
+.CDossierAdminPlaceholderTable .TableRowOdd
+{
+    background-color: #FFFFFF;
+}
+
+.CDossierAdminPlaceholderTokenHeadingCell
+{
+    width: 8em;
+}
+
+.CDossierAdminPlaceholderTokenHeadingLabel
+{
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #666666;
+}
+
+.CDossierAdminPlaceholderTokenHeadingLabel,
+.CDossierAdminPlaceholderTokenInputReadOnly
+{
+    padding-top: 0.4em;    
+}
+
+.CDossierAdminPlaceholderTokenInputReadOnly
+{
+    word-break: break-all;
+}
+
+.CDossierAdminPlaceholderTokenInput
+{
+}
+
+.CDossierAdminPlaceholderTokenReferencePortion,
+.CDossierAdminPlaceholderTokenReferencePreview
+{
+    border: 0.1em solid #CCCCCC;
+    border-radius: 0.25em;
+    margin-bottom: 0.5em;
+}
+
+.CDossierAdminPlaceholderTokenReferenceHeading
+{
+    padding: 0.25em;
+    background-color: #666666;
+    text-shadow: none;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    border-bottom: 0.1em solid #999999;
+}
+
+.CDossierAdminPlaceholderTokenReferenceDetail
+{
+    padding: 0.25em;    
+}
+
+.CDossierAdminPlaceholderTokenReferencePreview
+{
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    
+}
+
+.CDossierAdminPlaceholderTokenReferencePreview .CDossierAdminPlaceholderTokenReferenceHeading
+{
+    background-color: #FFF9C4;
+    color: #333333;
+}
+
+.CDossierAdminPlaceholderTokenReferencePreview .CDossierDataPointPortionValue,
+.CDossierAdminPlaceholderTokenReferencePreview .CDossierChartPortionValue
+{
+    word-break: break-word;
+}
+
+.CDossierAdminPlaceholderTokenFileUploadInfo
+{
+    margin: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.CDossierAdminPlaceholderTokenSubHeadingLabel
+{
+    font-weight: bold;
+    color: #666666;
+    text-transform: uppercase;
+    background-color: #F0F0F0;
+    border: 0.1em solid #CCCCCC;
+    padding: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.CDossierAdminPlaceholderTokenInstructionLabel
+{
+    color: #999999;
+    font-size: 0.9em;
+    border-bottom: 0.1em solid #E0E0E0;
+    padding-bottom: 0.25em;
+}
+
+.CDossierAdminPlaceholderTokenFileUploadInfo ul
+{
+    margin: 0em;
+}
+
+.CDossierPlaceholderTokenLoadingMessage
+{
+}
+
+.CDossierPlaceholderTokenPortion
+{
+}
+
+.CDossierTextPortion
+{
+}
+
+.CDossierReferenceLinkPortionShortName,
+.CDossierReferenceLinkPortionAuthor,
+.CDossierReferenceLinkPortionSource,
+.CDossierReferenceLinkPortionDetails
+{
+}
+
+.CDossierPopupImageDownloadLink
+{
+    color: #333333;    
+    text-decoration: none;
+    border-bottom: 0.1em solid #CCCCCC;
+}
+
+.CDossierPopupImageDownloadLink:hover
+{
+    color: #666666;
+}
+
+.CDossierAdminEditLinkTableCell
+{
+}
+
+.CDossierAdminEditLinkTableCell .ui-btn .ui-btn-inner .ui-btn-text
+{
+    text-transform: uppercase;
+}
+
+.CDossierAdminTokenListViewContainer
+{
+}
+
+.CDossierAdminTokenListViewContainer .CRepeater .TableHeaderRow
+{
+    background-color: #626262;
+}
+
+.CDossierAdminTokenListViewContainer .CRepeater .TableHeaderRow th
+{
+    border-radius: 0em;
+    border-color: #757575;
+}
+
+.CDossierAdminTokenListItemHighlightRow
+{
+    background-color: #FFFFCC !important;
+}
+
+.CDossierAdminTokenFilterView
+{
+}
+
+.CDossierAdminTokenFilterView .ResultFilterHeadingLabel
+{
+    width: 4em;
+}
+
+.CDossierAdminTokenTableDetailRow
+{
+    background-color: #FFFFFF;
+    border-bottom: 0.1em solid #CCCCCC;
+}
+
+.CDossierAdminTokenInfoLabel
+{
+    text-align: right;
+    padding: 0.2em;
+    font-size: 0.8em;
+    margin-top: 0.5em;
+    color: #9E9E9E;
+}
+
+.CDossierAdminTokenPreviewCell
+{
+    color: #999999;
+}
+
+.CDossierAdminTokenListViewContainer .TableRowOdd,
+.CDossierAdminTokenListViewContainer .TableRowEven
+{
+    background-color: #FAF5EE;
+}
+
+.CDossierAdminTokenListViewContainer .TableRowOdd td,
+.CDossierAdminTokenListViewContainer .TableRowEven td
+{
+    border: 1px solid #E0E0E0;
+}
+
+.CDossierAdminTokenTableDetailLoadMsg
+{
+    text-align: center;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    color: #666666;
+    font-weight: bold;
+}
+
+.CDossierAdminTokenProgressBar
+{
+    height: 0.5em;
+    position: fixed;
+    background: #F7F7F7;
+    padding: 0.1em;
+    padding-right: 0.2em;
+    box-shadow: inset 0em 0.25em 0.25em rgba(255, 255, 255, 0.3);
+    border: 0.1em solid #CCCCCC;
+    width: 100%;
+    bottom: 0em;
+    left: 0em;
+    z-index: 999;
+}
+
+.CDossierAdminTokenProgressBar > span
+{
+    display: block;
+    height: 70%;
+    margin-top: 1px;
+    margin-right: 1px;
+    border-radius: 0.1em;
+    background-color: #009688;
+    position: relative;
+    overflow: hidden;
+}
+
+.CDossierAdminTokenExportContainer
+{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #FFFFFF;
+    z-index: 998;
+}
+
+.CDossierAgminTokenExportHeader
+{
+    margin-bottom: 1em;
+    width: 100%;
+    background: #FAFAFA;
+    border-bottom: 0.2em solid #666666;
+}
+
+.CDossierAdminTokenExportDetail
+{
+    text-align: center;
+    margin-top: 1em;
+    border: 0.1em solid #666666;
+    border-radius: 0.25em;
+    padding: 0.5em;
+    background: #333333;
+    color: #333333;
+}
+
+.CDossierAdminTokenExportSubHeading
+{
+    color: #FFFFFF;
+    font-size: 0.9em;
+    text-align: right;
+}
+
+.CDossierAdminTokenExportTitle
+{
+    font-weight: bold;
+    color: #FFFFFF;
+    padding-bottom: 1em;
+    text-shadow: 0em 0.1em 0.1em #000000;
+}
+
+.CDossierAdminTokenExportImagePreview
+{
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 0.5em;
+    max-width: 1024px;
+    width: 55%;
+    background: #FFFFFF;
+    color: #000000;
+}
+
+.CDossierAdminTokenExportImagePreview, .CDossierAdminTokenExportImagePreviewTitle
+{
+    border: 0.1em solid #CCCCCC;
+}
+
+.CDossierAdminTokenExportImagePreview
+{
+    border-top-style: none;
+}
+
+.CDossierAdminTokenExportImagePreviewTitle, .CDossierAdminTokenExportImagePreviewDownload
+{
+    color: #FFFFFF;
+    font-size: 1.1em;
+    background: #666666;
+    padding: 0.25em;
+}
+
+.CDossierAdminTokenExportImagePreviewDownload
+{
+    font-size: 0.9em;
+    text-align: right;
+}
+
+.CDossierAdminTokenExportImagePreviewDownload a, .CDossierAdminTokenExportImagePreviewDownload a:hover
+{
+    border: 0.1em solid #FFFFFF;
+    padding: 0.5em;
+    border-radius: 0.25em;
+    color: #FFFFFF;
+    text-decoration: none;
+    border-bottom: 0.1em solid #CCCCCC;
+    margin: 0.25em;
+    background: #303030;
+}
+
+.CDossierAdminTokenExportImagePreviewDownload a:hover
+{
+    background: #757575;
+}
+
+.CDossierChartContainer
+{
+    text-align: center;
+    background-color: #FFFFFF;
+    
+    -webkit-box-shadow: 0.1em 0.1em 0.1em 0.1em #CCCCCC;
+    -moz-box-shadow: 0.1em 0.1em 0.1em 0.1em #CCCCCC;
+    box-shadow: 0.1em 0.1em 0.1em 0.1em #CCCCCC;        
+}
+
+.CDossierChartAdminTools
+{
+    text-align: right;
+    background-color: #F0F0F0;
+    border: 0.1em solid #CCCCCC;
+    border-right-style: none;
+    margin-bottom: 0.25em;
+}
+
+.CDossierChartTitle
+{
+    background-color: #424242;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 0.25em;
+    border-bottom: 0.1em solid #333333;
+}
+
+.CDossierChartContent
+{
+    margin-top: 0.5em;
+}
+
+.CDossierChartFooter
+{
+    border-top: 0.1em solid #CCCCCC;
+    background-color: #FAFAFA;
+    font-size: 0.95em;
+    text-align: left;
+    padding: 0.25em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.CDossierChartResultLegendItem
+{
+    width: 1em;
+    height: 1em;
+    border: 0.1em solid #CCCCCC;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    margin-right: 0.25em;
+}
+
+.CDossierChartResultTableSummary
+{
+    width: 100%;
+    border: 1px solid #EEEEEE;
+    border-left-style: none;
+    border-right-style: none;
+}
+
+.CDossierChartResultTableSummary .TableChartResultHeaderRow
+{
+    background-image: none;
+    background-color: #757575;
+    color: #FFFFFF;
+}
+
+.CDossierChartResultTableSummary .TableChartResultHeaderRow td
+{
+    text-align: center;    
+}
+
+
+.CDossierChartResultTableSummary .TableChartResultHeaderRow td
+{
+    border-left: 1px solid #FFFFFF;
+}
+
+.CDossierChartResultTableSummary .TableChartResultRowOdd td,
+.CDossierChartResultTableSummary .TableChartResultRowEven td
+{
+    border: 1px solid #EEEEEE;
+    border-top-style: none;
+    border-bottom-style: none;
+    border-right-style: none;
+}
+
+.CDossierChartResultTableSummary tr.TableChartResultRowOdd td:last-child,
+.CDossierChartResultTableSummary tr.TableChartResultRowEven td:last-child
+{
+    border-top-style: none;
+    border-left-style: none;
+    border-bottom-style: none;
+    border-right-style: solid;
+}
+
+.CEditorPlaceholderTokenHighlight.CDossierChartContainer .CDossierChartTitle,
+.CEditorPlaceholderTokenHighlight.CDossierChartContainer .CDossierChartContent,
+.CEditorPlaceholderTokenHighlight.CDossierChartContainer .CDossierChartFooter
+{    
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.CDossierChartResultTableSummary .TableChartResultRowOdd
+{
+    background-color: #FFFFFF;
+}
+
+.CDossierChartResultTableSummary .TableChartResultRowEven
+{
+    background-color: #FAF5EE;
+}
+
+.CDossierChartResultValueLabel, .ui-table td.CDossierChartResultValueLabel,
+.CDossierChartResultLegendCell, .ui-table td.CDossierChartResultLegendCell
+{
+    text-align: center;
+}
+
+/**************************************************************************************************/
+/*******************SECTION START: External Content CK Editor Renderer Styles *********************/
+/**************************************************************************************************/
+
+.CDossierSupportEvidenceList
+{
+    background-color: #F2F2F2
+}
+
+.CEditorProjectEvidenceReferenceContainer
+{
+    padding: 0.25em;
+    padding-bottom: 0.1em;
+    margin-bottom: 0.5em;
+    border-top: 0.1em solid #666666;
+}
+
+.CEditorProjectEvidenceReferenceContainer p:first-child
+{
+    margin-top: 0em;
+    margin-bottom: 0.25em;
+}
+
+.CEditorProjectEvidenceReferenceItemContainer
+{
+    padding: 0.25em;
+    background-color: #FFFFFF;
+    border: 0.1em solid #CCCCCC;
+    border-top: none;
+}
+
+
+/**************************************************************************************************/
+/*******************SECTION END: External Content CK Editor Renderer Styles ***********************/
+/**************************************************************************************************/
+
+/**************************************************************************************************/
+/*******************SECTION START: jQuery Mobile Styles *******************************************/
+/**************************************************************************************************/
+
+.ui-btn-up-dossier-placeholder-edit,
+.ui-btn-hover-dossier-placeholder-edit
+{
+    margin: 0em;
+    background: none;
+    background-color: #FFF9C4;
+    
+    -webkit-box-shadow: 0.1em 0.1em 0.1em 0em #CCCCCC;
+    -moz-box-shadow: 0.1em 0.1em 0.1em 0em #CCCCCC;
+    box-shadow: 0.1em 0.1em 0.1em 0em #CCCCCC;
+}
+
+.ui-btn-up-dossier-placeholder-edit .ui-btn-text,
+.ui-btn-hover-dossier-placeholder-edit .ui-btn-text
+{
+    font-weight: bold;
+    font-family: 'Arial';
+    color: #666666;
+}
+
+.ui-btn-hover-dossier-placeholder-edit .ui-btn-text
+{
+    color: #FFFFFF;
+}
+
+.ui-btn-hover-dossier-placeholder-edit
+{
+    background-color: #999999;
+}
+
+.ui-btn-up-dossier-transparent, .ui-btn-hover-dossier-transparent
+{
+    background: transparent;
+    background-image: none;
+    border-style: none;
+    box-shadow: none;
+}
+
+.ui-btn-up-dossier-transparent .ui-btn-inner, .ui-btn-hover-dossier-transparent .ui-btn-inner
+{
+    color: #333333;
+    text-shadow: none;
+    border-style: none;
+}
+
+.ui-btn-hover-dossier-transparent .ui-btn-text
+{
+    color: #000000;
+}
+
+/**************************************************************************************************/
+/*******************SECTION END: jQuery Mobile Styles *********************************************/
+/**************************************************************************************************/

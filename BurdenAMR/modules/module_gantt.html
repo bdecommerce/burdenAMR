@@ -1,0 +1,213 @@
+﻿<!doctype html>
+<html ##MANIFEST_START##manifest="DYNAMIC_10.appcache"##MANIFEST_END##>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1" />	
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+
+    <!--<meta http-equiv="X-UA-Compatible" content="chrome=1" />--> <!--Google Chrome Frame plugin for IE 8 or lower-->
+    <link rel="shortcut icon" href="../<IMAGE_SKIN_PATH>icons/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="../<IMAGE_SKIN_PATH>icons/Icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../<IMAGE_SKIN_PATH>icons/Icon.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="../<IMAGE_SKIN_PATH>icons/Icon@2x.png" />
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery-1.9.1.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/json2.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.noty.packaged.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.noty.default-theme.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/spectrum.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/modernizr.custom.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.mobile-1.3.1.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery-ui-1.10.4.custom.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery-jvectormap.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery-jvectormap-world-mill-en.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+
+    <!--NOTE: the following causes issues with standard jQuery Mobile widgets related to sliders (as such do not use unless standard sliders are not needed).-->
+    <!--<script type="text/javascript" language="javascript" src="../javascript/general/jquery.knob.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/verticalSlider.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>-->
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.url.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.cookie.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.blockUI.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/date-format.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/moment.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/customcalendar.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/jquery.rateit.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/libs/jquery.livequery.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/libs/jquery.timers.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/libs/platform.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/libs/date.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/libs/i18nJs.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/libs/dateField/jquery.dateField.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/libs/JST/jquery.JST.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/ganttUtilities.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/ganttTask.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/ganttDrawer.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/ganttGridEditor.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/general/GanttChart/ganttMaster.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <link rel=stylesheet type="text/css" href="../style/general/GanttChart/platform.css">
+    <link rel=stylesheet type="text/css" href="../style/general/GanttChart/libs/dateField/jquery.dateField.css">
+    <link rel=stylesheet type="text/css" href="../style/general/GanttChart/gantt.css">
+    <link rel=stylesheet type="text/css" href="../style/general/GanttChart/print.css" media="print">
+
+    <script type="text/javascript" language="javascript" src="../javascript/global/constants.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/global/util.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/global/cache.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/global/external.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="DYNAMIC_20.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>    <!--Generated Entities JS-->
+    <script type="text/javascript" language="javascript" src="DYNAMIC_30.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>    <!--Generated WebService definitions JS-->
+
+    <script type="text/javascript" language="javascript" src="../javascript/global/module.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/global/global.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+    <script type="text/javascript" language="javascript" src="../javascript/global/usercontrols.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/global/renderer.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <script type="text/javascript" language="javascript" src="../javascript/private/<PROJECT_NO>/private.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>"></script>
+
+    <link rel="Stylesheet" type="text/css" href="../style/general/jquery.mobile-1.3.1.min.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/general/jquery-ui-1.10.4.custom.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/general/verticalSlider.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/general/noty-buttons.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />    
+    <link rel="Stylesheet" type="text/css" href="../style/general/spectrum.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />      
+    <link rel="Stylesheet" type="text/css" href="../style/general/rateit.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />    
+    <link rel="Stylesheet" type="text/css" href="../style/general/jquery-jvectormap.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />  
+    <link rel="Stylesheet" type="text/css" href="../style/global/global.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+    <link rel="Stylesheet" type="text/css" href="../style/skin/<SKIN_NAME>/private.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>" />
+</head>
+<body id="rootModuleBody">
+    
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            cache_init();
+
+            global_eventPageInit(null, function () {
+                var _fn = function () {
+                    module_load();
+                };
+
+                if (util_isOnline(null, true)) {
+                    GlobalService.GetAppVersion(function (data) {
+                        var _version = data;
+
+                        GlobalService.GetProjectCacheVersion(function (pcData) {
+                            var _projectCacheVersion = pcData;
+
+                            var _qsVersionKey = "v";
+                            var _qsProjectCacheVersionKey = "pc";
+
+                            var _fnGetValueQS = function (key) {
+                                var _ret = util_forceString(util_queryString(key));
+
+                                if (_ret == "") {
+                                    _ret = util_forceString(util_queryStringFragment(key));
+                                }
+
+                                return _ret;
+                            }
+
+                            var _qsAppVersion = _fnGetValueQS(_qsVersionKey);
+                            var _qsProjectCacheVersion = _fnGetValueQS(_qsProjectCacheVersionKey);
+
+                            if (_qsAppVersion != _version || _qsProjectCacheVersion != _projectCacheVersion) {
+                                var _redirectURL = util_constructURL([_qsVersionKey, _qsProjectCacheVersionKey], null);
+                                var _delimiter = "?";
+
+                                if (_redirectURL.indexOf("#") >= 0) {
+                                    _delimiter = "#";
+                                }
+
+                                _redirectURL = util_appendQS(_redirectURL, _qsProjectCacheVersionKey, _projectCacheVersion, true, _delimiter);
+                                _redirectURL = util_appendQS(_redirectURL, _qsVersionKey, _version, true, _delimiter);
+
+                                window.location.href = util_resolveAbsoluteURL(_redirectURL);
+
+                                if (_delimiter == "#") {
+                                    window.location.reload();
+                                }
+                            }
+                            else {
+                                _fn();
+                            }
+                        });
+                    });
+                }
+                else {
+                    _fn();
+                }
+            });
+        });
+    </script>
+
+    <div data-role="page" id="pageMain" class="MainViewPage">
+        <div data-role="header"></div>
+        <div data-role="content" style="overflow: visible;">
+            <table border="0" cellpadding="0" cellspacing="0" class="LoadingDefaultTable">
+                <tr>
+                    <td valign="middle" align="center">
+                        <div class="LoadingDefaultContent"></div>
+                        <h1><APP_NAME_HTML></h1>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div data-role="footer"></div>
+
+        <!--Popup view-->
+        <div id="PopupPage" data-role="popup" class="PopupContainer">
+        </div>
+    </div>
+
+    <!--Online model page view-->
+    <div data-role="page" id="pageOnlineModel" class="MainViewPage">
+        <div data-role="header"></div>
+        <div data-role="content" style="overflow: visible;">
+            <table border="0" cellpadding="0" cellspacing="0" class="LoadingDefaultTable">
+                <tr>
+                    <td valign="middle" align="center">
+                        <div class="LoadingDefaultContent"></div>
+                        <h1><APP_NAME_HTML></h1>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div data-role="footer"></div>
+
+        <!--Popup view-->
+        <div data-cattr-popup-container="1" data-role="popup" class="PopupContainer">
+        </div>
+    </div>
+
+    <!--Dialog page view-->
+    <div id="DialogPage" data-role="page" data-close-btn="right">
+        <div data-role="header">
+	        <h1 class="DialogTitle">&nbsp;</h1>
+            <span data-attr-template="sub_header"></span>
+        </div>
+
+        <div data-role="content">
+            <br /><br />
+        </div>
+
+        <div data-role="footer">
+            &nbsp;
+        </div>
+    </div>
+
+    
+</body>
+</html>

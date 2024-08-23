@@ -1,0 +1,172 @@
+﻿<script type="text/javascript" language="javascript">
+    function PageLoad() {
+        bindPage();
+    }
+
+    function bindPage() {
+        global_configureLoginViewFromCookies($mobileUtil.GetElementByID("tbUsername"), $mobileUtil.GetElementByID("tbPassword"),
+                                             $mobileUtil.GetElementByID("cbRememberMe"), $mobileUtil.GetElementByID("cbLoggedIn"),
+                                             function () {
+                                                 bindEventHandlers();
+                                             });
+    }
+
+    function bindEventHandlers() {
+        util_configureKeyPress($mobileUtil.ActivePage().find("#tbUsername, #tbPassword"), KEY_CODES.ENTER, function () {
+            $("#clLogin").click();
+        });
+
+        js_bindClick($("#clToggleResetPassword"), function () {
+            var _tr = $("#trResetEmail");
+
+            if (_tr.is(":visible")) {
+                _tr.fadeOut();
+            }
+            else {
+                _tr.fadeIn();
+            }
+
+            return false;
+        });
+
+        js_bindClick($("#clLogin"), function () {
+            var _username = util_trim($mobileUtil.GetElementValue("tbUsername"));
+            var _password = $mobileUtil.GetElementValue("tbPassword");
+            var _rememberMe = $mobileUtil.CheckboxIsChecked($("#cbRememberMe"));
+            var _keepLoggedIn = $mobileUtil.CheckboxIsChecked($("#cbLoggedIn"));
+
+            ClearMessages();
+
+            $mobileUtil.SetElementValue("tbUsername", _username);
+
+            if (_username == "" || _password == "") {
+                AddError("Username and password are required.");
+            }
+
+            if (MessageCount() == 0) {
+                GlobalService.LoginUser(_username, _password, _rememberMe, _keepLoggedIn, ext_requestSuccess(function (ret) {
+                    if (ret == true) {
+
+                        global_setLoginCookie(_rememberMe, _keepLoggedIn, function () {
+
+                            //load the current module view (based on query string of URL, if none specified then the splash will not be displayed again since will redirect to home)
+                            $mobileUtil.ReloadActivePage();
+                        });
+                    }
+                    else {
+                        AddError("The username and/or password is invalid. Please try again.");
+                        clearLoginInputs();
+                    }
+                }, false));
+            }
+
+            return false;
+        });
+
+        js_bindClick($("#clResetPassword"), function () {
+            var _tbResetEmail = $("#tbResetEmail");
+            var _email = util_trim(_tbResetEmail.val());
+
+            ClearMessages();
+
+            _tbResetEmail.val(_email);
+
+            if (_email == "") {
+                AddError("The e-mail address is required.");
+            }
+            else {
+                GlobalService.EmailForgotPassword(_email, ext_requestSuccess(function (serviceResult) {
+                    if (!util_isNullOrUndefined(serviceResult) && serviceResult[enColCServiceResultProperty.ErrorType] == enCEServiceErrorType.Validation) {
+                        AddError(serviceResult[enColCServiceResultProperty.ErrorMessage]);
+                    }
+                    else if (ext_getServiceResultData(serviceResult) == true) {
+                        $("#tbResetEmail").val("");
+                        AddMessage("An e-mail has been sent to " + _email + ", please follow the instructions to reset your password.");
+                    }
+                    else {
+                        AddError(MSG_CONFIG.UnexpectedError);
+                    }
+                }, false));
+            }
+        });
+    }
+
+    function clearLoginInputs() {
+        $mobileUtil.SetElementValue("tbUsername", "");
+        $mobileUtil.SetElementValue("tbPassword", "");
+    }
+</script>
+
+<div data-attr-render="script">
+    PageLoad();
+</div>
+
+<table id="tblLoginView" border="0" cellpadding="3" cellspacing="0" style="width: 100%;">
+    <tr>
+        <td class="LeftPlaceHolder">
+            &nbsp;
+        </td>
+
+        <td valign="middle" align="center">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="LabelHeading">Username:</td>
+                    <td>
+                        <input id="tbUsername" class="InputFieldWide" type="text" maxlength="40" data-mini="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="LabelHeading">Password:</td>
+                    <td>
+                        <input id="tbPassword" class="InputFieldWide" type="password" maxlength="15" data-mini="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td align="right">
+                        <div>
+                            <table border="0">
+                                <tr>
+                                    <td>
+                                        <label><input id="cbRememberMe" type="checkbox" value="1" data-mini="true" />Remember me</label>
+                                    </td>
+                                    <td>
+                                        <label><input id="cbLoggedIn" type="checkbox" value="1" data-mini="true" />Keep me logged in</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="float: right;">
+                            <a id="clLogin" data-role="button" data-mini="true" data-inline="true">Login</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="left">
+                        <br /><br />
+                        <div style="float: right;">
+                            <a id="clToggleResetPassword" href="#" data-role="button" 
+                               data-icon="arrow-d" data-mini="true" data-inline="true">Forgot your password?</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr id="trResetEmail" style="display: none;">
+                    <td class="LabelHeading" style="text-align: right;">Enter your e-mail address:</td>
+                    <td class="InputFieldWideContainer">
+                        <input id="tbResetEmail" type="text" maxlength="40" data-mini="true" />
+                    </td>
+                    <td>
+                        <a id="clResetPassword" href="#" data-role="button" data-mini="true" data-inline="true">Submit</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+
+        <td class="RightPlaceHolder">
+            &nbsp;
+        </td>
+    </tr>
+</table>

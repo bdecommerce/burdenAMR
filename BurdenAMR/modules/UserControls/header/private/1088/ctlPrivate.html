@@ -1,0 +1,57 @@
+﻿<div data-attr-render="script">
+    BindHeader();
+</div>
+
+<table class="SubHeadingModuleTitle" border="0" style="width: 100%;">
+    <tr>
+        <td valign="middle">
+            <div data-cattr-home-link="1" style="display: inline-block; vertical-align: middle;">
+                <img id="imgModuleTitle" src="<SITE_URL><IMAGE_SKIN_PATH>logos/bg_banner.png" height="70" alt="Logo" />
+                <div class="SubHeadingModuleTitleLabel">
+                    <span id="divModuleTitle" %%DATA_ATTRIBUTE_RENDER%%="label_module_name"
+                          style="display: none;"></span>
+                </div>
+            </div>
+        </td>
+        <td class="DisableUserSelectable" valign="middle" align="right" style="padding-right: 4px;">
+            <div class="MenuButtonExtView" />
+            <div class="ButtonRestore LinkClickable" style="display: none;"  title="Restore Default" />
+
+            <div class="ButtonMenu" data-menu-id="settings" title="Menu">
+                <img alt="" src="<SITE_URL><IMAGE_SKIN_PATH>menu/btn_banner_options_up.svg" height="32" />
+            </div>
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript" language="javascript">
+
+    function BindHeader() {
+        var $container = $mobileUtil.Find(".SubHeadingModuleTitle");
+        var $homeLinks = $container.find("[data-cattr-home-link]");
+        var $clSettings = $container.find("[data-menu-id='settings']");
+
+        var _isModelView = module_isCurrentView(enCEModule.GlobalOnlineModel, "Model");
+
+        $homeLinks.css("cursor", "pointer");
+
+        $clSettings.off("click.settings");
+        $clSettings.on("click.settings", function () {
+            if (global_userIsSystemAdmin()) {
+                GoToSystemAdmin();
+            }
+            else if (global_userIsAdminRoleBase()) {
+                GoToAdminHome();
+            }
+            else {
+                GoToHome();
+            }
+        });
+
+        $homeLinks.unbind("click.home");
+        $homeLinks.bind("click.home", function () {
+            GoToHome();
+        });
+    }
+
+</script>

@@ -1,0 +1,781 @@
+﻿<script type="text/javascript">
+    var m_dossierAdmin = null;
+    var m_tokenAdminTableHeaders = { "DeleteLink": 0, "EditLink": 1, "ID": 2, "Name": 3, "Type": 4, "DisplayName": 5, "Description": 6 };
+    var m_list = null;
+    var _divLoadingOverlay = null;
+    var m_exportInstance = {
+        "Total": 0, "Current": 0, "Lookup": {}, "Init": function () {
+            this.Total = 0;
+            this.Current = 0;
+            this.Lookup = {};
+        },
+        "Add": function (id, val) {
+            this.Lookup[id] = val;
+            this.Current++;
+        }
+    };
+
+    function BindPage() {
+        _divLoadingOverlay = $mobileUtil.GetElementByID("divLoadingOverlay");
+
+        _divLoadingOverlay.hide();
+        bindEventHandlers();
+    }
+
+    function bindEventHandlers() {
+        var _divExtTokenAdminList = $mobileUtil.GetElementByID("divExtTokenAdminList");
+
+        _divExtTokenAdminList.off("click.admin_edit_token");
+        _divExtTokenAdminList.on("click.admin_edit_token", "[data-attr-edit-ext-token-button]", function () {
+            var _btn = $(this);
+            var _type = util_forceString(_btn.attr("data-attr-edit-ext-token-button"));
+            var _tokenID = util_forceInt($mobileUtil.GetClosestAttributeValue(_btn, "data-attr-ext-token-item-id"), enCE.None);
+
+            switch (_type) {
+
+                case "edit":
+                    m_dossierAdmin.Events.ShowPlaceholderTokenPopup(null, { "EditID": _tokenID, "PluginInstance": m_dossierAdmin,
+                        "OnPopupCloseCallback": function () {
+                            refreshExtTokenAdminList({ "DisableCache": true });
+                        }
+                    });
+
+                    break;  //end: edit
+
+                case "delete":
+
+                    var _deleteMsgHTML = "";
+                    var _extTokenItem = util_arrFilter(m_list, enColExternalTokenProperty.TokenID, _tokenID, true);
+
+                    _extTokenItem = (_extTokenItem.length == 1 ? _extTokenItem[0] : {});
+
+                    _deleteMsgHTML += util_htmlEncode("Are you sure you want to remove the following placeholder?") +
+                                      "<div style='padding: 0.5em; color: #666666;'>" + util_htmlEncode("NAME: " + _extTokenItem[enColExternalTokenProperty.Name]) + "</div>" +
+                                      "<div style='border-top: 0.1em solid #CCCCCC; padding-top: 1em; padding-bottom: 0.5em;'>" +
+                                      "<b>" + util_htmlEncode("WARNING: ") + "</b>" +
+                                      util_htmlEncode("you are about to permanently delete the item and all existing references to it.") +
+                                      "</div>";
+
+                    var _tbl = $mobileUtil.Find("#divExtTokenAdminList #tblExtTokenAdminList");
+                    var _list = _tbl.find("[" + util_htmlAttribute("data-attr-ext-token-item-id", _tokenID) + "], " +
+                                          "[" + util_htmlAttribute("data-attr-ext-token-item-detail-id", _tokenID) + "]");
+
+                    _list.addClass("CDossierAdminTokenListItemHighlightRow");
+
+                    dialog_confirmYesNo("Delete Placeholder", _deleteMsgHTML, function () {
+                        _list.removeClass("CDossierAdminTokenListItemHighlightRow");
+
+                        if (util_forceInt(_extTokenItem[enColExternalTokenProperty.TokenID], enCE.None) != enCE.None) {
+                            GlobalService.ExternalTokenDelete(_extTokenItem, global_extEntitySave(function (data) {
+                                refreshExtTokenAdminList({ "DisableCache": true });
+                            }));
+                        }
+                    }, function () {
+                        _list.removeClass("CDossierAdminTokenListItemHighlightRow");
+                    }, true);
+
+                    break;  //end: delete
+            }
+        });
+
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageLoaded, null, function () {
+
+            var _divDossierAdminFilterContainer = $mobileUtil.GetElementByID("divDossierAdminFilterContainer");
+
+            m_dossierAdmin = new CPluginDossier();
+
+            m_dossierAdmin.Managers.ChartManager.Events._OnExportChartLoad = function (options) {
+                options = util_extend({ "ChartID": null, "ChartSVG": null, "ChartInstance": null, "Element": null, "PluginInstance": null }, options);
+
+                var _chartID = util_forceString(options["ChartID"]);
+                var _svg = util_forceString(options["ChartSVG"]);
+
+                m_exportInstance.Add(_chartID, _svg);
+            };
+
+            m_dossierAdmin.Events.Init({ "InstanceID": "m_dossierAdmin",
+                "Container": _divDossierAdminFilterContainer
+            }, function () {
+
+                var _isContentAdmin = m_dossierAdmin.Metadata.IsUserContentAdmin();
+
+                if (!_isContentAdmin) {
+                    _divDossierAdminFilterContainer.text(MSG_CONFIG.UnauthorizedAccess);
+                    $mobileUtil.Find("#divExtTokenAdminList").remove();
+                }
+                else {
+                    var _html = "";
+
+                    _html += "<div class='CDossierAdminTokenFilterView' " + util_renderAttribute("filter_view") + " " +
+                             util_htmlAttribute(DATA_ATTR_FILTER_VIEW_RENDER_OPTIONS_CALLBACK, "onExtTokenListFilterRenderOptions") + " style='width: 35%;' />";
+
+                    _divDossierAdminFilterContainer.html(_html);
+                    $mobileUtil.refresh(_divDossierAdminFilterContainer);
+                }
+
+            });
+
+        });
+
+    }
+
+    function onExtTokenListFilterRenderOptions(obj, options) {
+
+        var _fnAddFilterItem = function (id, headingText, itemOptions) {
+
+            var _itemHTML = "";
+            var _attrFilterID = util_htmlAttribute("data-attr-token-filter-id", id);
+
+            itemOptions = util_extend({ "IsDropdown": false, "MaxLength": 0 }, itemOptions);
+
+            if (itemOptions["IsDropdown"]) {
+                _itemHTML += "<select " + _attrFilterID + " data-mini='true' data-corners='false' />";
+            }
+            else {
+                var _maxLength = util_forceInt(itemOptions["MaxLength"], 0);
+
+                _itemHTML += "<input type='text' " + _attrFilterID + " data-mini='true' data-corners='false'" + 
+                             (_maxLength > 0 ? " " + util_htmlAttribute("maxlength", _maxLength) : "") + " />";
+            }
+
+
+            options.AddItem(id, headingText, _itemHTML, true);
+        };
+
+        options.DisplayOptions["IsInlineTable"] = false;
+
+        _fnAddFilterItem("FilterExtTokenType", "Type", { "IsDropdown": true });
+        _fnAddFilterItem("FilterSearchCriteria", "Search", {"MaxLength": 250 });
+
+        options.Events.OnLoad = function (obj) {
+
+            var _arr = [];
+            var _element = $(obj);
+            var _filterList = _element.find("[data-attr-token-filter-id]");
+            var _inputList = _filterList.filter("input[type='text']");
+
+            var _fn = function (arr) {
+                if (arr.length > 0) {
+                    var _fnBind = arr.pop();
+
+                    _fnBind(function () {
+                        _fn(arr);
+                    });
+                }
+                else {
+
+                    var _divExtTokenAdminList = $mobileUtil.GetElementByID("divExtTokenAdminList");
+
+                    if (!_divExtTokenAdminList.is(":visible")) {
+                        refreshExtTokenAdminList();
+                        _divExtTokenAdminList.fadeIn();
+                    }
+
+                }
+            };  //end: _fn
+
+            var _fnGetDDL = function (filterID) {
+                return _filterList.filter("[" + util_htmlAttribute("data-attr-token-filter-id", filterID) + "]");
+            };
+
+            var _fnOnFilterChange = function (mObj) {
+                var _filterElement = $(mObj);
+                var _val = util_forceString(_filterElement.val());
+                var _valid = true;
+
+                if (_filterElement.is("input[type='text']")) {
+
+                    //only execute the search if the text has changed from the previous value
+                    var _prevVal = util_forceString(_filterElement.attr("data-attr-filter-input-prev-value"));
+
+                    _valid = (_prevVal != _val);
+                    _filterElement.attr("data-attr-filter-input-prev-value", _val); //set the updated value
+                }
+
+                if (_valid) {
+                    refreshExtTokenAdminList();
+                }
+
+            };  //end: _fnOnFilterChange
+
+
+            _filterList.unbind("change.filter");
+            _filterList.bind("change.filter", function () {
+                _fnOnFilterChange(this);
+            });
+
+            _inputList.unbind("focus.filter");
+            _inputList.bind("focus.filter", function () {
+                var _tb = $(this);
+
+                _tb.attr("data-attr-filter-input-prev-value", _tb.val());
+            });
+
+            _inputList.unbind("blur.filter");
+            _inputList.bind("blur.filter", function () {
+                _fnOnFilterChange(this);
+            });
+
+            util_configureKeyPress(_inputList, KEY_CODES.ENTER, function (mObj) {
+                _fnOnFilterChange(mObj);
+            });
+
+
+            _arr.push(function (listCallback) {
+
+                GlobalService.ExternalTokenTypeGetByForeignKey(enColExternalTokenType.Name, true, enCEPaging.NoPaging, enCEPaging.NoPaging,
+                                                               ext_requestSuccess(function (extTokenTypeData) {
+
+                                                                   var _list = extTokenTypeData.List;
+
+                                                                   if (listCallback) {
+                                                                       listCallback();
+                                                                   }
+
+                                                                   util_dataBindDDL(_fnGetDDL("FilterExtTokenType"), _list,
+                                                                                    enColExternalTokenTypeProperty.Name, enColExternalTokenTypeProperty.TokenTypeID,
+                                                                                    enCEExternalTokenType.Reference, true, enCE.None, "");
+
+                                                               })); //end: ExternalTokenTypeGetByForeignKey
+
+            });
+
+            _fn(_arr);
+        };
+
+        return options;
+    }
+
+    function getItemField(tokenKey, item) {
+        var _ret = "";
+        var _isEncode = true;
+
+        switch (tokenKey) {
+
+            case "%%TEMPLATE_CELL_CONTENT_" + m_tokenAdminTableHeaders.DeleteLink + "%%":
+
+                _ret = "<a data-role='button' data-mini='true' data-inline='true' data-icon='delete' data-iconpos='notext' " +
+                       util_htmlAttribute("data-attr-edit-ext-token-button", "delete") + " title='Delete'>" +
+                       "</a></div>";
+                _isEncode = false;
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + m_tokenAdminTableHeaders.EditLink + "%%":
+
+                _ret = "<a data-role='button' data-mini='true' data-inline='true' data-icon='edit' data-corners='false' " +
+                       util_htmlAttribute("data-attr-edit-ext-token-button", "edit") + ">" +
+                       util_htmlEncode("Edit") +
+                       "</a>";                
+                _isEncode = false;
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + m_tokenAdminTableHeaders.ID + "%%":
+                _ret = item[enColExternalTokenProperty.TokenID];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + m_tokenAdminTableHeaders.Name + "%%":
+                _ret = item[enColExternalTokenProperty.Name];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + m_tokenAdminTableHeaders.Type + "%%":
+                _ret = item[enColExternalTokenProperty.TokenTypeIDName];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + m_tokenAdminTableHeaders.DisplayName + "%%":
+                _ret = item[enColExternalTokenProperty.DisplayName];
+                break;
+
+            case "%%TEMPLATE_CELL_CONTENT_" + m_tokenAdminTableHeaders.Description + "%%":
+                _ret = item[enColExternalTokenProperty.Description];
+                break;
+        }
+
+        _ret = (_isEncode ? util_htmlEncode(_ret) : _ret);
+
+        return _ret;
+    }
+
+    function getExtTokenList(element, sortSetting, callback) {
+        var _callback = function (data) {
+            m_list = (data ? data.List : null);
+            m_list = (m_list || []);
+
+            if (callback) {
+                callback(data);
+            }
+        };
+
+        var _params = {};
+        var _filters = getListFilterOptions();
+
+        _params["SortColumn"] = sortSetting.SortColumn;
+        _params["SortASC"] = sortSetting.SortASC;
+        _params["PageSize"] = PAGE_SIZE;
+        _params["PageNum"] = util_forceValidPageNum(sortSetting.PageNo, 1);
+        _params["TokenTypeID"] = util_forceInt(_filters["FilterExtTokenType"], enCE.None);
+        _params["SearchCriteria"] = util_forceString(_filters["FilterSearchCriteria"]);
+
+        if (!m_dossierAdmin) {
+            _callback(null);
+        }
+        else {
+            m_dossierAdmin.Events.PopulateInstanceData(null, function () {
+                global_extTokenList(_params, _callback);
+            });
+        }
+    }
+
+    function getListFilterOptions() {
+        var _ret = {};
+        var _list = $mobileUtil.Find("#divDossierAdminFilterContainer [data-attr-token-filter-id]");
+
+        $.each(_list, function (indx) {
+            var _element = $(this);
+            var _id = _element.attr("data-attr-token-filter-id");
+            var _val = _element.val();
+
+            _ret[_id] = _val;
+        });
+
+        return _ret;
+    }
+
+    function getExtTokenCellOption(options) {
+
+        var _index = options["Index"];
+
+        options["ForceHorizontalAlign"] = (_index == m_tokenAdminTableHeaders.ID || _index == m_tokenAdminTableHeaders.Type);
+
+        switch (_index) {
+            case m_tokenAdminTableHeaders.EditLink:
+                options["CssClass"] = "CDossierAdminEditLinkTableCell";
+                break;
+        }
+
+        return options;
+    }
+
+    function getExtTokenItemRowAttr(item) {
+        var _ret = "";
+
+        _ret += util_htmlAttribute("data-attr-ext-token-item-id", item[enColExternalTokenProperty.TokenID]);
+
+        return _ret;
+    }
+
+    function onExtTokenListBindComplete() {
+        var _container = $mobileUtil.GetElementByID("divExtTokenAdminList");
+        var _list = _container.find("[data-attr-ext-token-item-id]");
+        var _id = (new Date()).getTime();
+        var _itemHTML = "";
+
+        _container.attr("data-attr-render-timestamp", _id);
+
+        if (_list.length > 0) {
+            var _row = $(_list.get(0));
+            var _count = _row.children("td").length;
+
+            _itemHTML += "<tr class='CDossierAdminTokenTableDetailRow' " + util_htmlAttribute(CONTROL_ATTR_REPEATER_ELEMENT_DATABIND, enCETriState.Yes) + ">" +
+                         "  <td>&nbsp;</td>" +
+                         "  <td colspan='" + (_count - 1) + "'>" +  
+                         "      <div class='CDossierAdminTokenTableDetailLoadMsg'>" + util_htmlEncode("Loading...") + "</div>" +
+                         "  </td>" +
+                         "</tr>";
+        }
+
+        var _divExtTokenTools = $mobileUtil.GetElementByID("divExtTokenTools");
+
+        if (_divExtTokenTools.children().length == 0) {
+            var _arr = [{ "ID": "export_charts", "Text": "Export Chart Images" },
+                        { "ID": "add_new", "Text": MSG_CONFIG.LinkAddNew }];
+            var _html = "";
+
+            for (var t = 0; t < _arr.length; t++) {
+                var _toolOpt = _arr[t];
+
+                _html += "<a " + util_htmlAttribute("data-attr-tool-button-id", _toolOpt["ID"]) + " data-role='button' data-mini='true' data-corners='false' data-inline='true'>" +
+                        util_htmlEncode(_toolOpt["Text"]) +
+                        "</a>";
+            }
+
+            _divExtTokenTools.html(_html);
+            _divExtTokenTools.trigger("create");
+            _divExtTokenTools.fadeIn();
+
+            _divExtTokenTools.off("click.tool_button");
+            _divExtTokenTools.on("click.tool_button", "[data-attr-tool-button-id]", function () {
+
+                var _toolID = util_forceString($(this).attr("data-attr-tool-button-id"));
+
+                switch (_toolID) {
+
+                    case "add_new":
+                        m_dossierAdmin.Events.ShowPlaceholderTokenPopup(null, {
+                            "EditID": 0, "IsAddNew": true, "PluginInstance": m_dossierAdmin,
+                            "OnPopupCloseCallback": function () {
+                                refreshExtTokenAdminList({ "DisableCache": true });
+                            }
+                        });
+
+                        break;
+
+                    case "export_charts":
+                        dossierAdmin_exportCharts();
+                        break;
+                }
+            });
+        }
+
+        var _progressBarInstance = _divExtTokenTools.find("#divExtTokenProgress").data("ProgressBarInstance");
+
+        if (_progressBarInstance == null) {
+
+            _progressBarInstance = {
+                "Element": $mobileUtil.GetElementByID("divExtTokenProgress"),
+                "ProgressTarget": null,
+                "Update": function (opts) {
+                    var _current = util_forceInt(opts["Current"]);
+                    var _total = util_forceInt(opts["Total"]);
+                    var _pct = 0;
+
+                    if (_total > 0) {
+                        _pct = (_current / (_total * 1.00)) * 100.00;
+                    }
+
+                    _pct = Math.min(_pct, 100);
+
+                    this.ProgressTarget.stop(true)
+                                       .animate({ "width": _pct + "%" }, "normal");
+
+                    if (_pct >= 100) {
+                        this.Element.fadeOut(700, $.proxy(function () {
+                            this.Update({ "Current": 0, "Total": 0 });
+                        }, this));
+                    }
+                },
+                "Toggle": function (visible) {
+                    if (visible) {
+                        this.Element.fadeIn(700);
+                    }
+                    else {
+                        this.Element.fadeOut(700);
+                    }
+                }
+            };
+
+            _progressBarInstance.ProgressTarget = _progressBarInstance.Element.children("span:first");
+            _progressBarInstance.Element.data("ProgressBarInstance", _progressBarInstance);
+        }
+
+        _progressBarInstance.Toggle(true);
+
+        _divExtTokenTools.find("[data-attr-tool-button-id='export_charts']").addClass("ui-disabled");
+        
+        onExtTokenDetailRenderStep(_list, 0, _list.length, _itemHTML, _id, _progressBarInstance);
+    }
+
+    function onExtTokenDetailRenderStep(objList, index, size, itemHTML, id, progressBar) {
+        var STEP = 5;
+
+        progressBar.Update({ "Current": index + 1, "Total": size });
+
+        if (index >= size) {
+            var _container = $mobileUtil.GetElementByID("divExtTokenAdminList");
+
+            var _scrollTop = util_forceInt(_container.attr("data-attr-restore-view-scroll-top"), -1);
+
+            if (_scrollTop > 0) {
+                $mobileUtil.AnimateSmoothScroll(null, null, { "Top": _scrollTop, "Left": 0 });
+            }
+
+            _container.removeAttr("data-attr-restore-view-scroll-top");
+            _divLoadingOverlay.hide();
+
+            $mobileUtil.GetElementByID("divExtTokenTools")
+                       .find("[data-attr-tool-button-id='export_charts']").removeClass("ui-disabled");
+        }
+        else {
+            var _max = Math.min(index + STEP, size - 1);
+
+            for (var i = index; i <= _max; i++) {
+                var _row = $(objList.get(i));
+                var _detailRow = $(itemHTML);
+                var _extTokenItem = (m_list[i]);
+                var _cell = _detailRow.children("td:last");
+                var _html = "";
+                var _dt = _extTokenItem[enColExternalTokenProperty.DateModified];
+
+                if (_dt == null) {
+                    _dt = _extTokenItem[enColExternalTokenProperty.DateAdded];
+                }
+
+                _html += util_forceString(m_dossierAdmin.Utils.ConvertExternalToken(_extTokenItem, { "Format": "HTML" }));
+                _html += "<div class='CDossierAdminTokenInfoLabel'>" +
+                         util_htmlEncode("LAST MODIFIED — " + util_FormatDateTime(_dt, NA, true, true, { "ForceDayPadding": true, "ForceHourPadding": true })) +
+                         "</div>";
+
+                _cell.html(_html);
+                _cell.addClass("CDossierAdminTokenPreviewCell");                
+
+                _detailRow.attr("data-attr-ext-token-item-detail-id", _extTokenItem[enColExternalTokenProperty.TokenID]);
+                _detailRow.insertAfter(_row);
+
+                if (_extTokenItem[enColExternalTokenProperty.TokenTypeID] == enCEExternalTokenType.Chart) {
+                    $mobileUtil.refresh(_cell);
+                }
+
+                setTimeout(function () {
+                    progressBar.Update({ "Current": i + 1, "Total": size });
+                }, 0);
+            }
+
+            setTimeout(function () {
+                onExtTokenDetailRenderStep(objList, _max + 1, size, itemHTML, id, progressBar);
+            }, 250);
+        }
+    }
+
+    function refreshExtTokenAdminList(options) {
+        options = util_extend({ "DisableCache": false }, options);
+
+        var _container = $mobileUtil.GetElementByID("divExtTokenAdminContent");
+
+        m_dossierAdmin.Events.PopulateInstanceData({ "DisableCache": options["DisableCache"] }, function () {
+            _divLoadingOverlay.show();
+            _container.attr("data-attr-restore-view-scroll-top", $(window).scrollTop());
+            renderer_event_data_admin_list_bind(_container.children("#divExtTokenAdminList"));
+        });
+    }
+
+    function dossierAdmin_exportCharts(options, callback) {
+        var _progressBarInstance = $mobileUtil.GetElementByID("divExtTokenProgress").data("ProgressBarInstance");
+        var _container = $mobileUtil.GetElementByID("divExtTokenAdminExportContainer");
+        var _body = $("body");
+
+        var _callback = function () {
+
+            _progressBarInstance.Toggle(false);
+
+            if (callback) {
+                callback();
+            }
+        };
+
+        _container.attr("data-attr-restore-container-overflow", util_forceString(_body.css("overflow")));
+
+        _body.css("overflow", "hidden");
+
+        var _fnBindExportCharts = function (objList, index, size, progressBar, onCompleteCallback) {
+
+            progressBar.Update({ "Current": index + 1, "Total": size });
+
+            if (index >= size) {
+                if (onCompleteCallback) {
+                    onCompleteCallback();
+                }
+            }
+            else {
+                var _max = Math.min(index + 5, size - 1);
+
+                for (var j = index; j <= _max; j++) {
+
+                    $mobileUtil.refresh(objList.get(j));
+
+                    setTimeout(function () {
+                        progressBar.Update({ "Current": j + 1, "Total": size });
+                    }, 0);
+                }
+
+                setTimeout(function () {
+                    _fnBindExportCharts(objList, _max + 1, size, progressBar, onCompleteCallback);
+                }, 250);
+            }
+
+        };  //end: _fnBindExportCharts
+
+        _container.fadeIn(700, function () {
+            _progressBarInstance.Toggle(true);
+
+            var _charts = util_arrFilter(m_list, enColExternalTokenProperty.TokenTypeID, enCEExternalTokenType.Chart);
+
+            var _html = "";
+
+            _html += "<table border='0' cellpadding='0' cellspacing='0' class='CDossierAgminTokenExportHeader'>" +
+                     "  <tr>" +
+                     "      <td valign='middle' align='left' style='padding-left: 0.25em;'>" +
+                     "          <a id='clExportCharts' data-role='button' data-icon='check' data-corners='false' data-mini='true' data-inline='true' " +
+                     "data-theme='dossier-transparent'>" +
+                     util_htmlEncode("EXPORT") +
+                     "          </a>" +
+                     (GlobalService["DossierPlaceholderTokenExport"] ?
+                     "          <a id='clExportChartExcel' data-role='button' data-icon='grid' data-corners='false' data-mini='true' data-inline='true' " +
+                     "data-theme='dossier-transparent'>" +
+                     util_htmlEncode("EXPORT EXCEL") +
+                     "          </a>" :
+                     "") +
+                     "      </td>" +
+                     "      <td valign='middle' align='right'>" +
+                     "          <a id='clCloseExport' data-role='button' data-icon='delete' data-iconpos='notext' data-inline='true' data-theme='dossier-transparent' />" +
+                     "      </td>" +
+                     "  </tr>" +
+                     "</table>";
+
+            var _extAttributes = {};
+
+            _extAttributes[PLUGIN_DOSSIER_RENDERER_ATTRIBUTES.ATTRIBUTE_CHART_IS_EXPORT] = enCETriState.Yes;
+            _extAttributes[DATA_ATTR_PLUGIN_INSTANCE_REFERENCE] = "m_dossierAdmin"; //set the plugin instance reference (required for chart related events)
+
+            _html += "<div style='margin: 1em; margin-top: 0.25em; min-width: 1024px; min-height: 768px;'>";
+
+            for (var i = 0; i < _charts.length; i++) {
+                var _extTokenItem = _charts[i];
+                var _tokenName = _extTokenItem[enColExternalTokenProperty.Name];
+                var _previewImageURL = "";
+
+                _previewImageURL = util_constructFileDownloadURL("ExternalToken\\Charts\\" + _tokenName + ".png", null, true, true);
+
+                _html += "<div class='CDossierAdminTokenExportDetail' " +
+                         util_htmlAttribute("data-attr-export-token-id", _extTokenItem[enColExternalTokenProperty.TokenID]) + ">" +
+                         "  <div class='CDossierAdminTokenExportSubHeading'>" + util_htmlEncode((i + 1) + " of " + _charts.length) + "</div>" +
+                         "  <div class='CDossierAdminTokenExportTitle'>" + util_htmlEncode(_tokenName) + "</div>";
+
+                _html += "  <div class='CDossierAdminTokenExportChartPreview'>" +
+                         util_forceString(m_dossierAdmin.Utils.ConvertExternalToken(_extTokenItem, {
+                             "Format": "HTML", "ExtContainerAttributes": _extAttributes
+                         })) +
+                         "  </div>";
+
+                _html += "<div class='InlineBlock CDossierAdminTokenExportImagePreview'>" +
+                         "  <div class='CDossierAdminTokenExportImagePreviewTitle'>" + util_htmlEncode("Image Preview") + "</div>" +
+                         "   <img " + util_htmlAttribute("src", _previewImageURL) + " style='width: 100%; height: auto;' alt='Preview Not Available' /><br />" +
+                         "  <div class='CDossierAdminTokenExportImagePreviewDownload'>" +
+                         "      <a class='InlineBlock' data-role='none' rel='external' target='_blank' " + util_htmlAttribute("href", _previewImageURL) + ">" +
+                         util_htmlEncode("Download Image") +
+                         "      </a>" +
+                         "  </div>" +
+                         "</div>";
+
+                _html += "</div>";
+            }
+            
+            _html += "</div>";
+
+            _container.html(_html);
+            _container.trigger("create");
+
+            var _clCloseExport = _container.find("#clCloseExport");
+            var _clExportCharts = _container.find("#clExportCharts");
+            var _clExportChartExcel = _container.find("#clExportChartExcel");
+
+            _clExportCharts.addClass("ui-disabled");
+
+            _clExportChartExcel.unbind("click.export");
+            _clExportChartExcel.bind("click.export", function () {
+                var _arr = [];
+                
+                $.each(_container.find("[data-attr-export-token-id]"), function () {
+                    _arr.push(util_forceInt($(this).attr("data-attr-export-token-id")));
+                });
+
+                GlobalService.DossierPlaceholderTokenExport(null, _arr);
+            });
+
+            _clExportCharts.unbind("click.export");
+            _clExportCharts.bind("click.export", function () {
+
+                GlobalService.DossierPlaceholderImageExport(null, m_exportInstance.Lookup, ext_requestSuccess(function (data) {
+
+                    var _results = (data || {});
+
+                    var _listChartContainers = _container.find("[" + PLUGIN_DOSSIER_RENDERER_ATTRIBUTES.ATTRIBUTE_CHART_ID + "]");
+
+                    for (var _chartID in _results) {
+                        var _suffixImagePath = util_forceString(_results[_chartID]);
+                        var _imgURL = util_constructFileDownloadURL(_suffixImagePath, null, true, true);
+                        var _chartElement = _listChartContainers.filter("[" + util_htmlAttribute(PLUGIN_DOSSIER_RENDERER_ATTRIBUTES.ATTRIBUTE_CHART_ID, _chartID) + "]");
+
+                        if (_chartElement.length == 1) {
+                            var _imagePreviewContainer = _chartElement.closest(".CDossierAdminTokenExportDetail").find(".CDossierAdminTokenExportImagePreview");
+                            
+                            _imagePreviewContainer.find("img")
+                                                  .attr("src", _imgURL);
+
+                            _imagePreviewContainer.find("a[rel='external']")
+                                                  .attr("href", _imgURL);
+                        }
+                    }
+                }));
+            });
+
+            _clCloseExport.unbind("click.dismiss");
+            _clCloseExport.bind("click.dismiss", function () {
+
+                _container.fadeOut(700, function () {
+                    var _overflow = util_forceString(_container.attr("data-attr-restore-container-overflow"));
+                    
+                    if (_overflow == ""){
+                        _overflow = "inherit";
+                    }
+
+                    _body.css("overflow", _overflow);
+                });
+            });
+
+            var _list = _container.find(".CDossierAdminTokenExportDetail");
+
+            m_exportInstance.Init();
+            m_exportInstance.Total = _list.length;
+
+            _fnBindExportCharts(_list, 0, _list.length, _progressBarInstance, function () {
+
+                _clExportCharts.removeClass("ui-disabled");
+                _callback();
+            });
+        });
+    }
+
+</script>
+
+<div %%DATA_ATTRIBUTE_RENDER%%="script">
+    BindPage();
+</div>
+
+<div id="divDossierAdminFilterContainer" />
+
+<div id="divExtTokenTools" style="margin-left: 0.25em; margin-top: 1em; width: 98%; text-align: right; display: none;" />
+
+<div id="divExtTokenProgress" class="CDossierAdminTokenProgressBar">
+    <span style="width: 0%;" />
+</div>
+
+<div id="divExtTokenAdminContent">
+
+    <div id="divExtTokenAdminExportContainer" class="CDossierAdminTokenExportContainer" style="display: none;" />
+
+    <div id="divExtTokenAdminList" class="CDossierAdminTokenListViewContainer" %%DATA_ATTRIBUTE_RENDER%%="data_admin_list"
+         style="margin-left: 0.25em; margin-top: 0.5em; width: 98%; display: none;">
+        <div data-attr-data-template="setting" data-attr-toggle-add-new-link="0">
+            <div data-attr-data-template-id="tblExtTokenAdminList" data-attr-data-template-renderer="repeater">
+                <div data-attr-repeater-ext="fn" data-attr-field-fn="getItemField" data-attr-data-fn="getExtTokenList"
+                     data-attr-field-cell-option-fn="getExtTokenCellOption" data-attr-fn-content-row-attributes="getExtTokenItemRowAttr"
+                     data-attr-fn-bind-complete="onExtTokenListBindComplete" />
+                <div data-attr-repeater-ext="config" allow-delete="false" />
+                <div data-cattr-type="setting" sort-enum="enColExternalToken" default-sort="enColExternalToken.Name"
+                     is-footer-default-paging="1" />
+                <div data-cattr-type="header">
+                    <div data-cattr-type="item" no-link="1"></div>
+                    <div data-cattr-type="item" no-link="1"></div>
+                    <div data-cattr-type="item" sort-column="enColExternalToken.TokenID">ID</div>
+                    <div data-cattr-type="item" sort-column="enColExternalToken.Name" priority="critical">Name</div>
+                    <div data-cattr-type="item" sort-column="enColExternalToken.TokenTypeIDName">Type</div>
+                    <div data-cattr-type="item" sort-column="enColExternalToken.DisplayName">Display Name</div>
+                    <div data-cattr-type="item" sort-column="enColExternalToken.Description">Description</div>
+                </div>
+            </div>
+        </div>
+
+        <div data-attr-data-template="content"></div>
+    </div>
+</div>
+
+<div id="divLoadingOverlay" class="PageOverlayContainer" style="width: 100%; height: 100%; background-color: transparent; display: none;" />

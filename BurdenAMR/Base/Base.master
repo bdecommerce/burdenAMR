@@ -1,0 +1,35 @@
+﻿<%@ master language="C#" autoeventwireup="true" inherits="Base_Base, App_Web_hnooj0z5" %>
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="pageHead" runat="server">
+    <title></title>
+
+    <script type="text/javascript">
+        /*
+        !important - IE 9 has issues when the application is used as part of an iframe in which the activeElement for the document is not configured correctly during the 
+        initial iframe load. This in turn causes an exception to be thrown by jQuery v1.9.1 when attempting to focus (or triggered focus on an element) such 
+        as during the jQuery Mobile change page cycle.
+        The following ensures that in the event the activeElement for the document cannot be accessed (or not initialized properly) that we force focus
+        on the document element itself to resolve the activeElement to a valid state.
+        */
+        try {
+            document.activeElement;
+        } catch (error) {
+            document.documentElement.focus();
+        }
+    </script>
+
+    <asp:Literal ID="ltHeader" runat="server"></asp:Literal>
+
+    <asp:ContentPlaceHolder id="Head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ContentPlaceHolder id="Content" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

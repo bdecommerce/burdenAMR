@@ -1,0 +1,196 @@
+﻿#Cache Version: 0.0.0.1
+#Date: 2018-11-12 | Time: 2:00 PM
+
+#START: global cache
+
+
+#SECTION START: Pages
+#SECTION END: Pages
+
+#SECTION START: Fonts
+<SITE_URL><IMAGE_GLOBAL_PATH>fonts/material_icons/MaterialIcons-Regular.eot
+<SITE_URL><IMAGE_GLOBAL_PATH>fonts/material_icons/MaterialIcons-Regular.svg
+<SITE_URL><IMAGE_GLOBAL_PATH>fonts/material_icons/MaterialIcons-Regular.ttf
+<SITE_URL><IMAGE_GLOBAL_PATH>fonts/material_icons/MaterialIcons-Regular.woff
+<SITE_URL><IMAGE_GLOBAL_PATH>fonts/material_icons/MaterialIcons-Regular.woff2
+#SECTION END: Fonts
+
+#SECTION START: Images
+../<IMAGE_SKIN_PATH>icons/Icon.png?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../<IMAGE_SKIN_PATH>icons/Icon@2x.png?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/images/ajax-loader.gif
+../style/general/images/icons-18-white.png
+../style/general/images/icons-18-black.png
+../style/general/images/icons-36-white.png
+../style/general/images/icons-36-black.png
+../<IMAGE_GLOBAL_PATH>indicator/loader_default.gif
+../<IMAGE_GLOBAL_PATH>indicator/ajax-loader_02.gif
+<SITE_URL><IMAGE_GLOBAL_PATH>button/btn_scroll_top.png
+../<IMAGE_GLOBAL_PATH>colorpicker/blank.gif
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_background.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_hex.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_hsb_h.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_hsb_s.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_hsb_b.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_rgb_r.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_rgb_g.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_rgb_b.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_indic.gif
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_overlay.png
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_select.gif
+../<IMAGE_GLOBAL_PATH>colorpicker/colorpicker_submit.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_background.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_hex.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_hsb_h.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_hsb_s.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_hsb_b.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_indic.gif
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_rgb_r.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_rgb_g.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_rgb_b.png
+../<IMAGE_GLOBAL_PATH>colorpicker/custom_submit.png
+../<IMAGE_GLOBAL_PATH>colorpicker/select.png
+../<IMAGE_GLOBAL_PATH>colorpicker/select2.png
+../<IMAGE_GLOBAL_PATH>colorpicker/slider.png
+../<IMAGE_GLOBAL_PATH>backgrounds/effect_blur.svg
+#SECTION END: Images
+
+
+#SECTION START: JavaScript
+../javascript/general/jquery-1.9.1.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/json2.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/general/jquery.noty.packaged.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jquery.noty.default-theme.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/general/spectrum.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/colorpicker.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/general/modernizr.custom.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/general/jquery.mobile-1.3.1.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jquery.mobile.simpledialog2.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jquery-ui-1.10.4.custom.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jquery.debounce-1.0.5.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/general/tinycolor.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jquery-sortable-lite.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jquery.sortable.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/printThis.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/FWDUltimate3DCarousel.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+    
+../javascript/general/jVectorMap/1.1/jquery-jvectormap.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jVectorMap/2.0.2/jquery-jvectormap-2.0.2.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jVectorMap/jquery-jvectormap-world-mill-en.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/general/jquery.knob.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/verticalSlider.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/general/jquery.url.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jquery.cookie.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/jquery.blockUI.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/date-format.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/moment.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/Calendar/fullCalendar/2.4.0/fullcalendar.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/general/Calendar/customcalendar.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/general/jquery.rateit.min.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/global/constants.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/global/util.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/global/external.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/global/model.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&lang=<LANG_VERSION>
+
+../javascript/global/global.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&lang=<LANG_VERSION>
+../javascript/global/cache.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/global/renderer.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/private/<PROJECT_NO>/private.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+
+../javascript/global/module.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../javascript/global/usercontrols.js?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+#SECTION END: JavaScript
+
+
+#SECTION START: StyleSheet
+../style/general/jquery.mobile-1.3.1.min.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/jquery.mobile.simpledialog.min.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/jquery-ui-1.10.4.custom.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/verticalSlider.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/noty-buttons.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/rateit.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/jVectorMap/1.1/jquery-jvectormap.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/jVectorMap/2.0.2/jquery-jvectormap-2.0.2.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/spectrum.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/colorpicker.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/Calendar/fullCalendar/2.4.0/fullcalendar.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/general/Calendar/customCalendar.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/global/global.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+../style/skin/<SKIN_NAME>/private.css?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+#SECTION END: StyleSheet
+
+
+#SECTION START: Dynamic Generated
+DYNAMIC_20.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&lang=<LANG_VERSION>
+DYNAMIC_22.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&lang=<LANG_VERSION>
+DYNAMIC_30.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>
+DYNAMIC_40.generated?v=<APP_VERSION>&pc=<PROJECT_CACHE_VERSION>&uid=<USER_CACHE_VERSION>&lang=<LANG_VERSION>
+#SECTION END: Dynamic Generated
+
+
+#SECTION START: Online Model
+
+<ONLINE_MODEL_URL>www/css/8.css
+<ONLINE_MODEL_URL>www/css/jquery-jvectormap-2.0.4.css
+<ONLINE_MODEL_URL>www/css/jquery.alerts.css
+<ONLINE_MODEL_URL>www/css/video-js.css
+<ONLINE_MODEL_URL>www/css/images/help.gif
+<ONLINE_MODEL_URL>www/css/images/important.gif
+<ONLINE_MODEL_URL>www/css/images/info.gif
+<ONLINE_MODEL_URL>www/css/images/title.gif
+
+<ONLINE_MODEL_URL>www/images/ajax-loader.gif
+<ONLINE_MODEL_URL>www/images/icons-18-white.png
+<ONLINE_MODEL_URL>www/images/icons-18-black.png
+<ONLINE_MODEL_URL>www/images/icons-36-white.png
+<ONLINE_MODEL_URL>www/images/icons-36-black.png
+
+<DEFAULT_ONLINE_MODEL_VIEW_URL>
+
+<ONLINE_MODEL_URL>www/jquery.mobile-1.1.1.css
+<ONLINE_MODEL_URL>www/js/calcEngine.js
+<ONLINE_MODEL_URL>www/js/constants.js
+<ONLINE_MODEL_URL>www/js/css_browser_selector.js
+<ONLINE_MODEL_URL>www/js/exporting.js
+<ONLINE_MODEL_URL>www/js/xnative.js
+<ONLINE_MODEL_URL>www/js/external.js
+<ONLINE_MODEL_URL>www/js/formatter.js
+<ONLINE_MODEL_URL>www/js/highcharts.js
+<ONLINE_MODEL_URL>www/js/jquery-jvectormap-2.0.4.min.js
+<ONLINE_MODEL_URL>www/js/jquery-jvectormap-us-aea.js
+<ONLINE_MODEL_URL>www/js/jquery.alerts.js
+<ONLINE_MODEL_URL>www/js/jquery.easing.js
+<ONLINE_MODEL_URL>www/js/jquery.media.js
+<ONLINE_MODEL_URL>www/js/jquery.min.js
+<ONLINE_MODEL_URL>www/js/jquery.mobile-1.1.1.js
+<ONLINE_MODEL_URL>www/js/jquery.ui.touch-punch.min.js
+<ONLINE_MODEL_URL>www/js/jquery.url.js
+<ONLINE_MODEL_URL>www/js/json2.js
+<ONLINE_MODEL_URL>www/js/language.js
+<ONLINE_MODEL_URL>www/js/model.js
+<ONLINE_MODEL_URL>www/js/renderer.js
+#<ONLINE_MODEL_URL>www/js/runtime.js		NOTE: file is not used due to IE 8 scripts errors (Swify file used to convert Flash to HTML5)
+<ONLINE_MODEL_URL>www/js/scenario.js
+<ONLINE_MODEL_URL>www/js/utils.js
+<ONLINE_MODEL_URL>www/js/validator.js
+<ONLINE_MODEL_URL>www/js/video.js
+<ONLINE_MODEL_URL>www/js/views.js
+<ONLINE_MODEL_URL>www/js/xl_logest.js
+<ONLINE_MODEL_URL>www/js/xl_stats.js
+
+<ONLINE_MODEL_URL>www/model/0/media/loading.png
+<ONLINE_MODEL_URL>www/model/0/dummy.htm
+
+#SECTION END: Online Model
+
+#END: global cache

@@ -1,0 +1,582 @@
+﻿<script type="text/javascript" language="javascript">
+    var MODULE_LIST_TEMPLATE_ITEM = "<tr class='%ROW_CSS%'>" +
+                                  "<td class='TableCellCenter'><div>" +
+                                  "<label>" +
+                                  "<input type='checkbox' data-mini='true' data-attr-cb-group='DeleteModuleSetting' value='%%MODULE_ID%%' />&nbsp;" +
+                                  "</label>" + 
+                                  "</div></td>" +
+                                  "<td class='TableCellCenter'>%%MODULE_ID%%</td>" +
+                                  "<td>" +
+                                  "<a " + DATA_ATTRIBUTE_RENDER + "='dialog' data-attr-dialog-title='Edit Module' " +
+                                  DATA_ATTRIBUTE_CONTEXT_HREF + "=\"" + EditFormatURL() + "\" " +
+                                  "href='#' data-role='button' data-rel='dialog' data-inline='true' data-mini='true' data-icon='gear'>%%NAME%%</a>" +                                  
+                                  "</td>" + 
+                                  "<td>%%MODULE_TYPE%%</td>" +
+                                  "<td>%%DISPLAY_NAME%%</td>" +
+                                  "<td>%%DATE_MODIFIED%%</td>" +
+                                  "</tr>";
+
+    var MODULE_LIST_RENDER_TOKENS = ["%%MODULE_ID%%", "%%NAME%%", "%%MODULE_TYPE%%", "%%DISPLAY_NAME%%", "%%DATE_MODIFIED%%"];
+
+    var m_configurationList = null;
+
+    function BindPage() {
+        bindEventHandlers();
+        bindDetailViews();
+
+        MODULE_MANAGER.DelegateSettings.ExecEvent(enCDelegateType.Repeater, "module_list");
+    }
+
+    function EditFormatURL() {
+        var _ret = "";
+
+        _ret = util_constructModuleURL(enCEModule.AdminModule, enCEModuleViewType.AdminEdit);
+        _ret = util_appendFragmentQS(_ret, "EditID", "%%MODULE_ID%%");
+        _ret = util_constructPopupURL(_ret);
+        
+        return _ret;
+    }
+
+    function bindDetailViews() {
+        var _list = $mobileUtil.Find(".SystemAdminDetailContainer");
+
+        $.each(_list, function (indx) {
+            var _container = $(this);
+            var _heading = _container.children(".SystemAdminDetailHeading");
+
+            if (_heading.length == 0) {
+                var _html = "";
+
+                _html += "<div class='SystemAdminDetailHeading'>" +
+                         "  <table border='0' cellpadding='0' cellspacing='0' style='width: 100%;'>" +
+                         "      <tr>" +
+                         "          <td valign='middle' " + util_htmlAttribute("data-attr-detail-heading", enCETriState.Yes) + ">&nbsp;</td>" +
+                         "          <td style='width: 2em;' align='right'>" +
+                         "              <a " + util_htmlAttribute("data-attr-toggle-button", enCETriState.Yes) + " data-role='button' data-icon='arrow-u' data-iconpos='notext' " + 
+                         "data-mini='true' data-inline='true' data-theme='transparent' />" +
+                         "          </td>" +
+                         "      </tr>" +
+                         "  </table>" +
+                         "</div>";
+
+                _heading = $(_html);
+                _container.prepend(_heading);
+            }
+
+            _heading.find("[data-attr-detail-heading]")
+                    .text(util_forceString(_container.attr("data-attr-detail-heading")));
+        });
+
+        var _headings = _list.find(".SystemAdminDetailHeading");
+
+        _headings.unbind("click.toggle");
+        _headings.bind("click.toggle", function () {
+            var _element = $(this);
+            var _container = _element.closest(".SystemAdminDetailContainer");
+
+            if (util_forceInt(_element.attr("data-attr-is-busy"), enCETriState.None) != enCETriState.Yes) {
+
+                _element.attr("data-attr-is-busy", enCETriState.Yes); //set busy flag
+
+                var _content = _container.find(".SystemAdminDetailContent");
+                var _visible = _content.is(":visible");
+
+                var _fn = function () {
+                    var _btn = _element.find("[" + util_htmlAttribute("data-attr-toggle-button", enCETriState.Yes) + "]");
+
+                    $mobileUtil.ButtonUpdateIcon(_btn, _visible ? "arrow-d" : "arrow-u");
+                    _element.removeAttr("data-attr-is-busy"); //clear busy flag
+                };
+
+                if (_visible) {
+                    _content.slideUp("normal", _fn);
+                }
+                else {
+                    _content.slideDown("normal", _fn);
+                }
+            }
+        });
+    }
+
+    function bindEventHandlers() {
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.Repeater, "module_list", bindModuleList);
+
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageLoaded, null, function () {
+            refreshUserSessionList(function () {
+                bindConfigurationView();
+            });
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clClearCache"), function () {
+            var _callback = ext_requestSuccess(function (data) {
+                if (data == true) {
+                    util_alert("The application cache has been successfully cleared.", "Application Cache");
+
+                }
+                else {
+                    util_warning("There was an unexpected error in clearing the application cache. Please try again later.");
+                }
+            }, false);
+
+            GlobalService.ClearAppCache(_callback);
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clModelScenarioTemp"), function () {
+            var _callback = ext_requestSuccess(function (data) {
+                if (data == true) {
+                    util_alert("The temp user scenarios have been successfully cleared.", "Model User Scenario Temp");
+
+                }
+                else {
+                    util_warning("There was an unexpected error in clearing the temp user scenarios. Please try again later.");
+                }
+            });
+
+            ModelService.ClearUserScenarioTemp(_callback);
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clModelClearUserCurrent"), function () {
+            var _callback = ext_requestSuccess(function (data) {
+                if (data == true) {
+                    util_alert("The current scenario flag has been removed for: " + global_AuthUserDetail()[enColUserProperty.Username], "Model Clear User Current Scenario");
+                }
+                else {
+                    util_warning("There was an unexpected error in clearing the user current scenario. Please try again later.");
+                }
+            });
+
+            ModelService.ClearUserCurrentScenario(model_forceTag(), _callback);
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clModelUpgradeScenarios"), function () {
+            var _callback = global_extEntitySave(function (data) {
+                if (data == true) {
+                    util_alert("The model reference scenario for all users has been updated to latest version.", "Model Scenario Version");
+                }
+                else {
+                    util_warning("There was an unexpected error in upgrading the model scenarios' version. Please try again later.");
+                }
+            });
+
+            ModelService.UpgradeScenarioVersion(model_forceTag(), enCE.None, _callback);
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clRefreshSession"), function () {
+            refreshUserSessionList();
+        });
+
+        js_bindClick($mobileUtil.GetElementByID("clRestartApp"), function () {
+
+            dialog_confirmYesNo("Restart Application", 
+                                util_htmlEncode("Are you sure you want to restart the application instance?") +
+                                "<br /><span style='color: #FF0000;'>" + util_htmlEncode("WARNING: all active sessions and server cached items will be cleared") + "</span>",
+                                function () {
+                                    GlobalService.RestartApplication(null, ext_requestSuccess(function () {
+                                        refreshUserSessionList();
+                                        util_alert("Application has been successfully restarted.", "Application Restart", null, null, 750);
+                                    }));
+                                }, null, true)            
+        });
+    }
+
+    function refreshUserSessionList(callback) {
+
+        var _callback = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        GlobalService.SessionActiveList(null, ext_requestSuccess(function (data) {
+            var _list = data;
+
+            if (util_isNullOrUndefined(_list)) {
+                _list = [];
+            }
+
+            var _html = "<table border='0' cellpadding='3' cellspacing='0' " + util_renderAttribute("table") + ">";
+
+            var _props = [{ "Heading": "Session ID", "Prop": enColCSessionDetailProperty.SessionID },
+                          { "Heading": "User ID", "Prop": enColCSessionDetailProperty.UserID, "Attribute": "style='text-align: center;'" },
+                          { "Heading": "Username", "Prop": enColCSessionDetailProperty.Username },
+                          { "Heading": "Created On", "Prop": enColCSessionDetailProperty.CreatedOn}];
+
+            _html += "<tr class='TableHeaderRow'>";
+
+            for (var p = 0; p < _props.length; p++) {
+                var _item = _props[p];
+
+                _html += "<td valign='top'>" + util_htmlEncode(_item.Heading) + "</td>";
+            }
+
+            _html += "</tr>";
+
+            for (var i = 0; i < _list.length; i++) {
+                var _sessionDetail = _list[i];
+
+                _html += "<tr>";
+
+                for (var p = 0; p < _props.length; p++) {
+                    var _item = _props[p];
+                    var _attr = util_forceString(_item["Attribute"]);
+                    var _val = _sessionDetail[_item.Prop];
+
+                    switch (_item.Prop) {
+                        case enColCSessionDetailProperty.CreatedOn:
+                            _val = util_FormatDateTime(_val, "N/A", true, true);
+                            break;
+                    }
+
+                    _html += "<td valign='top'" + (_attr != "" ? " " + _attr : "") + ">" + util_htmlEncode(_val) + "</td>";
+                }
+
+                _html += "</tr>";
+            }
+
+            _html += "</table>";
+
+            var _container = $mobileUtil.GetElementByID("divActiveSessions");
+
+            _container.html(_html);
+            $mobileUtil.refresh(_container);
+
+            _callback();
+
+        }), _callback); //end: SessionActiveList
+    }
+
+    function bindConfigurationView(callback) {
+        var _callback = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        GlobalService.ConfigurationGetByForeignKey(null, enColConfiguration.Name, true, enCEPaging.NoPaging, enCEPaging.NoPaging, ext_requestSuccess(function (data) {
+
+            m_configurationList = (data.List || []);
+
+            var _html = "<table border='0' cellpadding='3' cellspacing='0' " + util_renderAttribute("table") + ">";
+
+            var _props = [{ "Heading": "ID", "Prop": enColConfigurationProperty.ConfigurationID, "Attribute": "style='text-align: center;'" },
+                          { "Heading": "Name", "Prop": enColConfigurationProperty.Name },
+                          { "Heading": "Version", "Prop": enColConfigurationProperty.Version },
+                          { "Heading": "Added On", "Prop": enColConfigurationProperty.DateAdded },
+                          { "Heading": "Last Modified", "Prop": enColConfigurationProperty.DateModified}];
+
+            _html += "<tr class='TableHeaderRow'>";
+
+            for (var p = 0; p < _props.length; p++) {
+                var _item = _props[p];
+
+                _html += "<td valign='top'>" + util_htmlEncode(_item.Heading) + "</td>";
+            }
+
+            _html += "<td style='width: 7.5em;'>&nbsp;</td>";
+
+            _html += "</tr>";
+
+            for (var i = 0; i < m_configurationList.length; i++) {
+                var _configurationItem = m_configurationList[i];
+
+                _html += "<tr " + util_htmlAttribute("data-attr-configuration-id", _configurationItem[enColConfigurationProperty.ConfigurationID]) + ">";
+
+                for (var p = 0; p < _props.length; p++) {
+                    var _item = _props[p];
+                    var _attr = util_forceString(_item["Attribute"]);
+                    var _val = _configurationItem[_item.Prop];
+
+                    switch (_item.Prop) {
+                        case enColConfigurationProperty.DateAdded:
+                        case enColConfigurationProperty.DateModified:
+                            _val = util_FormatDateTime(_val, "N/A", true, true);
+                            break;
+                    }
+
+                    _html += "<td valign='middle'" + util_htmlAttribute("data-attr-item-cell-property", _item.Prop) +
+                             (_attr != "" ? " " + _attr : "") + ">" +
+                             util_htmlEncode(_val) +
+                             "</td>";
+                }
+
+                _html += "<td valign='top' align='center'>" +
+                         "  <a " + util_htmlAttribute("data-attr-edit-config-button", "edit_save") +
+                         " style='margin: 0em; width: 4.75em;' data-role='button' data-icon='edit' data-iconpos='right' data-corners='false' data-inline='true' data-mini='true'>" +
+                         util_htmlEncode("EDIT") +
+                         "  </a>" +
+                         "  <a " + util_htmlAttribute("data-attr-edit-config-button", "cancel") +
+                         " style='margin: 0em; display: none;' data-role='button' data-icon='back' data-iconpos='notext' data-inline='true' data-mini='true'></a>" +
+                         "</td>";
+
+                _html += "</tr>";
+            }
+
+            _html += "</table>";
+
+            var _container = $mobileUtil.GetElementByID("divAppConfiguration");
+
+            _container.html(_html);
+            $mobileUtil.refresh(_container);
+
+            _container.off("click.edit_config");
+            _container.on("click.edit_config", "[data-attr-edit-config-button]", function () {
+                var _btn = $(this);
+                var _type = util_forceString(_btn.attr("data-attr-edit-config-button"));
+
+                var _isEditMode = (util_forceInt(_btn.attr("data-attr-is-edit"), enCETriState.None) == enCETriState.Yes);
+
+                var _parent = _btn.closest("[data-attr-configuration-id]");
+                var _btnSaveEdit = (_type != "edit_save" ? _parent.find("[data-attr-edit-config-button='edit_save']") : _btn);
+                var _configurationID = util_forceInt(_parent.attr("data-attr-configuration-id"), enCE.None);
+                var _configurationItem = util_arrFilter(m_configurationList, enColConfigurationProperty.ConfigurationID, _configurationID, true);
+
+                var _fnToggleEditMode = function (isEdit) {
+
+                    var _fnGetCell = function (prop) {
+                        return _parent.find("[" + util_htmlAttribute("data-attr-item-cell-property", prop) + "]");
+                    };
+
+                    var _cellVersion = _fnGetCell(enColConfigurationProperty.Version);
+                    var _btnCancel = _parent.find("[" + util_htmlAttribute("data-attr-edit-config-button", "cancel") + "]");
+
+                    if (isEdit) {
+                        var _editHTML = "<input data-attr-configuration-input='1' type='text' data-mini='true' />";
+
+                        _cellVersion.html(_editHTML);
+                        $mobileUtil.refresh(_cellVersion);
+
+                        _cellVersion.find("input[data-attr-configuration-input]").val(_configurationItem[enColConfigurationProperty.Version]);
+                    }
+                    else {
+                        _cellVersion.text(_configurationItem[enColConfigurationProperty.Version]);
+                        var _arr = [enColConfigurationProperty.DateAdded, enColConfigurationProperty.DateModified];
+
+                        for (var p = 0; p < _arr.length; p++) {
+                            var _prop = _arr[p];
+                            var _propVal = _configurationItem[_prop];
+
+                            _fnGetCell(_prop).text(util_FormatDateTime(_propVal, "N/A", true, true));
+                        }
+                    }
+
+                    $mobileUtil.ButtonSetTextByElement(_btnSaveEdit, isEdit ? "SAVE" : "EDIT");
+
+                    if (isEdit) {
+                        _btnCancel.fadeIn();
+                    }
+                    else {
+                        _btnCancel.fadeOut();
+                    }
+                };
+
+                if (_configurationItem.length == 1) {
+                    _configurationItem = _configurationItem[0];
+
+                    if (_type == "cancel") {
+                        _btnSaveEdit.removeAttr("data-attr-is-edit");
+                        _fnToggleEditMode(false);
+                    }
+                    else if (!_isEditMode) {
+                        _btn.attr("data-attr-is-edit", enCETriState.Yes);
+                        _fnToggleEditMode(true);
+                    }
+                    else {
+                        var _version = util_trim(_parent.find("[data-attr-configuration-input]").val());
+                        var _fn = function () {
+                            _btn.removeAttr("data-attr-is-edit");
+                            _fnToggleEditMode(false);
+                        };
+
+                        if (_version != "") {
+                            if (_version != _configurationItem[enColConfigurationProperty.Version]) {
+                                _configurationItem[enColConfigurationProperty.Version] = _version;
+
+                                GlobalService.ConfigurationSave(null, _configurationItem, false, global_extEntitySave(function (saveData) {
+                                    var _index = util_arrFilterItemIndex(m_configurationList, function (searchItem) {
+                                        return (searchItem[enColConfigurationProperty.ConfigurationID] == _configurationItem[enColConfigurationProperty.ConfigurationID]);
+                                    });
+
+                                    //update the configuration item
+                                    _configurationItem = saveData;
+                                    m_configurationList[_index] = saveData;
+
+                                    _fn();
+                                }));
+                            }
+                            else {
+                                _fn();
+                            }
+                        }
+                    }
+                }
+            });
+
+            _callback();
+
+        }));                 //end: ConfigurationGetByForeignKey
+    }
+
+    function getItemField(tokenKey, item) {
+        var _ret = NA;
+
+        if (item) {
+            switch (tokenKey) {
+                case "%%MODULE_ID%%":
+                    _ret = item[enColModuleProperty.ModuleID];
+                    break;
+
+                case "%%NAME%%":
+                    _ret = util_forceString(item[enColModuleProperty.Name], "");
+                    break;
+
+                case "%%MODULE_TYPE%%":
+                    _ret = util_forceString(item[enColModuleProperty.ModuleTypeIDName], "");
+                    break;
+
+                case "%%DISPLAY_NAME%%":
+                    _ret = util_forceString(item[enColModuleProperty.DisplayName], "");
+                    break;
+
+                case "%%DATE_MODIFIED%%":
+                    _ret = util_FormatDateTime(util_JS_convertToDate(item[enColModuleProperty.DateModified], null), "&nbsp;");
+                    break;
+            }
+        }
+
+        return _ret;
+    }
+
+    function bindModuleList() {
+        var _tbl = $("#tblModuleList");
+        var _sortSetting = ctl_repeater_getSortSetting(_tbl);
+
+        js_bindClick($mobileUtil.GetElementByID("clDeleteSetting"), function () {
+            dialog_confirm("Delete Module Setting(s)", "Are you sure you want to delete the selected module setting(s)?", function () {
+                var _cbList = $mobileUtil.GetElementsByAttribute("data-attr-cb-group", "DeleteModuleSetting");
+                var _arr = [];
+
+                for (var i = 0; i < _cbList.length; i++) {
+                    var _cb = $(_cbList[i]);
+
+                    if ($mobileUtil.CheckboxIsChecked(_cb)) {
+                        var _deleteSettingModuleID = util_forceInt(_cb.val());
+
+                        if (_deleteSettingModuleID != enCE.None) {
+                            _arr.push(_deleteSettingModuleID);
+                        }
+                    }
+                }
+
+                if (_arr.length > 0) {
+                    GlobalService.ModelDeleteSetting(_arr, ext_requestSuccess(function (data) {
+                        $mobileUtil.ReloadActivePage(function () {
+                            AddMessage("The module setting(s) have been cleared.");
+
+                            $mobileUtil.ReloadBrowserWindow();
+                        });
+                    }));
+                }
+            }, null);
+
+            return false;
+        });
+
+        GlobalService.ModuleGetByForeignKey(enCE.None, _sortSetting.SortColumn, _sortSetting.SortASC,
+                                                    PAGE_SIZE, util_forceValidPageNum(_sortSetting.PageNo, 1), function (ret) {
+                                                        global_serviceResultExecute(ret, function (serviceResult) {
+
+                                                            var _settings = ctl_repeater_getSetting(_tbl, MODULE_LIST_TEMPLATE_ITEM, MODULE_LIST_RENDER_TOKENS, getItemField,
+                                                                               function () {
+                                                                                   bindModuleList();
+                                                                               });
+
+                                                            ctl_repeater_bind(_tbl, ext_getServiceResultData(serviceResult), _settings);
+                                                            bindOnlineModelSummary();
+                                                        });
+                                                    }, ajax_err);
+    }
+
+    function bindOnlineModelSummary() {
+        var _callback = ext_requestSuccess(function (data) {
+            var _html = "<ul>";
+
+            for (var i = 0; i < data.length; i++) {
+                var _filePath = data[i];
+
+                _html += "<li>" + util_htmlEncode(_filePath) + "</li>";
+            }
+
+            if (data.length == 0) {
+                _html = util_htmlEncode("No file(s) were accessed.");
+            }
+            else {
+                _html += "</ul>";
+            }
+
+            $("#divOnlineModelAccess").html(_html);
+        });
+
+        GlobalService.DebugFileAccessSummary("ONLINE_MODEL", _callback);
+    }    
+</script>
+
+<div data-attr-render="script">
+    BindPage();
+</div>
+
+<div style="margin-bottom: 0.5em;">
+    <a id="clClearCache" data-role="button" data-inline="true" data-mini="true">Clear Cache</a>
+    <a id="clModelScenarioTemp" data-role="button" data-inline="true" data-mini="true">Clear Temp Model Scenarios</a>
+    <a id="clModelClearUserCurrent" data-role="button" data-inline="true" data-mini="true">Clear Current Scenario Flag</a>
+    <a id="clModelUpgradeScenarios" data-role="button" data-inline="true" data-mini="true">Model Scenario Version (references upgrade)</a>
+</div>
+
+<div class="SystemAdminDetailContainer" data-attr-detail-heading="Active User Sessions">
+    <div class="SystemAdminDetailContent">
+        <a id="clRefreshSession" data-role="button" data-inline="true" data-mini="true" data-corners="false" data-icon="refresh" data-iconpos="right"
+           style="margin-left: 0em;">REFRESH</a>
+        <div id="divActiveSessions"></div>
+    </div>
+</div>
+
+<div class="SystemAdminDetailContainer" data-attr-detail-heading="Application Instance">
+    <div class="SystemAdminDetailContent">
+        <a id="clRestartApp" data-role="button" data-inline="true" data-mini="true" data-corners="false" data-icon="refresh" data-iconpos="right"
+           style="margin-left: 0em;">RESTART APPLICATION</a>
+    </div>
+</div>
+
+<div class="SystemAdminDetailContainer" data-attr-detail-heading="Application Configuration">
+    <div class="SystemAdminDetailContent">
+        <div id="divAppConfiguration"></div>
+    </div>
+</div>
+
+<div class="SystemAdminDetailContainer" data-attr-detail-heading="Module Administration">
+    <div class="SystemAdminDetailContent">
+        <div id="tblModuleList" data-attr-render="repeater">
+            <div data-cattr-type="setting" sort-enum="enColModule"
+                     default-sort="enColModule.Name"
+                     is-footer-default-paging="1" />
+    
+             <div data-cattr-type="header">
+                <div data-cattr-type="item" no-link="1">
+                    <a id="clDeleteSetting" href="#" data-role="button" data-icon="delete" data-theme="b"
+                            data-corners="false" data-mini="true">Delete</a>
+                </div>
+
+                <div data-cattr-type="item" sort-column="enColModule.ModuleID" priority="critical">Module ID</div>
+                <div data-cattr-type="item" sort-column="enColModule.Name">Name</div>
+                <div data-cattr-type="item" sort-column="enColModule.ModuleTypeIDName">Module Type</div>
+                <div data-cattr-type="item" sort-column="enColModule.DisplayName">Display Name</div>
+                <div data-cattr-type="item" sort-column="enColModule.DateModified">Last Modified</div>
+             </div>
+        </div>
+    </div>
+</div>
+
+<div class="SystemAdminDetailContainer" data-attr-detail-heading="Online Model File Access">
+    <div class="SystemAdminDetailContent">
+        <div id="divOnlineModelAccess"></div>
+    </div>
+</div>

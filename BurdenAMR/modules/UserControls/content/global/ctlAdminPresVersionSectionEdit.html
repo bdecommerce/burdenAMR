@@ -1,0 +1,349 @@
+﻿<script type="text/javascript" language="javascript">
+    var m_extSubsectionTypeList = [];
+
+    function PageLoad() {
+        BindPage();
+    }
+
+    function BindPage() {
+        $mobileUtil.SetSubFooterView({ PopupFooterViewMode: enCPopupFooterViewMode.SaveCancel });
+
+        bindEventHandlers();
+
+        global_extPresentationVersionByPrimaryKey({ "VersionID": EditID(), "DeepLoad": true }, function (presVersion) {
+
+            EditItem = util_forceObject(presVersion, {});
+
+            getExtSubsectionTypeList(function () {
+                bindEditItem();
+                bindSectionsView();
+            });
+        });
+    }
+
+    function bindEventHandlers() {
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.SubFooterClick, null, function (obj, btnID) {
+            switch (btnID) {
+                case BUTTON_CONFIG.Save.ID:
+                    saveItem();
+                    break;
+            }
+
+            return false;
+        });
+    }
+
+    function getExtSubsectionTypeList(callback) {
+        var _callback = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        global_extSubsectionTypeList(null, function (extSubsectionTypes) {
+            m_extSubsectionTypeList = extSubsectionTypes.List;
+
+            if (util_isNullOrUndefined(m_extSubsectionTypeList)) {
+                m_extSubsectionTypeList = [];
+            }
+
+            _callback();
+        });
+    }
+
+    function bindEditItem() {
+        var _divEditItem = $mobileUtil.GetElementByID("divEditItem");
+        var _html = "";
+        var _arr = [];
+
+        var _fnAddProp = function (label, prop, dataType, isEditable, isRequired) {
+            _arr.push({ "Label": label, "Property": prop, "DataType": dataType, "IsEditable": util_forceBool(isEditable, true),
+                        "IsRequired": isRequired });
+        }
+
+        _fnAddProp("Name", enColExternalPresentationVersionProperty.Name, enCDataFormat.Text, null, true);
+        _fnAddProp("Description", enColExternalPresentationVersionProperty.Description, enCDataFormat.Text);
+        _fnAddProp("Display Order", enColExternalPresentationVersionProperty.DisplayOrder, enCDataFormat.Numeric);
+        _fnAddProp("Created On", enColExternalPresentationVersionProperty.DateAdded, enCDataFormat.Date, false);
+        _fnAddProp("Last Modified", enColExternalPresentationVersionProperty.DateModified, enCDataFormat.Date, false);
+
+        _html += "<table border='0' cellpadding='0' cellspacing='0' " + util_renderAttribute("table") + " style='width: 94%;'>";
+
+        for (var i = 0; i < _arr.length; i++) {
+            var _item = _arr[i];
+            var _property = _item["Property"];
+            var _dataType = _item["DataType"];
+            var _isEditable = util_forceBool(_item["IsEditable"], false);
+            var _isRequired = util_forceBool(_item["IsRequired"], false);
+            var _val = EditItem[_property];
+            var _inputHTML = "";
+
+            if (!util_isNullOrUndefined(_dataType)) {
+                switch (_dataType) {
+                    case enCDataFormat.Date:
+                        _val = util_FormatDateTime(_val, NA, true, true);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            if (_isEditable) {
+                var _fieldSetting = {};
+
+                _fieldSetting[enColCPropertyDetailProperty.Name] = _property;
+                _fieldSetting[enColCPropertyDetailProperty.DataType] = _dataType;
+                _fieldSetting[enColCPropertyDetailProperty.IsEditable] = _isEditable;
+
+                _inputHTML += global_getFieldHTML(_fieldSetting, _val, util_htmlAttribute("data-attr-field-data-type-id", _dataType) + " " +
+                                                  util_htmlAttribute("data-attr-field-required", _isRequired ? enCETriState.Yes : enCETriState.No));
+            }
+            else {
+                _inputHTML += util_htmlEncode(_val);
+            }
+
+            _html += "<tr>" +
+                     "  <td valign='top' style='font-weight: bold; color: #666666; width: 8em;" + (_isEditable ? " padding-top: 0.5em;'" : "") + "'>" +
+                     util_htmlEncode(_item["Label"]) + 
+                     "  </td>" +
+                     "  <td valign='top'>" + _inputHTML + "</td>" +
+                     "</tr>";
+        }
+
+        _html += "</table>";
+
+        _divEditItem.html(_html);
+        $mobileUtil.refresh(_divEditItem);
+    }
+
+    function bindSectionsView() {
+        var _container = $mobileUtil.GetElementByID("divSections");
+
+        var _html = "";
+
+        var _sections = EditItem[enColExternalPresentationVersionExtProperty.Sections];
+        var _sectionSubsections = EditItem[enColExternalPresentationVersionExtProperty.SectionSubsections];
+
+        if (util_isNullOrUndefined(_sections)) {
+            _sections = [];
+        }
+
+        if (util_isNullOrUndefined(_sectionSubsections)) {
+            _sectionSubsections = [];
+        }
+
+        var _htmlSubsectionTypeFormat = null;
+
+        var _fnGetSubsectionHTML = function (sectionSubsection) {
+            var _itemHTML = "<div class='AdminExtPresVersionSubsection' style='display: none;' " +
+                            util_htmlAttribute("data-attr-subsection-id", sectionSubsection[enColExternalSectionSubsectionProperty.SubsectionID]) + ">";
+            var _itemSubsectionTypeID = sectionSubsection[enColExternalSectionSubsectionProperty.SubsectionTypeID];
+
+            _itemHTML += "<div class='AdminExtPresVersionSubsectionDisplayName'>" +
+                         util_htmlEncode(sectionSubsection[enColExternalSectionSubsectionProperty.SubsectionDisplayName]) + "</div>" +
+                         "<div class='AdminExtPresVersionSubsectionName'>" +
+                         util_htmlEncode("-->" + sectionSubsection[enColExternalSectionSubsectionProperty.SubsectionIDName]) + "</div>";
+
+            //edit controls
+
+            if (_htmlSubsectionTypeFormat == null) {
+                _htmlSubsectionTypeFormat = "<div>" +
+                                            "   <div class='InlineBlock' style='vertical-align: top; margin-top: 0.4em;'>Type: </div>" +
+                                            "   <div class='WidgetDisableRoundBorder InlineBlock' style='width: 6em; max-width: 6em;'>" +
+                                            "       <select data-mini='true' " +
+                                            util_htmlAttribute("data-attr-prop-name", enColExternalSubsectionTypeProperty.SubsectionTypeID) + ">";
+
+                _htmlSubsectionTypeFormat += "<option value='" + enCE.None + "'>" + util_htmlEncode(NA) + "</option>";
+
+                for (var i = 0; i < m_extSubsectionTypeList.length; i++) {
+                    var _typeItem = m_extSubsectionTypeList[i];
+                    var _subsectionTypeID = _typeItem[enColExternalSubsectionTypeProperty.SubsectionTypeID];
+                    _htmlSubsectionTypeFormat += "<option " + util_htmlAttribute("value", _subsectionTypeID) + " " + "%%OPTION_" + _subsectionTypeID + "%%>" +
+                                                 util_htmlEncode(_typeItem[enColExternalSubsectionTypeProperty.Name]) +
+                                                 "</option>";
+                }
+
+                _htmlSubsectionTypeFormat += "      </select>" +
+                                             "  </div>" +
+                                             "</div>";
+            }
+
+            var _tokens = {};
+
+            for (var i = 0; i < m_extSubsectionTypeList.length; i++) {
+                var _typeItem = m_extSubsectionTypeList[i];
+                var _subsectionTypeID = _typeItem[enColExternalSubsectionTypeProperty.SubsectionTypeID];
+
+                _tokens["%%OPTION_" + _subsectionTypeID + "%%"] = (_subsectionTypeID == _itemSubsectionTypeID ? "selected='selected'" : "");
+            }
+
+            _itemHTML += "<div style='margin-left: 0.5em;'>" + util_replaceTokens(_htmlSubsectionTypeFormat, _tokens) + "</div>";
+
+            _itemHTML += "</div>";
+
+            return _itemHTML;
+        };
+
+        for (var s = 0; s < _sections.length; s++) {
+            var _section = _sections[s];
+            var _sectionID = _section[enColExternalSectionProperty.SectionID];
+
+            _html += "<div class='AdminExtPresVersionSectionGroup' " + util_htmlAttribute("data-attr-section-id", _sectionID) + ">" +
+                     "  <div class='AdminExtPresVersionSectionName'>" + util_htmlEncode(global_extSectionDisplayName(_section)) + "</div>";
+
+            var _arr = util_arrFilter(_sectionSubsections, enColExternalSectionSubsectionProperty.SectionID, _sectionID);
+
+            for (var t = 0; t < _arr.length; t++) {
+                var _sectionSubsection = _arr[t];
+
+                _html += _fnGetSubsectionHTML(_sectionSubsection);
+            }
+
+            _html += "</div>";
+        }
+
+        if (_sections.length == 0) {
+            _html += "<span style='font-style: italic;'>" + util_htmlEncode("There are no sections currently associated to this presentation version.") + "</span>";
+        }
+
+        _container.html(_html);
+        $mobileUtil.refresh(_container);
+
+        _container.off("change.prop", "select[data-attr-prop-name]", onChangeProperty);
+        _container.on("change.prop", "select[data-attr-prop-name]", onChangeProperty);
+
+        _container.off("click.headerToggle");
+        _container.on("click.headerToggle", ".AdminExtPresVersionSectionName", function () {
+            var _container = $mobileUtil.FindClosest(this, "[data-attr-section-id]");
+
+            var _list = _container.find("[data-attr-subsection-id]");
+
+            if (_list.length > 0) {
+                var _visible = _list.first().is(":visible");
+
+                if (_visible) {
+                    _list.fadeOut();
+                }
+                else {
+                    _list.fadeIn();
+                }
+            }
+        });
+    }
+
+    function onChangeProperty(){
+        var _element = $(this);
+        var _propName = util_forceString(_element.attr("data-attr-prop-name"));
+        var _val = _element.val();
+
+        var _subsectionID = util_forceInt($mobileUtil.GetAncestorAttributeValue(_element, "data-attr-subsection-id"), enCE.None);
+        var _sectionID = util_forceInt($mobileUtil.GetAncestorAttributeValue(_element, "data-attr-section-id"), enCE.None);
+
+        var _item = util_arrFilterSubset(EditItem[enColExternalPresentationVersionExtProperty.SectionSubsections], function (searchItem) {
+            return (searchItem[enColExternalSectionSubsectionProperty.SectionID] == _sectionID &&
+                    searchItem[enColExternalSectionSubsectionProperty.SubsectionID] == _subsectionID)
+        }, true);
+
+        if (_item.length == 1) {
+
+            _item = _item[0];
+
+            var _updatedVal = _item[_propName];
+
+            if (_element.is("select")) {
+                _val = util_forceInt(_val, enCE.None);
+            }
+
+            switch (_propName) {
+                case enColExternalSubsectionTypeProperty.SubsectionTypeID:
+                    _updatedVal = (_val == enCE.None ? null : _val);
+                    break;
+
+                default:
+                    break;
+            }
+
+            _item[_propName] = _updatedVal;
+        }
+    }
+
+    function populateItem() {
+        var _ret = true;
+
+        ClearMessages();
+
+        var _container = $mobileUtil.GetElementByID("divEditItem");
+        var _fields = _container.find("[" + DATA_ATTR_INPUT_FIELD + "]");
+
+        $.each(_fields, function (indx) {
+            var _inputField = $(this);
+
+            var _propName = util_forceString(_inputField.attr(DATA_ATTR_INPUT_FIELD));
+            var _fieldSetting = {};
+            var _strVal = util_trim(_inputField.val());
+            var _val = null;
+            var _isFieldValid = true;
+            var _isRequired = (util_forceInt(_inputField.attr("data-attr-field-required"), enCETriState.No) == enCETriState.Yes);
+
+            _inputField.val(_strVal);
+
+            _fieldSetting[enColCPropertyDetailProperty.DataType] = util_forceInt(_inputField.attr("data-attr-field-data-type-id"));
+            _val = global_convertValue(_strVal, _fieldSetting, _inputField, false);
+
+            if (_isRequired && (util_isNullOrUndefined(_val) || util_forceString(_val) == "")) {
+                _isFieldValid = false;
+            }
+            else if (_fieldSetting[enColCPropertyDetailProperty.DataType] == enCDataFormat.Numeric && _strVal != "" && _val == undefined) {
+                _isFieldValid = false;
+            }
+
+            if (_isFieldValid) {
+                _inputField.removeClass("ValidationError");
+            }
+            else {
+                _inputField.addClass("ValidationError");
+            }
+
+            _ret = (_ret && _isFieldValid);
+
+            EditItem[_propName] = _val;
+        });
+
+        if (!_ret) {
+            AddUserError("One or more fields are invalid. Please correct the errors and try again.")
+        }
+
+        _ret = (MessageCount() == 0);
+
+        return _ret;
+    }
+
+    function saveItem() {
+        var _valid = populateItem();
+
+        if (_valid) {
+            GlobalService.ExternalPresentationVersionSave(EditItem, true, global_extEntitySave(function (saveItem) {
+                EditItem = saveItem;
+
+                AddMessage("Successfully saved.");
+                $mobileUtil.CloseDialog();
+            }));
+        }
+    }
+
+</script>
+
+<div data-attr-render="script">
+    PageLoad();
+</div>
+
+<div style="padding: 0.25em;">
+    <h3 style="color: #333333; border-bottom: 0.1em solid #CCCCCC; text-transform: uppercase; margin: 0.25em; margin-left: 0em;">Presentation Version</h3>
+    <div id="divEditItem" />
+
+    <br />
+
+    <h3 style="color: #333333; border-bottom: 0.1em solid #CCCCCC; text-transform: uppercase; margin: 0.25em; margin-left: 0em;">Sections</h3>
+    <div id="divSections" />
+</div>

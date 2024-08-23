@@ -1,0 +1,42 @@
+﻿<script type="text/javascript">
+
+    function BindHome() {
+
+        var _onLoadModel = function () {
+
+            var _fn = function () {
+                GoToModel();
+            };
+
+            if (CACHE_MANAGER.ToggleCache) {
+                PRIVATE_OFFLINE_MANAGER.Events.Init({
+                    "IsDataSync": true,
+                    "Callback": _fn
+                });
+            }
+            else {
+                _fn();
+            }
+
+        };  //end: _onLoadModel
+
+        if (!global_userLoggedIn()) {
+
+            MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageLoaded, null, function () {
+                GoToLogin();
+            });
+
+            return;
+        }
+        else {
+            MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageLoaded, null, function () {
+                _onLoadModel();
+            });
+        }
+    }
+
+</script>
+
+<div data-attr-render="script" style="display: none;">
+    BindHome();
+</div>

@@ -1,0 +1,149 @@
+﻿<script type="text/javascript" language="javascript">
+    function PageLoad() {
+        BindPage();
+    }
+
+    function BindPage() {
+        $mobileUtil.SetSubFooterView({ PopupFooterViewMode: enCPopupFooterViewMode.SaveCancel });
+
+        bindEventHandlers();
+    }
+
+    function bindEventHandlers() {
+        var _callback = function () {
+            var _userID = MODULE_MANAGER.Session[enColCSessionStatusProperty.AuthUserID];
+
+            GlobalService.UserGetByPrimaryKey(_userID, true, ext_requestSuccess(function (data) {
+                EditItem = data;
+                bindItem();
+            }));
+
+        };
+
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.SubFooterClick, null, function (obj, btnID) {
+            switch (btnID) {
+                case BUTTON_CONFIG.Save.ID:
+                    saveItem();
+                    break;
+            }
+
+            return false;
+        });
+
+        ext_processExecUserLoggedIn(_callback, function () {
+            GoToHome();
+        });
+    }
+
+    function bindItem() {
+        var _values = {
+            "lblFirstName": EditItem[enColUserProperty.FirstName],
+            "lblLastName": EditItem[enColUserProperty.LastName],
+            "lblEmail": EditItem[enColUserProperty.Email],
+            "lblRole": util_arrJoinStr(EditItem[enColUserExtProperty.UserRoles], enColUserRoleProperty.RoleIDName, ", ", NA)
+        };
+
+        for (var _key in _values) {
+            $mobileUtil.SetElementValue(_key, util_forceString(_values[_key]));
+        }
+    }
+
+    function saveItem() {
+        ClearMessages();
+
+        var _currentPassword = util_forceString($mobileUtil.GetElementValue("tbCurrentPassword"));
+        var _password = util_forceString($mobileUtil.GetElementValue("tbPassword"));
+        var _confirmPassword = util_forceString($mobileUtil.GetElementValue("tbConfirmPassword"));
+
+        if (_currentPassword == "") {
+            AddError("The current password is required.");
+        }
+
+        if (_password == "" || _confirmPassword == "") {
+            AddError("The password and confirm password are required.");
+        }
+        else if (_password != _confirmPassword) {
+            AddError("The password and the confirm password must match.");
+        }
+        else if (_currentPassword == _password) {
+            AddError("The new password cannot be the same as the current password.");
+        }
+
+        if (MessageCount() == 0) {
+            var _userID = MODULE_MANAGER.Session[enColCSessionStatusProperty.AuthUserID];
+
+            GlobalService.UserGetByPrimaryKey(_userID, true, ext_requestSuccess(function (data) {
+                EditItem = data;
+
+                var _validationSettings = {};
+
+                _validationSettings[enColCUserValidationSettingProperty.IsValidatePassword] = true;
+                _validationSettings[enColCUserValidationSettingProperty.IsCheckCurrentPassword] = true;
+                _validationSettings[enColCUserValidationSettingProperty.IsCurrentPasswordSpecified] = true;
+
+                _validationSettings[enColCUserValidationSettingProperty.CurrentPassword] = _currentPassword;
+                _validationSettings[enColCUserValidationSettingProperty.Password] = _password;
+                _validationSettings[enColCUserValidationSettingProperty.ConfirmPassword] = _confirmPassword;
+
+                GlobalService.UserSave(EditItem, _validationSettings, false, ext_requestSuccess(function (serviceRet) {
+
+                    if (global_serviceIsValidationError(serviceRet)) {
+                        global_serviceProcessValidationError(serviceRet);
+                    }
+                    else {
+                        AddMessage("Profile has been successfully updated.");
+                        $mobileUtil.CloseDialog(enCPageRefreshMode.View);
+                    }
+                }, false));
+            }));
+        }
+    }
+</script>
+
+<div data-attr-render="script">
+    PageLoad();
+</div>
+
+<div data-role="content">
+    <ul data-role="listview">
+
+        <li data-role="list-divider">Update Password</li>
+
+        <li>
+            <div data-role="fieldcontain">
+                <label data-attr-render="label_field">First Name:</label>
+                <span id="lblFirstName"></span>
+            </div>
+
+            <div data-role="fieldcontain">
+                <label data-attr-render="label_field">Last Name:</label>
+                <span id="lblLastName"></span>
+            </div>
+
+            <div data-role="fieldcontain">
+                <label data-attr-render="label_field">E-mail:</label>
+                <span id="lblEmail"></span>
+            </div>
+
+            <div data-role="fieldcontain">
+                <label data-attr-render="label_field">Role:</label>
+                <span id="lblRole"></span>
+            </div>
+
+            <div data-role="fieldcontain">
+                <label for="tbCurrentPassword">Current Password:</label>
+                <input id="tbCurrentPassword" type="password" data-mini="true" maxlength="15" />
+            </div>
+
+            <div data-role="fieldcontain">
+                <label for="tbPassword">Password:</label>
+                <input id="tbPassword" type="password" data-mini="true" maxlength="15" />
+            </div>
+
+            <div data-role="fieldcontain">
+                <label for="tbConfirmPassword">Confirm Password:</label>
+                <input id="tbConfirmPassword" type="password" data-mini="true" maxlength="15" />
+            </div>
+        </li>
+    </ul>
+</div>

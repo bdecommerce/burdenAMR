@@ -1,0 +1,13 @@
+﻿<%@ master language="C#" masterpagefile="~/Base/Blank.master" autoeventwireup="true" inherits="Base_Global, App_Web_3pog3bp4" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" Runat="Server">
+    <asp:Literal ID="ltHeader" runat="server"></asp:Literal>
+    
+    <asp:ContentPlaceHolder id="Head" runat="server">
+    </asp:ContentPlaceHolder>    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Content" Runat="Server">
+    <asp:ContentPlaceHolder id="Content" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+

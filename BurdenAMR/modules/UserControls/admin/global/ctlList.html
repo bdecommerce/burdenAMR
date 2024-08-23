@@ -1,0 +1,57 @@
+﻿<script type="text/javascript" language="javascript">
+    function BindPage() {
+        bindEventHandlers();
+
+        bindAdminLinks();
+    }
+
+    function bindAdminLinks() {
+        var _tbl = $mobileUtil.GetElementByID("tblAdminLinks");
+        var _html = "";
+        var _list = null;
+
+        //header
+        _html += "<tr class=\"TableHeaderRow\">" + "<td>Description</td>" + "<td>&nbsp;</td>" + "</tr>";
+
+        //content
+        if (util_isDefined("private_getAdministrationLinks")) {
+            _list = private_getAdministrationLinks();
+        }
+        else {
+            _list = [];
+        }
+
+        for (var i = 0; i < _list.length; i++) {
+            var _item = _list[i];
+            var _isDivider = util_forceBool(_item["IsDivider"], false);
+
+            _html += "<tr>";
+
+            if (_isDivider) {
+                _html += "<td class='CellAdminGroupDivider' valign='top' colspan='2'>" + util_htmlEncode(util_forceString(_item["Description"], " ")) + "</td>";
+            }
+            else {
+
+                _html += "<td class='CellAdminLinkDescription' valign='top'>" + util_htmlEncode(util_forceString(_item["Description"], " ")) + "</td>";
+                _html += "<td class='CellAdminLinkContent' valign='top'>" + $mobileUtil.HtmlDynamicLink(_item["Options"]) + "</td>";
+            }
+
+            _html += "</tr>";
+        }
+
+        _tbl.html(_html);
+
+        $mobileUtil.RenderRefresh(_tbl, true);
+    }
+
+    function bindEventHandlers() {
+    }
+</script>
+
+<div data-attr-render="script">
+    BindPage();
+</div>
+
+
+<table id="tblAdminLinks" %%DATA_ATTRIBUTE_RENDER%%="table" class="TableAdminHomeLinks">    
+</table>

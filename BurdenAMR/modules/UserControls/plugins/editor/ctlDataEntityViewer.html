@@ -1,0 +1,307 @@
+﻿<script type="text/javascript">
+    var m_temp = (function () {
+
+        var _controller = {
+            "DOM": {
+                "Element": null
+            },
+            "Data": {
+                "DATA_KEY_SCROLL_TOP": "data-plugin-editor-entity-viewer-scrolltop",
+                "Parameters": null,
+                "KeyOpinionLeaderController": null, //requires: the KOL related definition as well (lazy load)
+                "RepositoryResourceController": null //requires: the repository resource related definition as well (lazy load)
+            },
+            "Layouts": {
+                "UnauthorizedAccess": "<div style='padding: 1em;'>" + util_htmlEncode(MSG_CONFIG.UnauthorizedAccess) + "</div>"
+            },
+            "Utils": pluginEditor_getUtils()
+        };
+
+        _controller["Bind"] = function (options, callback) {
+
+            options = util_extend({ "Element": null, "Callback": null }, options);
+
+            var _valid = false;
+
+            var _bindCallback = function () {
+
+                if (_valid) {
+                    _controller.DOM.Element.empty();
+                }
+
+                if (options.Callback) {
+                    options.Callback();
+                }
+            };
+
+            _controller.DOM.Element = $(options.Element);
+
+            _controller.Data.Parameters = { "ID": null, "Type": enCE.None, "Title": null };
+            MODULE_MANAGER.Redirect.MergeViewParam(_controller.Data.Parameters);
+            MODULE_MANAGER.Redirect.Clear();
+
+            _controller.Data.Parameters.ID = util_forceInt(_controller.Data.Parameters.ID, enCE.None);
+            _controller.Data.Parameters.Type = util_forceValidEnum(_controller.Data.Parameters.Type, enCPluginEditorDataEntityType, enCPluginEditorDataEntityType.None, true);
+
+            var _html = "";
+
+            _valid = (_controller.Data.Parameters.ID != enCE.None);
+
+            var _entityType = _controller.Data.Parameters.Type;
+            var _state = {
+                "IsModuleKOL": false,
+                "IsRepositoryResource": false
+            };
+
+            switch (_entityType) {
+
+                case enCPluginEditorDataEntityType.KOL_ManagerEvent:
+                case enCPluginEditorDataEntityType.KOL_ManagerActivity:
+                case enCPluginEditorDataEntityType.KOL_ManagerKeyOpinionLeader:
+
+                    _controller.Data.KeyOpinionLeaderController = new CKeyOpinionLeaderController();
+                    _state.IsModuleKOL = true;
+                    break;  //end: KOL Manager related
+
+                case enCPluginEditorDataEntityType.RepositoryResource:
+                case enCPluginEditorDataEntityType.None:
+                default:
+
+                    _controller.Data.RepositoryResourceController = new CRepositoryController();
+                    _state.IsRepositoryResource = true;
+                    break;
+            }
+
+            _controller.Data.Parameters.Title = util_forceString(_controller.Data.Parameters.Title);
+
+            if (!_valid) {
+                _html += _controller.Layouts.UnauthorizedAccess;
+            }
+            else {
+                _html += "<div style='padding: 1em;'>" + util_htmlEncode("Loading...") + "</div>";
+            }
+
+            _controller.DOM.Element.html(_html);
+            $mobileUtil.refresh(_controller.DOM.Element);
+
+            var _queue = new CEventQueue();
+
+            if (_valid) {
+
+                var _renderOptions = {
+                    "EditID": _controller.Data.Parameters.ID,
+                    "IsViewMode": true, //restrict to view mode only
+                    "IsPopupModeViewer": true,
+                    "CustomLayoutHeaderHTML": null,
+                    "CustomLayoutFooterHTML": null,
+                    "Callback": null
+                };
+
+                var _fnSetLayoutHTML = function (key, moduleID, prop) {
+
+                    _queue.Add(function (onCallback) {
+
+                        var _settings = module_getSetting(moduleID);
+                        var _ctrlName = _settings[prop];
+
+                        if (util_forceString(_ctrlName) != "") {
+                            var _index = _ctrlName.indexOf(".html");
+
+                            if (_index > 0) {
+                                _ctrlName = _ctrlName.substr(0, _index);
+                            }
+
+                            if (_ctrlName.indexOf("ctl") == 0) {
+                                _ctrlName = _ctrlName.substr(3);
+                            }
+                        }
+
+                        module_getViewHTML(moduleID, _ctrlName, null, function (data) {
+                            _renderOptions[key] = data;
+                            onCallback();
+                        });
+                    });
+
+                };  //end: _fnSetLayoutHTML
+
+                //header
+                _fnSetLayoutHTML("CustomLayoutHeaderHTML", enCEModule.ConfigHeader, "PrivatePage");
+
+                //footer
+                _fnSetLayoutHTML("CustomLayoutFooterHTML", enCEModule.ConfigFooter, "PrivatePage");
+
+                _queue.Add(function (onCallback) {
+                    _renderOptions.Callback = onCallback;
+
+                    if (_state.IsRepositoryResource) {
+                        _controller.Data.RepositoryResourceController.PopupEditResource(_renderOptions);
+                    }
+                    else {
+                        var _popupCssClass = "EditorPopupFullscreenViewer PopupNonDimissable";
+
+                        if (_state.IsModuleKOL) {
+                            _popupCssClass += " PopupNavigationModeInline";
+                        }
+
+                        var _popupOptions = _controller.Utils.DefaultPopupOptions({
+                            "Controller": _controller,
+                            "Title": _controller.Data.Parameters.Title,
+                            "HTML": "<div id='vwPopupDetailView' class='EditorElementPlaceholderOn' " + util_renderAttribute("pluginEditor_fileDisclaimer") + " " +
+                                    util_htmlAttribute("data-list-item-value", _controller.Data.Parameters.ID) + ">" +
+                                    "   <div class='Placeholders' style='width: 98%;'>" +
+                                    "       <div class='Placeholder' />" +
+                                    "       <div class='Placeholder TextLine_2' />" +
+                                    "       <div class='Placeholder' />" +
+                                    "       <div class='Placeholder TextLine_3' />" +
+                                    "       <div class='Placeholder' />" +
+                                    "       <div class='Placeholder' />" +
+                                    "       <div class='Placeholder TextLine_2' />" +
+                                    "       <div class='Placeholder TextLine_2' />" +
+                                    "       <div class='Placeholder' />" +
+                                    "   </div>" +
+                                    "</div>",
+                            "PopupClass": _popupCssClass,
+                            "OnPopupBind": function () {
+
+                                var $popup = $mobileUtil.PopupContainer();
+                                var $divItemDetails = $popup.find("#vwPopupDetailView");
+                                var $lblTitle = $popup.find(".PopupHeaderTitle:first");
+                                var _queue = new CEventQueue();
+
+                                if (_state.IsModuleKOL) {
+                                    var _viewEntityTypeID = null;
+
+                                    if (_entityType == enCPluginEditorDataEntityType.KOL_ManagerEvent) {
+                                        _viewEntityTypeID = "Event";
+                                    }
+                                    else if (_entityType == enCPluginEditorDataEntityType.KOL_ManagerActivity) {
+                                        _viewEntityTypeID = "Activity";
+                                    }
+                                    else if (_entityType == enCPluginEditorDataEntityType.KOL_ManagerKeyOpinionLeader) {
+                                        _viewEntityTypeID = "KOL";
+                                    }
+
+                                    var _hasAdminRoleComponentKOL = false;
+
+                                    _queue.Add(function (onCallback) {
+
+                                        var _classificationMiscID = util_forceInt("%%TOK|ROUTE|PluginEditor|MiscellaneousClassificationID%%", enCE.None);
+                                        var _componentKOL_ID = util_forceInt("%%TOK|ROUTE|PluginEditor|RepositoryComponentKeyOpinionLeaderID%%", enCE.None);
+
+                                        if (_classificationMiscID != enCE.None && _componentKOL_ID != enCE.None) {
+                                            _controller.Utils.Events.UserAccess({
+                                                "ClassificationID": _classificationMiscID,
+                                                "FilterComponentID": _componentKOL_ID,
+                                                "Callback": function (userAccessResult) {
+
+                                                    userAccessResult = util_extend({ "PermissionSummary": null }, userAccessResult);
+
+                                                    var _permissionSummaryLookup = (userAccessResult.PermissionSummary || {});
+                                                    var _permissionSummaryList = _permissionSummaryLookup[_classificationMiscID];
+                                                    var _permissionSummary = util_arrFilterSubset(_permissionSummaryList, function (searchItem) {
+                                                        return (util_forceBool(searchItem[enColCPlatformComponentUserRoleProperty.IsActive], false) &&
+                                                                searchItem[enColCPlatformComponentUserRoleProperty.ComponentID] == _componentKOL_ID
+                                                               );
+                                                    }, true);
+
+                                                    _permissionSummary = (_permissionSummary.length == 1 ? _permissionSummary[0] : null);
+
+                                                    //ensure user has access to the component and determine role level
+                                                    if (_permissionSummary) {
+                                                        _valid = true;
+                                                        _hasAdminRoleComponentKOL = (_permissionSummary[enColCPlatformComponentUserRoleProperty.UserRoleID] ==
+                                                                                     enCERoleBase.Administrator);
+                                                    }
+                                                    else {
+                                                        _valid = false;
+                                                    }
+
+                                                    onCallback();
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            _valid = false;
+                                            onCallback();
+                                        }
+                                    });
+
+                                    _queue.Add(function (onCallback) {
+
+                                        if (_valid) {
+
+                                            var $trigger = $divItemDetails;
+
+                                            $trigger.attr("data-view-entity-type", _viewEntityTypeID);  //set the data attribute for the details entity type
+
+                                            //configure extended events, as needed for the KOL Controller in external container mode
+                                            _controller["CanAdminComponentKOL"] = function () {
+                                                return _hasAdminRoleComponentKOL;
+                                            };
+
+                                            $trigger.empty();
+
+                                            _controller.Data.KeyOpinionLeaderController.ShowEntityDetailsPopup({
+                                                "Trigger": $divItemDetails, "DataAttributeID": "data-list-item-value", "IsForceTriggerClickEvent": true,
+                                                "TriggerController": _controller,
+                                                "RenderContainer": $divItemDetails, "RenderTitleElement": $lblTitle,
+                                                "Callback": function () {
+                                                    $divItemDetails.removeClass("EditorElementPlaceholderOn");
+                                                    onCallback();
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            $lblTitle.text("Unauthorized Access");
+                                            $divItemDetails.html(_controller.Layouts.UnauthorizedAccess);
+                                            onCallback();
+                                        }
+
+                                    });
+                                }
+
+                                blockUI();
+
+                                _queue.Run({
+                                    "Callback": function () {
+
+                                        unblockUI();
+
+                                        if (_renderOptions.Callback) {
+                                            _renderOptions.Callback();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        _popupOptions["CustomLayoutHeaderHTML"] = _renderOptions.CustomLayoutHeaderHTML;
+                        _popupOptions["CustomLayoutFooterHTML"] = _renderOptions.CustomLayoutFooterHTML;
+
+                        $mobileUtil.PopupOpen(_popupOptions);
+
+                    }
+                });
+            }
+
+            _queue.Run({ "Callback": _bindCallback });
+            
+        };  //end: Bind
+
+        return _controller;
+
+    })();
+
+    function BindPage() {
+        MODULE_MANAGER.DelegateSettings.SetEvent(enCDelegateType.PageLoaded, null, function () {
+            m_temp.Bind({ "Element": $mobileUtil.GetElementByID("divDataEntityViewerRoot") });
+        });
+    }
+
+</script>
+
+<div %%DATA_ATTRIBUTE_RENDER%%="script" style="display: none;">
+    BindPage();
+</div>
+
+<div id="divDataEntityViewerRoot" />
